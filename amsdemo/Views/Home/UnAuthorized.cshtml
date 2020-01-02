@@ -1,0 +1,55 @@
+﻿
+@{
+    Layout = null;
+
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Message</title>
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/main.css" rel="stylesheet" />
+</head>
+<body class="bg-silver-100">
+    <div class="content">
+        <h1 class="m-t-20">401</h1>
+        <p class="error-title">You are not Authorized</p>
+        <p class="m-b-20">
+            Sorry, the action or page you were looking for could not be allowed. 
+            </div>
+        
+    <style>
+
+        .content {
+            max-width: 450px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+            .content h1 {
+                font-size: 160px
+            }
+
+        .error-title {
+            font-size: 22px;
+            font-weight: 500;
+            margin-top: 30px
+        }
+    </style>
+    <!-- BEGIN PAGA BACKDROPS-->
+    <div class="sidenav-backdrop backdrop"></div>
+    <div class="preloader-backdrop">
+        <div class="page-preloader">Loading</div>
+    </div>
+
+    <script src="~/Scripts/jquery.min.js"></script>
+    <script src="~/Scripts/popper.min.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
+    <!-- CORE SCRIPTS-->
+
+    <script src="~/Scripts/app.js"></script>
+</body>
+</html>

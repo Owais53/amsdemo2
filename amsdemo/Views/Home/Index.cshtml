@@ -1,0 +1,12 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+   
+}
+
+
+<fieldset>
+    @if (Session["UserName"] != null)
+    {
+        <text> Welcome @Session["UserId"].ToString() </text>
+    }
+</fieldset>

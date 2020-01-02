@@ -1,0 +1,83 @@
+﻿@model IEnumerable<amsdemo.Models.tblUser>
+
+@{
+    ViewBag.Title = "UserRoleList";
+}
+
+<h2>UserList</h2>
+
+<div class="ibox-head">
+    <div class="ibox-title">List of Departments</div>
+</div>
+<div class="ibox-body">
+    <div class="tablecontainer" style="margin-top:3%">
+        <a href="/admin/CreateUser" class="btn btn-info">Add New User</a><br /><br />
+        <table class="table table-striped table-bordered table-hover" id="table" cellspacing="0" width="100%">
+            <thead>
+                <tr>
+                    <th>UserId</th>
+                    <th>UserName</th>
+                    <th>DepartmentName</th>
+                    <th>RoleName</th>
+                    <th>IsAdmin</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tfoot>
+                <tr>
+                    <th>UserId</th>
+                    <th>UserName</th>
+                    <th>DepartmentName</th>
+                    <th>RoleName</th>
+                    <th>IsAdmin</th>
+                </tr>
+            </tfoot>
+
+        </table>
+
+    </div>
+
+</div>
+@section scripts{
+
+
+    <script>
+        $(function () {
+            var successMessage = '@TempData["SuccessMessage"]'
+            if (successMessage != '')
+                alertify.success(successMessage);
+        });
+    </script>
+    <script type="text/javascript">
+      var Popup, dataTable;
+        $(function () {
+         dataTable =  $('#table').DataTable({
+              pageLength: 10,
+              "ajax": {
+                  "url": '/admin/GetUsers',
+                  "type": "get",
+                  "datatype": "json"
+              },
+              "columns": [
+
+                  { "data": "UserId", "authowidth": false },
+                  { "data": "UserName", "authowidth": false },
+                  { "data": "DepartmentName", "authowidth": false },
+                  { "data": "RoleName", "authowidth": false },
+                  { "data": "IsAdmin", "authowidth": false },
+
+                  {
+                      "data": "UserId", "render": function (data) {
+                          return "<a class='btn btn-primary btn-sm' onclick=PopupForm('@Url.Action("Edit","Admin")/" + data +"')><i class='fa fa-pencil'></i> Edit</a>  <a class='btn btn-danger' style='margin - left: 5px' onclick=Delete('" + data +"')><i class='fa fa-trash'></i>Delete</a>"
+                      },
+
+                      "orderable": false,
+                      "width": "150px"
+                  }
+
+              ]
+          });
+
+     });
+</script>
+}
