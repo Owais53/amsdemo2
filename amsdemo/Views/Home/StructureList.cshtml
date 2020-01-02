@@ -1,0 +1,92 @@
+﻿@model IEnumerable<amsdemo.Models.tblStructuredetail>
+
+@{
+    ViewBag.Title = "StructureList";
+}
+
+<h2>Structure List</h2>
+
+
+
+<div class="ibox-head">
+    <div class="ibox-title">Structure List</div>
+</div>
+<div class="ibox-body">
+    <div class="tablecontainer" style="margin-top:3%">
+        <a href="/home/CreateDepartments" class="btn btn-info">Add New Structure</a><br /><br />
+        
+   
+<table class="table-hover dataTable table-striped table-responsive" id="list">
+   <thead>
+    <tr style="background-color:#3d566e; color:#ecf0f1">
+        <th >
+            @Html.DisplayNameFor(model => model.CompanyCode)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CompanyName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CityCode)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CityName)
+        </th>
+
+        
+    </tr>
+  </thead>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.CompanyCode)
+            </td>
+
+            <td>
+                @Html.DisplayFor(modelItem => item.CompanyName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CityCode)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CityName)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.CompanyCode, @class = "btn btn-primary" }) |
+                @Html.ActionLink("Details", "Details", new { id = item.CompanyCode, @class = "btn btn-default" }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.CompanyCode, @class = "btn btn-danger" })
+            </td>
+        </tr>
+    }
+
+</table>
+        
+    </div>
+</div>
+@section scripts{
+    <script>
+        $(function () {
+            var errorMessage = '@TempData["ErrorMessage"]'
+            if (errorMessage != '')
+                alertify.error(errorMessage);
+        });
+    </script>
+    <script>
+        $(function () {
+            var successMessage = '@TempData["SuccessMessage"]'
+            if (successMessage != '')
+                alertify.success(successMessage);
+        });
+    </script>
+
+    <script type="text/javascript">
+        $(function () {
+            $('#list').DataTable({
+                pageLength: 10,
+
+            });
+        })
+    </script>
+
+
+}

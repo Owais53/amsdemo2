@@ -170,7 +170,7 @@ namespace amsdemo.Controllers
                     int output = context.Database.ExecuteSqlCommand("insert into tblStructuredetail(CompanyCode,CompanyName,CityCode,CityName) values(@p0,@p1,@p2,@p3)", item);
                     if (output > 0)
                     {
-
+                        RedirectToAction("StructureList", "Home");
                         TempData["SuccessMessage"] = "Structure Created";
                     }
                 }
@@ -255,6 +255,7 @@ namespace amsdemo.Controllers
                     int output1 = context.Database.ExecuteSqlCommand("insert into tblOrganizationStructure(CompanyCode,CityCode,StorageLocation,PurchaseOrganization) values(@p0,@p1,@p2,@p3)", item);
                     if (output1 > 0)
                     {
+
                         TempData["SuccessMessage"] = ("Storage Location " + obj.StorageLocation + " and Purchase Org " + obj.PurchaseOrganization + " Defined for Company Code " + obj.CompanyCode + " and City Code " + obj.CityCode + "");
                     }
                 }
@@ -269,7 +270,12 @@ namespace amsdemo.Controllers
             }
             return View(obj);
         }
-
+        public ActionResult StructureList()
+        {
+            List<tblStructuredetail> sd = context.tblStructuredetails.ToList();
+         
+            return View(sd);
+        }
         public ActionResult UnAuthorized()
         {
             ViewBag.Title = "Un Authorized Page!";

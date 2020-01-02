@@ -740,6 +740,7 @@
     <Content Include="Views\Admin\CreateUsers.cshtml" />
     <Content Include="Views\Home\DefineStructure.cshtml" />
     <Content Include="Views\Home\DefineSlPurchOrg.cshtml" />
+    <Content Include="Views\Home\StructureList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
