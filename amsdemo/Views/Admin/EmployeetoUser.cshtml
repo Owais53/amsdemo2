@@ -1,0 +1,140 @@
+﻿@model amsdemo.ViewModel.EmployeeUserVM
+@using amsdemo.ViewModel
+
+@{
+
+
+    ViewBag.Title = "Assign Employee to User";
+}
+<h1>Assign Employee to User</h1>
+
+    <div class="row">
+        <div id="MainDiv" class="col-md-8">
+            <div class="box box-danger box-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        @using (Html.BeginForm("EmployeetoUser", "Admin", FormMethod.Post))
+                        {
+                            <table class="table table-striped">
+                                <tr>
+
+                                    <td>
+                                        @Html.LabelFor(model => model.Username, "User Name")
+                                        @Html.EditorFor(model => model.Username, new { htmlAttributes = new { @id = "getUsername", @class = "form-control input-sm" } })
+                                        @Html.ValidationMessageFor(model => model.Username, "", new { @id = "getUsername", @class = "text-danger" })
+                                    </td>
+                                    <td>
+                                        @Html.LabelFor(model => model.Password)
+                                        @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control input-sm" } })
+                                        @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+                                    </td>
+                                    <td>
+                                        @Html.LabelFor(model => model.EmployeeId, "Employee ID")
+                                        @Html.EditorFor(model => model.EmployeeId, new { htmlAttributes = new { @id = "getempid", @class = "form-control input-sm" } })
+                                        @Html.ValidationMessageFor(model => model.Username, "", new { @class = "text-danger" })
+                                    </td>
+                                    <td>
+                                        @Html.LabelFor(model => model.DepartmentId, "Department ID")
+                                        @Html.EditorFor(model => model.DepartmentId, new { htmlAttributes = new { @id = "getdepid", @class = "form-control input-sm" } })
+                                        @Html.ValidationMessageFor(model => model.DepartmentId, "", new { @class = "text-danger" })
+                                    </td>
+                                    <td>
+                                        <br />
+                                        <input type="submit" tabindex="2" value="Add User" id="btnAdd" style="float:right; margin-right:10px" class="btn btn-primary btn-sm" />
+                                    </td>
+                                </tr>
+                                
+
+                            </table>
+                        }
+                    </div>
+                </div> 
+                
+
+
+
+                <div class="row">
+                    <div class="col-md-12">
+
+                        <table class="table table-striped table-hover" id="maintable">
+                            <thead>
+                                <tr style="background-color:#3d566e; color:#ecf0f1">
+                                    <th>
+                                        Employee Id
+                                    </th>
+                                    <th>
+                                        Employee Name
+                                    </th>
+                                    <th>
+                                        Department Id
+                                    </th>
+                                    <th>
+                                        Department Name
+                                    </th>
+                                </tr>
+                            </thead>
+                        </table>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+
+    @section scripts{
+
+        <script>
+        $(function () {
+            var successMessage = '@TempData["SuccessMessage"]'
+            if (successMessage != '')
+                alertify.success(successMessage);
+        });
+        </script>
+        <script type="text/javascript">
+            var Popup, dataTable;
+            $(function () {
+                dataTable = $('#maintable').DataTable({
+                    pageLength: 10,
+                    "ajax": {
+                        "url": '/admin/GetEmployeeList',
+                        "type": "get",
+                        "datatype": "json"
+                    },
+                    "columns": [
+
+                        { "data": "EmployeeId", "authowidth": false },
+                        { "data": "EmployeeName", "authowidth": false },
+                        { "data": "DepartmentId", "authowidth": false },
+                        { "data": "DepartmentName", "authowidth": false }
+
+                    ]
+                });
+
+            });
+            document.getElementById('maintable').onclick = function (event) {
+                event = event || window.event;
+                var target = event.target || event.srcElement;
+                while (target && target.nodeName != 'TR') {
+                    target = target.parentElement;
+                }
+                var cells = target.cells;
+                if (!cells.length || target.parentNode.nodeName == 'THEAD') {
+                    return;
+                }
+                //alert(cells[1].innerHTML);
+                $(function () {
+                    $('#getempid').val($.trim(cells[0].innerHTML));
+                    $('#getUsername').val($.trim(cells[1].innerHTML));
+                    $('#getdepid').val($.trim(cells[2].innerHTML));
+                });
+                //clears username field
+                $('#getUsername').val('');
+
+                //focuses cursor on username field
+                document.getElementById('getUsername').focus();
+            }
+        </script>
+
+
+    }

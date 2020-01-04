@@ -11,8 +11,7 @@ namespace amsdemo.Models
 {
     using System;
     using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations;
-
+    
     public partial class tblStructuredetail
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -20,15 +19,10 @@ namespace amsdemo.Models
         {
             this.tblUsers = new HashSet<tblUser>();
         }
-        [Range(1000, 9999)]
+    
         public int CompanyCode { get; set; }
-        [Required]
-        [Range(100,500)]
-        public int CityCode { get; set; }
-
-        [Required]
+        public Nullable<int> CityCode { get; set; }
         public string CityName { get; set; }
-        [Required]
         public string CompanyName { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

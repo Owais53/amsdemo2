@@ -24,5 +24,6 @@ namespace amsdemo.Models
         public string Email { get; set; }
         public string Address { get; set; }
         public string Position { get; set; }
+        public Nullable<int> UserId { get; set; }
     }
 }

@@ -60,8 +60,11 @@ namespace amsdemo.Controllers
                 }
             }
             else
+            {
                 TempData["ErrorMessage"] = ("" + dep.DepartmentName + " Department already exists");
-            return View(dep);
+            }
+
+                return View(dep);
         }
 
         [CustomAuthorize("Recruitment Manager", "Store Manager")]

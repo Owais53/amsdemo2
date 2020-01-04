@@ -11,18 +11,12 @@ namespace amsdemo.Models
 {
     using System;
     using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations;
-
+    
     public partial class tblOrganizationStructure
     {
-        [Range(1000,9999)]
         public int CompanyCode { get; set; }
-        [Required]
-        [Range(100,500)]
-        public int CityCode { get; set; }
-        [Required]
+        public Nullable<int> CityCode { get; set; }
         public string StorageLocation { get; set; }
-        [Required]
         public string PurchaseOrganization { get; set; }
     }
 }
