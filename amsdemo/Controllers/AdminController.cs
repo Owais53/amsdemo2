@@ -30,41 +30,60 @@ namespace amsdemo.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    List<object> lst = new List<object>();
-                    lst.Add(viewModel.Username);
-                    lst.Add(viewModel.Password);
-                    lst.Add(viewModel.EmployeeId);
-                    lst.Add(viewModel.DepartmentId);
-                    object[] item = lst.ToArray();
-                    int output = db.Database.ExecuteSqlCommand("insert into tblUsers(UserName,Password,EmployeeId,DepartmentId) values(@p0,@p1,@p2,@p3)", item);
-                    if (output > 0)
+                    var users = new tblUser()
                     {
-                        List<object> emp = new List<object>();                       
-                        emp.Add(viewModel.EmployeeId);
-                        object[] item1 = emp.ToArray();
-                        int userid = db.Database.ExecuteSqlCommand("select UserId from tblEmployee where EmployeeId=@p0", item1);
-                        if (userid >0)
-                        {
-                            List<object> emp1 = new List<object>();
-                            emp1.Add(userid);
-                            object[] item2 = emp.ToArray();
-                            int output2 = db.Database.ExecuteSqlCommand("insert into tblEmployee(UserId) values(@p0)",item2);
-                            if (output2 > 0)
-                            {
-                                TempData["SuccessMessage"] = "User Created";
-                            }
-                        }
+                        UserName = viewModel.Username,
+                        Password = viewModel.Password,
+                        EmployeeId = viewModel.EmployeeId,
+                        DepartmentId = viewModel.DepartmentId,
 
-                        
+                    };
+                    db.tblUsers.Add(users);
+                    db.SaveChanges();
+
+                    if (users != null)
+                    {                        
+                        List<object> lst = new List<object>();
+                        lst.Add(users.UserId);
+                        lst.Add(viewModel.EmployeeId);                       
+                        object[] item = lst.ToArray();
+                        int output = db.Database.ExecuteSqlCommand("Update tblEmployee set UserId=@p0 where EmployeeId=@p1", item);
+                        if (output > 0)                         
+                        {
+                            TempData["SuccessMessage"] = "User Created";
+                        }
                     }
                 }
 
 
             }
-
+            else
+            {
+                TempData["ErrorMessage"] = "User with Name " + viewModel.Username + " already Exists";
+            }
             return View();
 
         }
+        public ActionResult GetcreatedUserList()
+        {
+
+            var Data = (from users in db.tblUsers
+                        join dep in db.tblDepartments on users.DepartmentId equals dep.DepartmentId
+                        join emp in db.tblEmployees on users.EmployeeId equals emp.EmployeeId
+                        where emp.UserId != null
+                        select new
+                        {
+                            users.UserId,
+                            users.UserName,
+                            dep.DepartmentName
+                        }).ToList();
+
+            return Json(new { data = Data }, JsonRequestBehavior.AllowGet);
+
+ 
+        }
+
+
         public ActionResult GetEmployeeList()
         {
 
@@ -88,44 +107,9 @@ namespace amsdemo.Controllers
             return View();
         }
 
-        [HttpPost]
-        public ActionResult CreateUsers(tblUser user)
+      public ActionResult EmployeeList()
         {
-            
-            var adduser = (from u in db.tblUsers
-                            join a in db.tblDepartments on u.DepartmentId equals a.DepartmentId
-                            where u.UserName == user.UserName && u.UserId == user.UserId
-                            select new
-                            {
-                                u.UserName,
-                                u.DepartmentId,
-                                u.Password
-                            }).FirstOrDefault();
-            if (adduser == null)
-            {
-                if (ModelState.IsValid)
-                {
-                    var useradd = new tblUser()
-                    {
-                        
-                    };
-
-                    user.UserName = adduser.UserName;
-                    user.DepartmentId = adduser.DepartmentId;
-                    user.Password = adduser.Password;
-                    db.tblUsers.Add(user);
-                    db.SaveChanges();
-                    TempData["SuccessMessage"] = "User Created";
-                    return RedirectToAction("UserList");
-                }
-            }
-            else
-            {
-                TempData["ErrorMessage"] = " User already exists";
-
-            }
-
-            return View(user);
+            return View();
         }
         public ActionResult UserList()
         {
