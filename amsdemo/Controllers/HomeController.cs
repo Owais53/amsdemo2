@@ -67,7 +67,7 @@ namespace amsdemo.Controllers
                 return View(dep);
         }
 
-        [CustomAuthorize("Recruitment Manager", "Store Manager")]
+        
         public ActionResult DepartmentList()
         {
             return View();

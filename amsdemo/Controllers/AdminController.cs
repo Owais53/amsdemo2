@@ -82,7 +82,10 @@ namespace amsdemo.Controllers
 
  
         }
-
+        public ActionResult Modaltest()
+        {
+            return View();
+        }
 
         public ActionResult GetEmployeeList()
         {
@@ -106,7 +109,64 @@ namespace amsdemo.Controllers
         {
             return View();
         }
+        [HttpPost]
+        public ActionResult CreateUsers(tblUser user)
+        {
+            var empid = db.tblUsers.Where(x => x.EmployeeId == user.EmployeeId).FirstOrDefault();
+            tblUser check = db.tblUsers.Where(a => a.UserName == user.UserName).FirstOrDefault<tblUser>();
+            if (empid == null)
+            {
 
+
+                if (user.DepartmentId == null && user.EmployeeId == null)
+                {
+                    TempData["ErrorMessage1"] = "Please Select from Employee List to Create Users";
+                }
+                else if (check == null)
+                {
+                    if (ModelState.IsValid)
+                    {
+                        var users = new tblUser()
+                        {
+                            UserName = user.UserName,
+                            Password = user.Password,
+                            EmployeeId = user.EmployeeId,
+                            DepartmentId = user.DepartmentId,
+
+                        };
+                        db.tblUsers.Add(users);
+                        db.SaveChanges();
+
+                        if (users != null)
+                        {
+                            List<object> lst = new List<object>();
+                            lst.Add(users.UserId);
+                            lst.Add(user.EmployeeId);
+                            object[] item = lst.ToArray();
+                            int output = db.Database.ExecuteSqlCommand("Update tblEmployee set UserId=@p0 where EmployeeId=@p1", item);
+                            if (output > 0)
+                            {
+                                TempData["SuccessMessage1"] = "User Created";
+                            }
+                        }
+                    }
+
+
+                }
+
+                else if(check != null)
+                {
+                    TempData["ErrorMessage1"] = "User with Name " + user.UserName + " already Exists";
+                }
+            }
+            else
+            {
+                TempData["ErrorMessage1"] = "User already Exists.Please Select from Employee List to Create Users";
+            }
+
+
+            return View();
+        }
       public ActionResult EmployeeList()
         {
             return View();

@@ -11,17 +11,22 @@ namespace amsdemo.Models
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+
     public partial class tblUser
     {
         public int UserId { get; set; }
+        [Required]
         public string UserName { get; set; }
+        [Required]
         public string Password { get; set; }
         public Nullable<int> RoleId { get; set; }
         public Nullable<int> AdminId { get; set; }
+        [Required]
         public Nullable<int> DepartmentId { get; set; }
         public Nullable<int> CompanyCode { get; set; }
         public string CityCode { get; set; }
+        [Required]
         public Nullable<int> EmployeeId { get; set; }
     
         public virtual tblAdmincheck tblAdmincheck { get; set; }
