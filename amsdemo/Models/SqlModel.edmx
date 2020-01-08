@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="HrmsModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="HrmsModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="tblAdmincheck">
           <Key>
             <PropertyRef Name="AdminId" />
@@ -87,9 +87,8 @@ warning 6002: The table/view 'Hrms.dbo.tblStructuredetail' does not have a prima
           <Property Name="RoleId" Type="int" />
           <Property Name="AdminId" Type="int" />
           <Property Name="DepartmentId" Type="int" />
-          <Property Name="CompanyCode" Type="int" />
-          <Property Name="CityCode" Type="nvarchar(max)" />
           <Property Name="EmployeeId" Type="int" />
+          <Property Name="IsActive" Type="int" />
         </EntityType>
         <Association Name="FK_tblUsers_tblUsers">
           <End Role="tblUsers" Type="Self.tblUsers" Multiplicity="1" />
@@ -164,7 +163,8 @@ warning 6002: The table/view 'Hrms.dbo.tblStructuredetail' does not have a prima
             <End Role="tblUsers" EntitySet="tblUsers" />
           </AssociationSet>
         </EntityContainer>
-      </Schema></edmx:StorageModels>
+      </Schema>
+    </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="HrmsModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -212,15 +212,6 @@ warning 6002: The table/view 'Hrms.dbo.tblStructuredetail' does not have a prima
           <Property Name="DateofPromotion" Type="DateTime" Precision="3" />
           <Property Name="LastLeaveDate" Type="DateTime" Precision="3" />
         </EntityType>
-        <EntityType Name="tblOrganizationStructure">
-          <Key>
-            <PropertyRef Name="CompanyCode" />
-          </Key>
-          <Property Name="CompanyCode" Type="Int32" Nullable="false" />
-          <Property Name="CityCode" Type="Int32" />
-          <Property Name="StorageLocation" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="PurchaseOrganization" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-        </EntityType>
         <EntityType Name="tblRole">
           <Key>
             <PropertyRef Name="Id" />
@@ -228,16 +219,6 @@ warning 6002: The table/view 'Hrms.dbo.tblStructuredetail' does not have a prima
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="RoleName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="tblUsers" Relationship="Self.FK_Users_Roles" FromRole="tblRoles" ToRole="tblUsers" />
-        </EntityType>
-        <EntityType Name="tblStructuredetail">
-          <Key>
-            <PropertyRef Name="CompanyCode" />
-          </Key>
-          <Property Name="CompanyCode" Type="Int32" Nullable="false" />
-          <Property Name="CityCode" Type="Int32" />
-          <Property Name="CityName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="tblUsers" Relationship="Self.FK_tblUsers_tblStructureDetail" FromRole="tblStructuredetail" ToRole="tblUsers" />
-          <Property Name="CompanyName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="tblUser">
           <Key>
@@ -249,14 +230,30 @@ warning 6002: The table/view 'Hrms.dbo.tblStructuredetail' does not have a prima
           <Property Name="RoleId" Type="Int32" />
           <Property Name="AdminId" Type="Int32" />
           <Property Name="DepartmentId" Type="Int32" />
-          <Property Name="CompanyCode" Type="Int32" />
-          <Property Name="CityCode" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="EmployeeId" Type="Int32" />
+          <Property Name="IsActive" Type="Int32" />
           <NavigationProperty Name="tblAdmincheck" Relationship="Self.FK_Users_tbladmincheck" FromRole="tblUsers" ToRole="tblAdmincheck" />
           <NavigationProperty Name="tblRole" Relationship="Self.FK_Users_Roles" FromRole="tblUsers" ToRole="tblRoles" />
-          <NavigationProperty Name="tblStructuredetail" Relationship="Self.FK_tblUsers_tblStructureDetail" FromRole="tblUsers" ToRole="tblStructuredetail" />
           <NavigationProperty Name="tblUsers1" Relationship="Self.FK_tblUsers_tblUsers" FromRole="tblUsers" ToRole="tblUsers1" />
           <NavigationProperty Name="tblUser1" Relationship="Self.FK_tblUsers_tblUsers" FromRole="tblUsers1" ToRole="tblUsers" />
+        </EntityType>
+        <EntityType Name="tblOrganizationStructure">
+          <Key>
+            <PropertyRef Name="CompanyCode" />
+          </Key>
+          <Property Name="CompanyCode" Type="Int32" Nullable="false" />
+          <Property Name="CityCode" Type="Int32" />
+          <Property Name="StorageLocation" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="PurchaseOrganization" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="tblStructuredetail">
+          <Key>
+            <PropertyRef Name="CompanyCode" />
+          </Key>
+          <Property Name="CompanyCode" Type="Int32" Nullable="false" />
+          <Property Name="CompanyName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CityCode" Type="Int32" />
+          <Property Name="CityName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
         </EntityType>
         <Association Name="FK_Users_tbladmincheck">
           <End Role="tblAdmincheck" Type="Self.tblAdmincheck" Multiplicity="0..1" />
@@ -282,18 +279,6 @@ warning 6002: The table/view 'Hrms.dbo.tblStructuredetail' does not have a prima
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_tblUsers_tblStructureDetail">
-          <End Role="tblStructuredetail" Type="Self.tblStructuredetail" Multiplicity="0..1" />
-          <End Role="tblUsers" Type="Self.tblUser" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="tblStructuredetail">
-              <PropertyRef Name="CompanyCode" />
-            </Principal>
-            <Dependent Role="tblUsers">
-              <PropertyRef Name="CompanyCode" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_tblUsers_tblUsers">
           <End Role="tblUsers" Type="Self.tblUser" Multiplicity="1" />
           <End Role="tblUsers1" Type="Self.tblUser" Multiplicity="0..1" />
@@ -311,20 +296,16 @@ warning 6002: The table/view 'Hrms.dbo.tblStructuredetail' does not have a prima
           <EntitySet Name="tblDepartments" EntityType="Self.tblDepartment" />
           <EntitySet Name="tblEmployees" EntityType="Self.tblEmployee" />
           <EntitySet Name="tblEmployeeDetails" EntityType="Self.tblEmployeeDetail" />
-          <EntitySet Name="tblOrganizationStructures" EntityType="Self.tblOrganizationStructure" />
           <EntitySet Name="tblRoles" EntityType="Self.tblRole" />
-          <EntitySet Name="tblStructuredetails" EntityType="Self.tblStructuredetail" />
           <EntitySet Name="tblUsers" EntityType="Self.tblUser" />
+          <EntitySet Name="tblOrganizationStructures" EntityType="Self.tblOrganizationStructure" />
+          <EntitySet Name="tblStructuredetails" EntityType="Self.tblStructuredetail" />
           <AssociationSet Name="FK_Users_tbladmincheck" Association="Self.FK_Users_tbladmincheck">
             <End Role="tblAdmincheck" EntitySet="tblAdminchecks" />
             <End Role="tblUsers" EntitySet="tblUsers" />
           </AssociationSet>
           <AssociationSet Name="FK_Users_Roles" Association="Self.FK_Users_Roles">
             <End Role="tblRoles" EntitySet="tblRoles" />
-            <End Role="tblUsers" EntitySet="tblUsers" />
-          </AssociationSet>
-          <AssociationSet Name="FK_tblUsers_tblStructureDetail" Association="Self.FK_tblUsers_tblStructureDetail">
-            <End Role="tblStructuredetail" EntitySet="tblStructuredetails" />
             <End Role="tblUsers" EntitySet="tblUsers" />
           </AssociationSet>
           <AssociationSet Name="FK_tblUsers_tblUsers" Association="Self.FK_tblUsers_tblUsers">
@@ -359,7 +340,6 @@ warning 6002: The table/view 'Hrms.dbo.tblStructuredetail' does not have a prima
           <EntitySetMapping Name="tblEmployees">
             <EntityTypeMapping TypeName="HrmsModel.tblEmployee">
               <MappingFragment StoreEntitySet="tblEmployee">
-                <ScalarProperty Name="UserId" ColumnName="UserId" />
                 <ScalarProperty Name="CompanyCode" ColumnName="CompanyCode" />
                 <ScalarProperty Name="CityCode" ColumnName="CityCode" />
                 <ScalarProperty Name="EmployeeId" ColumnName="EmployeeId" />
@@ -370,6 +350,7 @@ warning 6002: The table/view 'Hrms.dbo.tblStructuredetail' does not have a prima
                 <ScalarProperty Name="Email" ColumnName="Email" />
                 <ScalarProperty Name="Address" ColumnName="Address" />
                 <ScalarProperty Name="Position" ColumnName="Position" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -386,31 +367,11 @@ warning 6002: The table/view 'Hrms.dbo.tblStructuredetail' does not have a prima
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="tblOrganizationStructures">
-            <EntityTypeMapping TypeName="HrmsModel.tblOrganizationStructure">
-              <MappingFragment StoreEntitySet="tblOrganizationStructure">
-                <ScalarProperty Name="CompanyCode" ColumnName="CompanyCode" />
-                <ScalarProperty Name="CityCode" ColumnName="CityCode" />
-                <ScalarProperty Name="StorageLocation" ColumnName="StorageLocation" />
-                <ScalarProperty Name="PurchaseOrganization" ColumnName="PurchaseOrganization" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="tblRoles">
             <EntityTypeMapping TypeName="HrmsModel.tblRole">
               <MappingFragment StoreEntitySet="tblRoles">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="RoleName" ColumnName="RoleName" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="tblStructuredetails">
-            <EntityTypeMapping TypeName="HrmsModel.tblStructuredetail">
-              <MappingFragment StoreEntitySet="tblStructuredetail">
-                <ScalarProperty Name="CompanyName" ColumnName="CompanyName" />
-                <ScalarProperty Name="CompanyCode" ColumnName="CompanyCode" />
-                <ScalarProperty Name="CityCode" ColumnName="CityCode" />
-                <ScalarProperty Name="CityName" ColumnName="CityName" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -423,9 +384,28 @@ warning 6002: The table/view 'Hrms.dbo.tblStructuredetail' does not have a prima
                 <ScalarProperty Name="RoleId" ColumnName="RoleId" />
                 <ScalarProperty Name="AdminId" ColumnName="AdminId" />
                 <ScalarProperty Name="DepartmentId" ColumnName="DepartmentId" />
+                <ScalarProperty Name="EmployeeId" ColumnName="EmployeeId" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblOrganizationStructures">
+            <EntityTypeMapping TypeName="HrmsModel.tblOrganizationStructure">
+              <MappingFragment StoreEntitySet="tblOrganizationStructure">
                 <ScalarProperty Name="CompanyCode" ColumnName="CompanyCode" />
                 <ScalarProperty Name="CityCode" ColumnName="CityCode" />
-                <ScalarProperty Name="EmployeeId" ColumnName="EmployeeId" />
+                <ScalarProperty Name="StorageLocation" ColumnName="StorageLocation" />
+                <ScalarProperty Name="PurchaseOrganization" ColumnName="PurchaseOrganization" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblStructuredetails">
+            <EntityTypeMapping TypeName="HrmsModel.tblStructuredetail">
+              <MappingFragment StoreEntitySet="tblStructuredetail">
+                <ScalarProperty Name="CompanyCode" ColumnName="CompanyCode" />
+                <ScalarProperty Name="CompanyName" ColumnName="CompanyName" />
+                <ScalarProperty Name="CityCode" ColumnName="CityCode" />
+                <ScalarProperty Name="CityName" ColumnName="CityName" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

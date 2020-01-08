@@ -15,6 +15,7 @@ namespace amsdemo.Models
 
     public partial class tblUser
     {
+        [Required]
         public int UserId { get; set; }
         [Required]
         public string UserName { get; set; }
@@ -24,14 +25,12 @@ namespace amsdemo.Models
         public Nullable<int> AdminId { get; set; }
         [Required]
         public Nullable<int> DepartmentId { get; set; }
-        public Nullable<int> CompanyCode { get; set; }
-        public string CityCode { get; set; }
         [Required]
         public Nullable<int> EmployeeId { get; set; }
+        public Nullable<int> IsActive { get; set; }
     
         public virtual tblAdmincheck tblAdmincheck { get; set; }
         public virtual tblRole tblRole { get; set; }
-        public virtual tblStructuredetail tblStructuredetail { get; set; }
         public virtual tblUser tblUsers1 { get; set; }
         public virtual tblUser tblUser1 { get; set; }
     }

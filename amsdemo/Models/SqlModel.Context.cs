@@ -31,10 +31,10 @@ namespace amsdemo.Models
         public virtual DbSet<tblDepartment> tblDepartments { get; set; }
         public virtual DbSet<tblEmployee> tblEmployees { get; set; }
         public virtual DbSet<tblEmployeeDetail> tblEmployeeDetails { get; set; }
-        public virtual DbSet<tblOrganizationStructure> tblOrganizationStructures { get; set; }
         public virtual DbSet<tblRole> tblRoles { get; set; }
-        public virtual DbSet<tblStructuredetail> tblStructuredetails { get; set; }
         public virtual DbSet<tblUser> tblUsers { get; set; }
+        public virtual DbSet<tblOrganizationStructure> tblOrganizationStructures { get; set; }
+        public virtual DbSet<tblStructuredetail> tblStructuredetails { get; set; }
     
         public virtual int spGetAllUsers()
         {
