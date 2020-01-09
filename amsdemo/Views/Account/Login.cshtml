@@ -32,6 +32,8 @@
     <!--===============================================================================================-->
     <link rel="stylesheet" type="text/css" href="~/Login/css/util.css">
     <link rel="stylesheet" type="text/css" href="~/Login/css/main.css">
+    <link href="~/Content/alertifyjs/alertify.min.css" rel="stylesheet" />
+    <link href="~/Content/alertifyjs/themes/default.min.css" rel="stylesheet" />
     <!--===============================================================================================-->
 </head>
 <body>
@@ -55,7 +57,7 @@
                         @Html.AntiForgeryToken()
 
                         <div class="wrap-input100 validate-input" data-validate="Enter username">
-                            @Html.EditorFor(Model => Model.UserName, new { htmlAttributes = new { @class = "input100" ,@placeholder = "Username"} })
+                            @Html.EditorFor(Model => Model.UserName, new { htmlAttributes = new { @class = "input100", @placeholder = "Username" } })
                             <span class="focus-input100" data-placeholder="&#xf207;"></span>
                             <div>
                                 @Html.ValidationMessageFor(Model => Model.UserName)
@@ -63,7 +65,7 @@
                         </div>
 
                         <div class="wrap-input100 validate-input" data-validate="Enter password">
-                            @Html.EditorFor(Model => Model.Password, new { htmlAttributes = new { @class = "input100" ,@placeholder ="Password",@type="Password"} })
+                            @Html.EditorFor(Model => Model.Password, new { htmlAttributes = new { @class = "input100", @placeholder = "Password", @type = "Password" } })
                             <span class="focus-input100" data-placeholder="&#xf191;"></span>
                             <div>
                                 @Html.ValidationMessageFor(Model => Model.Password)
@@ -99,6 +101,20 @@
 
     <div id="dropDownSelect1"></div>
 
+    <script>
+       $(function () {
+            var successMessage = '@TempData["SuccessMessage"]'
+            if (successMessage != '')
+                alertify.success(successMessage);
+        });
+    </script>
+    <script>
+        $(function () {
+            var errorMessage = '@TempData["ErrorMessage"]'
+            if (errorMessage != '')
+                alertify.error(errorMessage);
+        });
+    </script>
 
     <!--===============================================================================================-->
     <script src="~/Login/vendor/jquery/jquery-3.2.1.min.js"></script>
@@ -116,7 +132,7 @@
     <script src="~/Login/vendor/countdowntime/countdowntime.js"></script>
     <!--===============================================================================================-->
     <script src="~/Login/js/main.js"></script>
-
+    <script src="~/Scripts/alertify.min.js"></script>
     <script src="~/Scripts/jquery.validate.min.js"></script>
     <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
 </body>

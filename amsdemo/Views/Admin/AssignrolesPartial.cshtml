@@ -1,6 +1,10 @@
 ﻿@model amsdemo.ViewModel.EmployeeUserVM
 
+@{
 
+
+    Layout = null;
+}
 
 @using (Html.BeginForm("AssignrolesPartial", "Admin", FormMethod.Post))
 {
@@ -53,9 +57,9 @@
 
 
     <div class="form-group row">
-        <div class="col-md-8">         
+        <div class="col-md-8">
             @Html.DropDownListFor(model=>model.RoleId,(SelectList)ViewBag.getrolelist,"Select Role",new { @id = "getroleId", @class = "form-control select2_demo_2" })
-       </div> 
+        </div>
     </div>
 
 

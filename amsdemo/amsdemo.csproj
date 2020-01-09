@@ -751,9 +751,10 @@
     <Content Include="Views\Admin\Modaltest.cshtml" />
     <Content Include="Views\Mail\SendMail.cshtml" />
     <Content Include="Views\Admin\UserList.cshtml" />
-    <Content Include="Views\Admin\UserManagement.cshtml" />
+    <Content Include="Views\Admin\CreateUser.cshtml" />
     <Content Include="Views\Admin\CreateUserPartial.cshtml" />
     <Content Include="Views\Admin\AssignrolesPartial.cshtml" />
+    <Content Include="Views\Admin\Assignroles.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

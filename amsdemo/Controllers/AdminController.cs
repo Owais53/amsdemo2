@@ -87,6 +87,7 @@ namespace amsdemo.Controllers
             return View();
         }
 
+        [CustomAuthorize("Hr Manager")]
         public ActionResult GetEmployeeList()
         {
 
@@ -104,13 +105,17 @@ namespace amsdemo.Controllers
             return Json(new { data = Data }, JsonRequestBehavior.AllowGet);
         }
 
+        
         [HttpGet]
-        public ActionResult CreateUsers()
+        [CustomAuthorize("Admin","Hr Manager")]
+        public ActionResult CreateUser()
         {
+            
             return View();
         }
+       
         [HttpPost]
-        public ActionResult CreateUsers(tblUser viewmodel)
+        public ActionResult CreateUser(tblUser viewmodel)
         {
             var empid = db.tblUsers.Where(x => x.EmployeeId == viewmodel.EmployeeId).FirstOrDefault();
             var check = db.tblUsers.Where(a => a.UserName == viewmodel.UserName).FirstOrDefault();
@@ -166,20 +171,21 @@ namespace amsdemo.Controllers
             {
                 TempData["ErrorMessage1"] = "User already Exists.Please Select from Employee List to Create Users";
             }
+            
 
-
-            return View(viewmodel);
+            return View();
         }
-      public ActionResult EmployeeList()
+        public ActionResult EmployeeList()
         {
             return View();
         }
+
         public ActionResult UserforroleList()
         {
             var Data = (from user in db.tblUsers
                         join emp in db.tblEmployees on user.EmployeeId equals emp.EmployeeId
                         join dep in db.tblDepartments on user.DepartmentId equals dep.DepartmentId
-                        where emp.UserId != null
+                        where emp.UserId != null && user.IsActive == null
                         select new
                         {
                             user.UserId,
@@ -200,14 +206,9 @@ namespace amsdemo.Controllers
             var users = db.spGetAllUsers();
             return Json(new { data = users }, JsonRequestBehavior.AllowGet);
         }
-        public ActionResult UserManagement()
-        {
-            var rolelist = db.tblRoles.ToList();
-            SelectList list = new SelectList(rolelist, "Id", "RoleName");
-            ViewBag.getrolelist = list;
-
-            return View();
-        }
+        
+        
+       
 
 
         [HttpPost]
@@ -266,36 +267,54 @@ namespace amsdemo.Controllers
             return View("UserManagement");
         }
         [HttpGet]
-        public ActionResult AssignrolesPartial()
+        public ActionResult Assignroles()
         {
+            var rolelist = db.tblRoles.ToList();
+            SelectList list = new SelectList(rolelist, "Id", "RoleName");
+            ViewBag.getrolelist = list;
+
             return View();
         }
 
         [HttpPost]
-        public ActionResult AssignrolesPartial(tblUser user,FormCollection form)
+        public ActionResult Assignroles(EmployeeUserVM user,FormCollection form)
         {
-            
-            if (ModelState.IsValid)
+            var usercheck = db.tblUsers.Where(a => a.UserId == user.UserId).FirstOrDefault();
+            if (usercheck != null)
             {
-                var chkadmin = form["getadmin"];
-                if(chkadmin == null)
-                {
-                    chkadmin = "0";
-                }
-                List<object> lst = new List<object>();
-                lst.Add(user.RoleId);
-                lst.Add(Convert.ToInt32(chkadmin));
-                lst.Add(user.UserId);
-                object[] item = lst.ToArray();
-                int output = db.Database.ExecuteSqlCommand("Update tblUsers set RoleId=@p0,AdminId=@p1,IsActive=1 where UserId=@p2", item);
-                if (output > 0)
-                {
-                    TempData["SuccessMessage1"] = "User Created";
-                }
+                  var chkadmin = form["getadmin"];
+                 
+
+                    List<object> lst = new List<object>();
+                    lst.Add(user.RoleId);
+                    lst.Add(Convert.ToInt32(chkadmin));
+                    lst.Add(user.UserId);
+                    object[] item = lst.ToArray();
+                    int output = db.Database.ExecuteSqlCommand("Update tblUsers set RoleId=@p0,AdminId=@p1,IsActive=1 where UserId=@p2", item);
+                    if (output > 0)
+                    {
+                      if (chkadmin == null)
+                      {
+                        chkadmin = "0";
+                      }
+                     TempData["SuccessMessage1"] = "Role Assigned";
+                        
+                    }
+                    else
+                    {
+                        TempData["ErrorMessage1"] = "Not able to Assig";
+
+                    }
+               
+                var rolelist = db.tblRoles.ToList();
+                SelectList list = new SelectList(rolelist, "Id", "RoleName");
+                ViewBag.getrolelist = list;
             }
-            var rolelist = db.tblRoles.ToList();
-            SelectList list = new SelectList(rolelist, "Id", "RoleName");
-            ViewBag.getrolelist = list;
+            else
+            {
+                TempData["ErrorMessage1"] = "Select from User List";
+
+            }
 
             return View();
         }

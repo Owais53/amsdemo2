@@ -30,11 +30,11 @@ namespace amsdemo.Infrastructure
                                     select new
                                     {
                                         r.RoleName,
-                                        a.IsAdmin                                       
+                                        a.desc                                       
                                     }).FirstOrDefault();
                     foreach(var role in allowedroles)
                     {
-                        if (role == userRole.RoleName||role == userRole.IsAdmin) return true;
+                        if (role == userRole.RoleName||role == userRole.desc) return true;
                     }
                                     
                 }

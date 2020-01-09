@@ -15,7 +15,7 @@ namespace amsdemo.Controllers
     {
 
         private readonly SqlContext context = new SqlContext();
-
+        
         public ActionResult About()
         {
             ViewBag.Title = "About";
@@ -200,6 +200,7 @@ namespace amsdemo.Controllers
         }
 
         [HttpPost]
+        [CustomAuthorize("Admin")]
         public ActionResult DefineSlPurchOrg(tblOrganizationStructure obj)
         {
             var validate = context.tblStructuredetails

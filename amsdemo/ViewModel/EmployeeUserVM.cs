@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Web;
 
@@ -20,10 +21,12 @@ namespace amsdemo.ViewModel
         public int EmployeeId { get; set; }
         [Required]
         public int DepartmentId { get; set; }
+        [NotMapped]
         public string DepartmentName { get; set; }
-        [Required]
+        [NotMapped]
         public string Position { get; set; }
         public int RoleId { get; set; }
+        [NotMapped]
         public string RoleName { get; set; }
         public int AdminId { get; set; }
         [DataType("Password")]

@@ -20,33 +20,57 @@ namespace amsdemo.Controllers
         [HttpPost]
         public ActionResult Login(tblUser model)
         {
-            if (ModelState.IsValid)
-            {
+            
                 using (var context = new SqlContext())
                 {
-                    tblUser user = context.tblUsers
-                                       .Where(u => u.UserName == model.UserName && u.Password == model.Password)
-                                       .FirstOrDefault();
+                var isActive = context.tblUsers.Where(x => x.IsActive == 1)
+                    .Where(a=>a.UserName==model.UserName && a.Password == model.Password).FirstOrDefault();
 
+                if (isActive != null)
+                {
+                    var user = (from u in context.tblUsers
+                               join d in context.tblDepartments on u.DepartmentId equals d.DepartmentId
+                               join a in context.tblAdminchecks on u.AdminId equals a.AdminId
+                               join r in context.tblRoles on u.RoleId equals r.Id
+                               where u.UserName == model.UserName && u.Password == model.Password
+                               select new
+                               {
+                                   u.UserName,
+                                   u.UserId,
+                                   d.DepartmentName,
+                                   a.desc,
+                                   r.RoleName
+                               }).FirstOrDefault();
+
+                   
                     if (user != null)
                     {
                         Session["UserName"] = user.UserName;
                         Session["UserId"] = user.UserId;
+                        Session["DepartmentName"] = user.DepartmentName;
+                        Session["RoleName"] = user.RoleName;
+                        Session["isAdmin"] = user.desc;
+
+                        TempData["SuccessMessage"] = "Login Successfull";
                         return RedirectToAction("Index", "Home");
+
                     }
                     else
                     {
 
-                        ModelState.AddModelError("", "Invalid User Name or Password");
-                        return View(model);
+                        TempData["ErrorMessage"] = "Invalid UserName or Password";
+                        
                     }
-
                 }
+                else
+                {
+                    TempData["ErrorMessage"] = "User is not Active.Please Login Again.";
+                }
+                return View();
+
+
             }
-            else
-            {
-                return View(model);
-            }
+                       
 
         }
 
@@ -56,6 +80,10 @@ namespace amsdemo.Controllers
             Session.Abandon();
             Session["UserName"] = string.Empty;
             Session["UserId"] = string.Empty;
+            Session["DepartmentName"] = string.Empty;
+            Session["RoleName"] = string.Empty;
+            Session["isAdmin"] = string.Empty;
+            
             return RedirectToAction("Login", "Account");
         }
 
