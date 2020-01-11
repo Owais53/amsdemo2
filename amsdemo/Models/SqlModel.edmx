@@ -59,6 +59,33 @@ warning 6002: The table/view 'Hrms.dbo.tblOrganizationStructure' does not have a
           <Property Name="StorageLocation" Type="nvarchar(max)" />
           <Property Name="PurchaseOrganization" Type="nvarchar(max)" />
         </EntityType>
+        <EntityType Name="tblRequestdetail">
+          <Key>
+            <PropertyRef Name="RequestId" />
+          </Key>
+          <Property Name="RequestId" Type="int" Nullable="false" />
+          <Property Name="CompanyCode" Type="int" />
+          <Property Name="CityCode" Type="int" />
+          <Property Name="DepartmentId" Type="int" />
+          <Property Name="Position" Type="nvarchar(max)" />
+          <Property Name="EmployeeId" Type="int" />
+          <Property Name="EmployeeName" Type="nvarchar(max)" />
+          <Property Name="ReasonofRequest" Type="nvarchar(max)" />
+          <Property Name="LastWorkingDate" Type="date" />
+        </EntityType>
+        <EntityType Name="tblRequests">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="RequestId" Type="int" Nullable="false" />
+          <Property Name="EmployeeId" Type="int" />
+          <Property Name="RequestType" Type="nvarchar(max)" />
+          <Property Name="DateofRequest" Type="datetime" />
+          <Property Name="Status" Type="nvarchar(max)" />
+          <Property Name="Respondedby" Type="nvarchar(max)" />
+          <Property Name="ResponseDate" Type="datetime" />
+        </EntityType>
         <EntityType Name="tblRoles">
           <Key>
             <PropertyRef Name="Id" />
@@ -101,6 +128,54 @@ warning 6002: The table/view 'Hrms.dbo.tblStructuredetail' does not have a prima
           <Property Name="Position" Type="nvarchar(max)" />
           <Property Name="Availableseats" Type="int" />
         </EntityType>
+        <Association Name="FK_tblEmployee_tblDepartments">
+          <End Role="tblDepartments" Type="Self.tblDepartments" Multiplicity="0..1" />
+          <End Role="tblEmployee" Type="Self.tblEmployee" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblDepartments">
+              <PropertyRef Name="DepartmentId" />
+            </Principal>
+            <Dependent Role="tblEmployee">
+              <PropertyRef Name="DepartmentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tblEmployeeDetail_tblEmployee">
+          <End Role="tblEmployee" Type="Self.tblEmployee" Multiplicity="1" />
+          <End Role="tblEmployeeDetail" Type="Self.tblEmployeeDetail" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="tblEmployee">
+              <PropertyRef Name="EmployeeId" />
+            </Principal>
+            <Dependent Role="tblEmployeeDetail">
+              <PropertyRef Name="EmployeeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tblRequestdetail_tblEmployee">
+          <End Role="tblEmployee" Type="Self.tblEmployee" Multiplicity="0..1" />
+          <End Role="tblRequestdetail" Type="Self.tblRequestdetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblEmployee">
+              <PropertyRef Name="EmployeeId" />
+            </Principal>
+            <Dependent Role="tblRequestdetail">
+              <PropertyRef Name="EmployeeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tblRequests_tblRequestdetail">
+          <End Role="tblRequestdetail" Type="Self.tblRequestdetail" Multiplicity="1" />
+          <End Role="tblRequests" Type="Self.tblRequests" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblRequestdetail">
+              <PropertyRef Name="RequestId" />
+            </Principal>
+            <Dependent Role="tblRequests">
+              <PropertyRef Name="RequestId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_tblVacancydetails_tblDepartment">
           <End Role="tblDepartments" Type="Self.tblDepartments" Multiplicity="0..1" />
           <End Role="tblVacancydetails" Type="Self.tblVacancydetails" Multiplicity="*" />
@@ -143,6 +218,8 @@ warning 6002: The table/view 'Hrms.dbo.tblStructuredetail' does not have a prima
           <EntitySet Name="tblDepartments" EntityType="Self.tblDepartments" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblEmployee" EntityType="Self.tblEmployee" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblEmployeeDetail" EntityType="Self.tblEmployeeDetail" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblRequestdetail" EntityType="Self.tblRequestdetail" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblRequests" EntityType="Self.tblRequests" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblRoles" EntityType="Self.tblRoles" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblUsers" EntityType="Self.tblUsers" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblVacancydetails" EntityType="Self.tblVacancydetails" Schema="dbo" store:Type="Tables" />
@@ -162,6 +239,22 @@ warning 6002: The table/view 'Hrms.dbo.tblStructuredetail' does not have a prima
     [tblStructuredetail].[CityName] AS [CityName]
     FROM [dbo].[tblStructuredetail] AS [tblStructuredetail]</DefiningQuery>
           </EntitySet>
+          <AssociationSet Name="FK_tblEmployee_tblDepartments" Association="Self.FK_tblEmployee_tblDepartments">
+            <End Role="tblDepartments" EntitySet="tblDepartments" />
+            <End Role="tblEmployee" EntitySet="tblEmployee" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblEmployeeDetail_tblEmployee" Association="Self.FK_tblEmployeeDetail_tblEmployee">
+            <End Role="tblEmployee" EntitySet="tblEmployee" />
+            <End Role="tblEmployeeDetail" EntitySet="tblEmployeeDetail" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblRequestdetail_tblEmployee" Association="Self.FK_tblRequestdetail_tblEmployee">
+            <End Role="tblEmployee" EntitySet="tblEmployee" />
+            <End Role="tblRequestdetail" EntitySet="tblRequestdetail" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblRequests_tblRequestdetail" Association="Self.FK_tblRequests_tblRequestdetail">
+            <End Role="tblRequestdetail" EntitySet="tblRequestdetail" />
+            <End Role="tblRequests" EntitySet="tblRequests" />
+          </AssociationSet>
           <AssociationSet Name="FK_tblVacancydetails_tblDepartment" Association="Self.FK_tblVacancydetails_tblDepartment">
             <End Role="tblDepartments" EntitySet="tblDepartments" />
             <End Role="tblVacancydetails" EntitySet="tblVacancydetails" />
@@ -195,6 +288,7 @@ warning 6002: The table/view 'Hrms.dbo.tblStructuredetail' does not have a prima
           <Property Name="DepartmentId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="DepartmentName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="tblVacancydetails" Relationship="HrmsModel.FK_tblVacancydetails_tblDepartment" FromRole="tblDepartment" ToRole="tblVacancydetail" />
+          <NavigationProperty Name="tblEmployees" Relationship="HrmsModel.FK_tblEmployee_tblDepartments" FromRole="tblDepartment" ToRole="tblEmployee" />
         </EntityType>
         <EntityType Name="tblEmployee">
           <Key>
@@ -211,6 +305,9 @@ warning 6002: The table/view 'Hrms.dbo.tblStructuredetail' does not have a prima
           <Property Name="Address" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="Position" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="UserId" Type="Int32" />
+          <NavigationProperty Name="tblDepartment" Relationship="HrmsModel.FK_tblEmployee_tblDepartments" FromRole="tblEmployee" ToRole="tblDepartment" />
+          <NavigationProperty Name="tblEmployeeDetail" Relationship="HrmsModel.FK_tblEmployeeDetail_tblEmployee" FromRole="tblEmployee" ToRole="tblEmployeeDetail" />
+          <NavigationProperty Name="tblRequestdetails" Relationship="HrmsModel.FK_tblRequestdetail_tblEmployee" FromRole="tblEmployee" ToRole="tblRequestdetail" />
         </EntityType>
         <EntityType Name="tblEmployeeDetail">
           <Key>
@@ -223,6 +320,7 @@ warning 6002: The table/view 'Hrms.dbo.tblStructuredetail' does not have a prima
           <Property Name="DateofTransfer" Type="DateTime" Precision="3" />
           <Property Name="DateofPromotion" Type="DateTime" Precision="3" />
           <Property Name="LastLeaveDate" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="tblEmployee" Relationship="HrmsModel.FK_tblEmployeeDetail_tblEmployee" FromRole="tblEmployeeDetail" ToRole="tblEmployee" />
         </EntityType>
         <EntityType Name="tblRole">
           <Key>
@@ -312,6 +410,24 @@ warning 6002: The table/view 'Hrms.dbo.tblStructuredetail' does not have a prima
             <End Role="tblDepartment" EntitySet="tblDepartments" />
             <End Role="tblVacancydetail" EntitySet="tblVacancydetails" />
           </AssociationSet>
+          <EntitySet Name="tblRequestdetails" EntityType="HrmsModel.tblRequestdetail" />
+          <EntitySet Name="tblRequests" EntityType="HrmsModel.tblRequest" />
+          <AssociationSet Name="FK_tblRequests_tblRequestdetail" Association="HrmsModel.FK_tblRequests_tblRequestdetail">
+            <End Role="tblRequestdetail" EntitySet="tblRequestdetails" />
+            <End Role="tblRequest" EntitySet="tblRequests" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblEmployee_tblDepartments" Association="HrmsModel.FK_tblEmployee_tblDepartments">
+            <End Role="tblDepartment" EntitySet="tblDepartments" />
+            <End Role="tblEmployee" EntitySet="tblEmployees" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblEmployeeDetail_tblEmployee" Association="HrmsModel.FK_tblEmployeeDetail_tblEmployee">
+            <End Role="tblEmployee" EntitySet="tblEmployees" />
+            <End Role="tblEmployeeDetail" EntitySet="tblEmployeeDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblRequestdetail_tblEmployee" Association="HrmsModel.FK_tblRequestdetail_tblEmployee">
+            <End Role="tblEmployee" EntitySet="tblEmployees" />
+            <End Role="tblRequestdetail" EntitySet="tblRequestdetails" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="tblVacancydetail">
           <Key>
@@ -334,6 +450,84 @@ warning 6002: The table/view 'Hrms.dbo.tblStructuredetail' does not have a prima
             </Principal>
             <Dependent Role="tblVacancydetail">
               <PropertyRef Name="DepartmentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="tblRequestdetail">
+          <Key>
+            <PropertyRef Name="RequestId" />
+          </Key>
+          <Property Name="RequestId" Type="Int32" Nullable="false" />
+          <Property Name="CompanyCode" Type="Int32" />
+          <Property Name="CityCode" Type="Int32" />
+          <Property Name="DepartmentId" Type="Int32" />
+          <Property Name="Position" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="EmployeeId" Type="Int32" />
+          <Property Name="EmployeeName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ReasonofRequest" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="LastWorkingDate" Type="DateTime" Precision="0" />
+          <NavigationProperty Name="tblRequests" Relationship="HrmsModel.FK_tblRequests_tblRequestdetail" FromRole="tblRequestdetail" ToRole="tblRequest" />
+          <NavigationProperty Name="tblEmployee" Relationship="HrmsModel.FK_tblRequestdetail_tblEmployee" FromRole="tblRequestdetail" ToRole="tblEmployee" />
+        </EntityType>
+        <EntityType Name="tblRequest">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="RequestId" Type="Int32" Nullable="false" />
+          <Property Name="RequestType" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="DateofRequest" Type="DateTime" Precision="3" />
+          <Property Name="Status" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Respondedby" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ResponseDate" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="tblRequestdetail" Relationship="HrmsModel.FK_tblRequests_tblRequestdetail" FromRole="tblRequest" ToRole="tblRequestdetail" />
+          <Property Name="EmployeeId" Type="Int32" />
+        </EntityType>
+        <Association Name="FK_tblRequests_tblRequestdetail">
+          <End Type="HrmsModel.tblRequestdetail" Role="tblRequestdetail" Multiplicity="1" />
+          <End Type="HrmsModel.tblRequest" Role="tblRequest" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblRequestdetail">
+              <PropertyRef Name="RequestId" />
+            </Principal>
+            <Dependent Role="tblRequest">
+              <PropertyRef Name="RequestId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tblEmployee_tblDepartments">
+          <End Type="HrmsModel.tblDepartment" Role="tblDepartment" Multiplicity="0..1" />
+          <End Type="HrmsModel.tblEmployee" Role="tblEmployee" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblDepartment">
+              <PropertyRef Name="DepartmentId" />
+            </Principal>
+            <Dependent Role="tblEmployee">
+              <PropertyRef Name="DepartmentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tblEmployeeDetail_tblEmployee">
+          <End Type="HrmsModel.tblEmployee" Role="tblEmployee" Multiplicity="1" />
+          <End Type="HrmsModel.tblEmployeeDetail" Role="tblEmployeeDetail" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="tblEmployee">
+              <PropertyRef Name="EmployeeId" />
+            </Principal>
+            <Dependent Role="tblEmployeeDetail">
+              <PropertyRef Name="EmployeeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tblRequestdetail_tblEmployee">
+          <End Type="HrmsModel.tblEmployee" Role="tblEmployee" Multiplicity="0..1" />
+          <End Type="HrmsModel.tblRequestdetail" Role="tblRequestdetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblEmployee">
+              <PropertyRef Name="EmployeeId" />
+            </Principal>
+            <Dependent Role="tblRequestdetail">
+              <PropertyRef Name="EmployeeId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -441,6 +635,35 @@ warning 6002: The table/view 'Hrms.dbo.tblStructuredetail' does not have a prima
                 <ScalarProperty Name="DepartmentId" ColumnName="DepartmentId" />
                 <ScalarProperty Name="CityCode" ColumnName="CityCode" />
                 <ScalarProperty Name="CompanyCode" ColumnName="CompanyCode" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblRequestdetails">
+            <EntityTypeMapping TypeName="HrmsModel.tblRequestdetail">
+              <MappingFragment StoreEntitySet="tblRequestdetail">
+                <ScalarProperty Name="LastWorkingDate" ColumnName="LastWorkingDate" />
+                <ScalarProperty Name="ReasonofRequest" ColumnName="ReasonofRequest" />
+                <ScalarProperty Name="EmployeeName" ColumnName="EmployeeName" />
+                <ScalarProperty Name="EmployeeId" ColumnName="EmployeeId" />
+                <ScalarProperty Name="Position" ColumnName="Position" />
+                <ScalarProperty Name="DepartmentId" ColumnName="DepartmentId" />
+                <ScalarProperty Name="CityCode" ColumnName="CityCode" />
+                <ScalarProperty Name="CompanyCode" ColumnName="CompanyCode" />
+                <ScalarProperty Name="RequestId" ColumnName="RequestId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblRequests">
+            <EntityTypeMapping TypeName="HrmsModel.tblRequest">
+              <MappingFragment StoreEntitySet="tblRequests">
+                <ScalarProperty Name="EmployeeId" ColumnName="EmployeeId" />
+                <ScalarProperty Name="ResponseDate" ColumnName="ResponseDate" />
+                <ScalarProperty Name="Respondedby" ColumnName="Respondedby" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="DateofRequest" ColumnName="DateofRequest" />
+                <ScalarProperty Name="RequestType" ColumnName="RequestType" />
+                <ScalarProperty Name="RequestId" ColumnName="RequestId" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>

@@ -15,7 +15,9 @@
     <link href="~/Content/alertifyjs/alertify.min.css" rel="stylesheet" />
     <link href="~/Content/alertifyjs/themes/default.min.css" rel="stylesheet" />
     <link href="~/Content/sweetalert.css" rel="stylesheet" />
-
+    <link href="~/Content/bootstrap-datepicker3.min.css" rel="stylesheet" />
+    <link href="~/Content/bootstrap-timepicker.min.css" rel="stylesheet" />
+    <link href="~/Content/themes/base/jquery-ui.css" rel="stylesheet" />
     @RenderSection("header", required: false)
 </head>
 <body class="fixed-navbar">
@@ -216,16 +218,16 @@
                             <span class="nav-label">Check</span><i class="fa fa-angle-left arrow"></i>
                         </a>
                         <ul class="nav-2-level collapse">
-                            
-                                
-                            <li>@Html.ActionLink("Home", "Index", "Home")</li>                    
+
+
+                            <li>@Html.ActionLink("Home", "Index", "Home")</li>
                             <li>@Html.ActionLink("About", "About", "Home")</li>
                             <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
                             <li>@Html.ActionLink("Logout", "Logout", "Account")</li>
                             <li>@Html.ActionLink("Define Structure", "DefineStructure", "Home")</li>
-                           
+
                             <li>@Html.ActionLink("Define SL and purch Org", "DefineSlPurchOrg", "Home")</li>
-                            
+
                             <li>@Html.ActionLink("View Structure", "StructureList", "Home")</li>
 
                         </ul>
@@ -568,6 +570,9 @@
     <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
     <script src="~/Scripts/alertify.min.js"></script>
     <script src="~/Scripts/notify.min.js"></script>
+    <script src="~/Scripts/bootstrap-datepicker.min.js"></script>
+    <script src="~/Scripts/bootstrap-timepicker.min.js"></script>
+    <script src="~/Scripts/jquery-ui-1.12.1.js"></script>
     @RenderSection("scripts", required: false)
 </body>
 </html>

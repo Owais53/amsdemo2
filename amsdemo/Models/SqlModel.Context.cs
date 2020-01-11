@@ -36,6 +36,8 @@ namespace amsdemo.Models
         public virtual DbSet<tblOrganizationStructure> tblOrganizationStructures { get; set; }
         public virtual DbSet<tblStructuredetail> tblStructuredetails { get; set; }
         public virtual DbSet<tblVacancydetail> tblVacancydetails { get; set; }
+        public virtual DbSet<tblRequestdetail> tblRequestdetails { get; set; }
+        public virtual DbSet<tblRequest> tblRequests { get; set; }
     
         public virtual int spGetAllUsers()
         {

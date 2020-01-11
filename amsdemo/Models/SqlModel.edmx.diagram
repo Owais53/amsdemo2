@@ -17,6 +17,12 @@
         <AssociationConnector Association="HrmsModel.FK_Users_Roles" ManuallyRouted="false" />
         <EntityTypeShape EntityType="HrmsModel.tblVacancydetail" Width="1.5" PointX="5" PointY="9.375" />
         <AssociationConnector Association="HrmsModel.FK_tblVacancydetails_tblDepartment" />
+        <EntityTypeShape EntityType="HrmsModel.tblRequestdetail" Width="1.5" PointX="7.375" PointY="7.75" />
+        <EntityTypeShape EntityType="HrmsModel.tblRequest" Width="1.5" PointX="9.625" PointY="8" />
+        <AssociationConnector Association="HrmsModel.FK_tblRequests_tblRequestdetail" />
+        <AssociationConnector Association="HrmsModel.FK_tblEmployee_tblDepartments" />
+        <AssociationConnector Association="HrmsModel.FK_tblEmployeeDetail_tblEmployee" />
+        <AssociationConnector Association="HrmsModel.FK_tblRequestdetail_tblEmployee" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

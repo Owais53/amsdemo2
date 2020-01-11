@@ -14,6 +14,12 @@ namespace amsdemo.Models
     
     public partial class tblEmployee
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public tblEmployee()
+        {
+            this.tblRequestdetails = new HashSet<tblRequestdetail>();
+        }
+    
         public Nullable<int> CompanyCode { get; set; }
         public string CityCode { get; set; }
         public int EmployeeId { get; set; }
@@ -25,5 +31,10 @@ namespace amsdemo.Models
         public string Address { get; set; }
         public string Position { get; set; }
         public Nullable<int> UserId { get; set; }
+    
+        public virtual tblDepartment tblDepartment { get; set; }
+        public virtual tblEmployeeDetail tblEmployeeDetail { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<tblRequestdetail> tblRequestdetails { get; set; }
     }
 }

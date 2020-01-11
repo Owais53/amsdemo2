@@ -12,21 +12,26 @@ namespace amsdemo.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class tblDepartment
+    public partial class tblRequestdetail
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public tblDepartment()
+        public tblRequestdetail()
         {
-            this.tblVacancydetails = new HashSet<tblVacancydetail>();
-            this.tblEmployees = new HashSet<tblEmployee>();
+            this.tblRequests = new HashSet<tblRequest>();
         }
     
-        public int DepartmentId { get; set; }
-        public string DepartmentName { get; set; }
+        public int RequestId { get; set; }
+        public Nullable<int> CompanyCode { get; set; }
+        public Nullable<int> CityCode { get; set; }
+        public Nullable<int> DepartmentId { get; set; }
+        public string Position { get; set; }
+        public Nullable<int> EmployeeId { get; set; }
+        public string EmployeeName { get; set; }
+        public string ReasonofRequest { get; set; }
+        public Nullable<System.DateTime> LastWorkingDate { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<tblVacancydetail> tblVacancydetails { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<tblEmployee> tblEmployees { get; set; }
+        public virtual ICollection<tblRequest> tblRequests { get; set; }
+        public virtual tblEmployee tblEmployee { get; set; }
     }
 }

@@ -1,0 +1,121 @@
+﻿@model amsdemo.ViewModel.RequestVM
+
+@{
+    ViewBag.Title = "EmployeeResignations";
+}
+
+<div class="ibox">
+
+    <div class="ibox-body">
+        <ul class="nav nav-pills">
+            <li class="nav-item">
+                <a class="nav-link active" href="#pill-1-1" data-toggle="tab">Resignation</a>
+            </li>
+
+        </ul>
+        <div class="tab-content">
+            <div class="tab-pane show active" id="pill-1-1">
+                @using (Html.BeginForm("EmployeeResignations", "Requests", FormMethod.Post))
+                {
+                    
+                    <div class="col-sm-4 col-form-label" style="left:350px;">
+                          <h4>Job Information</h4>
+                    </div>
+                    <br />
+                    <div class="form-group row" style="left:350px;">
+                        <label class="col-sm-2 col-form-label" style="left:320px;">
+                            Company:
+                        </label>
+                        <div class="col-md-10">
+                            <label class="col-sm-2 col-form-label" style="left:350px;">
+                                Company Code
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="form-group row ">
+                        <label class="col-sm-2 col-form-label" style="left:320px;">
+                            City:
+                        </label>
+                        <div class="col-md-10">
+                            <label class="col-sm-2 col-form-label" style="left:350px;">
+                                City
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="form-group row" >
+                        <label class="col-sm-2 col-form-label" style="left:320px;">
+                            Department:
+                        </label>
+                        <div class="col-md-10">
+                            <label class="col-sm-2 col-form-label" style="left:350px;">
+                                Department
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="form-group row" >
+                        <label class="col-sm-2 col-form-label" style="left:320px;">
+                            Name:
+                        </label>
+                        <div class="col-md-10">
+                            <label class="col-sm-2 col-form-label" style="left:350px;">
+                                Name
+                            </label>
+                        </div>
+                    </div>
+                    <br />
+                    <div class="col-sm-4 col-form-label" style="left:350px;">
+                         <h4>Resignation Details</h4>
+                    </div>
+                   <br />
+                   <br />
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label">
+                            Reason of Resignation
+                        </label>
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.ReasonofRequests, new { htmlAttributes = new { @id = "getreasonreq", @class = "form-control", @name = "txtreason" } })
+                        </div>
+                    </div>
+
+
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label">
+                            Last Working Date
+                        </label>
+                        <div class="col-md-10">
+                            <div class="input-group date">
+                                <span class="input-group-addon bg-white"><i class="fa fa-calendar"></i></span>
+                                @Html.EditorFor(model => model.LastWorkingDate, new { @class = "date form-control",placeholder = "Select Relieving Date",@readonly = "true" })
+                                @Html.ValidationMessageFor(model => model.LastWorkingDate, "", new { @class = "text-danger" })
+                            </div>
+
+                        </div>
+                    </div>
+               
+
+
+                }
+
+            </div>
+       </div>
+    </div>
+</div>
+
+@section scripts{
+    
+<script type="text/javascript">
+    $(function () {
+        $('input[type=datetime]').datepicker({
+            dateFormat: "dd/mm/yy",
+            changeMonth: true,
+            changeYear: true,
+            yearRange: "-60:+0"
+        });
+
+    });
+</script>
+    
+}
