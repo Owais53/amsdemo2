@@ -136,7 +136,7 @@ namespace amsdemo.Controllers
         }
 
         [HttpPost]
-        public ActionResult DefineStructure(tblStructuredetail viewModel)
+        public ActionResult DefineStructure(StructureDetails viewModel)
         {
             var validate = context.tblStructuredetails
                  .Where(a => a.CompanyCode == viewModel.CompanyCode)
@@ -151,15 +151,11 @@ namespace amsdemo.Controllers
                 .Where(a => a.CityCode == viewModel.CityCode)
                 .Where(b => b.CityName == viewModel.CityName).FirstOrDefault();
 
-            if (validate != null && validate1 != null && validate3 != null)
-            {
-                TempData["ErrorMessage"] = ("Company Code " + viewModel.CompanyCode + " with City Code " + viewModel.CityCode + "and" + viewModel.CityName + " Already Exists");
-            }
-            else if (validate1 != null)
-            {
-                TempData["ErrorMessage"] = ("CompanyCode " + viewModel.CompanyCode + " with CityCode " + viewModel.CityCode + "Already Exists");
-            }
-            else if (validate == null && validate3 != null)
+            var check = context.tblStructuredetails.Where(x => x.CityCode == viewModel.CityCode).FirstOrDefault();
+            var check1 = context.tblStructuredetails.Where(x => x.CityName == viewModel.CityName).FirstOrDefault();
+            var check2 = context.tblStructuredetails.Where(x => x.CompanyCode == viewModel.CompanyCode).FirstOrDefault();
+
+            if (validate == null && validate3 != null || validate1 == null && check1 == null || !context.tblStructuredetails.Any())
             {
                 if (ModelState.IsValid)
                 {
@@ -173,8 +169,20 @@ namespace amsdemo.Controllers
                     int output = context.Database.ExecuteSqlCommand("insert into tblStructuredetail(CompanyCode,CompanyName,CityCode,CityName) values(@p0,@p1,@p2,@p3)", item);
                     if (output > 0)
                     {
-                        RedirectToAction("StructureList", "Home");
-                        TempData["SuccessMessage"] = "Structure Created";
+                        var vacantdetail = new tblVacancydetail()
+                        {
+                            CompanyCode = viewModel.CompanyCode,
+                            CityCode = viewModel.CityCode,                 
+                        };
+                        context.tblVacancydetails.Add(vacantdetail);
+                        context.SaveChanges();
+
+                       if(vacantdetail != null)
+                        {
+
+                            RedirectToAction("StructureList", "Home");
+                            TempData["SuccessMessage"] = "Structure Created";
+                        }
                     }
                 }
                 else
@@ -182,11 +190,19 @@ namespace amsdemo.Controllers
                     TempData["ErrorMessage"] = "Unable to Add";
                 }
             }
+            else if (validate1 != null)
+            {
+                TempData["ErrorMessage"] = ("CompanyCode " + viewModel.CompanyCode + " with CityCode " + viewModel.CityCode + "Already Exists");
+            }
             else if (validate3 != null)
             {
                 TempData["ErrorMessage"] = ("City Code " + viewModel.CityCode + " with City " + viewModel.CityName + " already Exists");
             }
-            else
+            else if(validate != null && validate1 != null && validate3 != null)
+            {
+                TempData["ErrorMessage"] = ("Company Code " + viewModel.CompanyCode + " with City Code " + viewModel.CityCode + "and" + viewModel.CityName + " Already Exists");
+            }
+            else 
             {
                 TempData["ErrorMessage"] = ("City with Name " + viewModel.CityName + " already Exists in Company Code " + viewModel.CompanyCode + "");
             }

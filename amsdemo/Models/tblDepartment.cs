@@ -14,7 +14,16 @@ namespace amsdemo.Models
     
     public partial class tblDepartment
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public tblDepartment()
+        {
+            this.tblVacancydetails = new HashSet<tblVacancydetail>();
+        }
+    
         public int DepartmentId { get; set; }
         public string DepartmentName { get; set; }
+    
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<tblVacancydetail> tblVacancydetails { get; set; }
     }
 }

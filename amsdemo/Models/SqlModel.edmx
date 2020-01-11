@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="HrmsModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="HrmsModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="tblAdmincheck">
           <Key>
             <PropertyRef Name="AdminId" />
@@ -90,15 +90,26 @@ warning 6002: The table/view 'Hrms.dbo.tblStructuredetail' does not have a prima
           <Property Name="EmployeeId" Type="int" />
           <Property Name="IsActive" Type="int" />
         </EntityType>
-        <Association Name="FK_tblUsers_tblUsers">
-          <End Role="tblUsers" Type="Self.tblUsers" Multiplicity="1" />
-          <End Role="tblUsers1" Type="Self.tblUsers" Multiplicity="0..1" />
+        <EntityType Name="tblVacancydetails">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CompanyCode" Type="int" />
+          <Property Name="CityCode" Type="int" />
+          <Property Name="DepartmentId" Type="int" />
+          <Property Name="Position" Type="nvarchar(max)" />
+          <Property Name="Availableseats" Type="int" />
+        </EntityType>
+        <Association Name="FK_tblVacancydetails_tblDepartment">
+          <End Role="tblDepartments" Type="Self.tblDepartments" Multiplicity="0..1" />
+          <End Role="tblVacancydetails" Type="Self.tblVacancydetails" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="tblUsers">
-              <PropertyRef Name="UserId" />
+            <Principal Role="tblDepartments">
+              <PropertyRef Name="DepartmentId" />
             </Principal>
-            <Dependent Role="tblUsers1">
-              <PropertyRef Name="UserId" />
+            <Dependent Role="tblVacancydetails">
+              <PropertyRef Name="DepartmentId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -134,6 +145,7 @@ warning 6002: The table/view 'Hrms.dbo.tblStructuredetail' does not have a prima
           <EntitySet Name="tblEmployeeDetail" EntityType="Self.tblEmployeeDetail" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblRoles" EntityType="Self.tblRoles" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblUsers" EntityType="Self.tblUsers" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblVacancydetails" EntityType="Self.tblVacancydetails" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblOrganizationStructure" EntityType="Self.tblOrganizationStructure" store:Type="Tables" store:Schema="dbo">
             <DefiningQuery>SELECT 
     [tblOrganizationStructure].[CompanyCode] AS [CompanyCode], 
@@ -150,9 +162,9 @@ warning 6002: The table/view 'Hrms.dbo.tblStructuredetail' does not have a prima
     [tblStructuredetail].[CityName] AS [CityName]
     FROM [dbo].[tblStructuredetail] AS [tblStructuredetail]</DefiningQuery>
           </EntitySet>
-          <AssociationSet Name="FK_tblUsers_tblUsers" Association="Self.FK_tblUsers_tblUsers">
-            <End Role="tblUsers" EntitySet="tblUsers" />
-            <End Role="tblUsers1" EntitySet="tblUsers" />
+          <AssociationSet Name="FK_tblVacancydetails_tblDepartment" Association="Self.FK_tblVacancydetails_tblDepartment">
+            <End Role="tblDepartments" EntitySet="tblDepartments" />
+            <End Role="tblVacancydetails" EntitySet="tblVacancydetails" />
           </AssociationSet>
           <AssociationSet Name="FK_Users_Roles" Association="Self.FK_Users_Roles">
             <End Role="tblRoles" EntitySet="tblRoles" />
@@ -163,8 +175,7 @@ warning 6002: The table/view 'Hrms.dbo.tblStructuredetail' does not have a prima
             <End Role="tblUsers" EntitySet="tblUsers" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="HrmsModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -183,6 +194,7 @@ warning 6002: The table/view 'Hrms.dbo.tblStructuredetail' does not have a prima
           </Key>
           <Property Name="DepartmentId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="DepartmentName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="tblVacancydetails" Relationship="HrmsModel.FK_tblVacancydetails_tblDepartment" FromRole="tblDepartment" ToRole="tblVacancydetail" />
         </EntityType>
         <EntityType Name="tblEmployee">
           <Key>
@@ -234,8 +246,6 @@ warning 6002: The table/view 'Hrms.dbo.tblStructuredetail' does not have a prima
           <Property Name="IsActive" Type="Int32" />
           <NavigationProperty Name="tblAdmincheck" Relationship="Self.FK_Users_tbladmincheck" FromRole="tblUsers" ToRole="tblAdmincheck" />
           <NavigationProperty Name="tblRole" Relationship="Self.FK_Users_Roles" FromRole="tblUsers" ToRole="tblRoles" />
-          <NavigationProperty Name="tblUsers1" Relationship="Self.FK_tblUsers_tblUsers" FromRole="tblUsers" ToRole="tblUsers1" />
-          <NavigationProperty Name="tblUser1" Relationship="Self.FK_tblUsers_tblUsers" FromRole="tblUsers1" ToRole="tblUsers" />
         </EntityType>
         <EntityType Name="tblOrganizationStructure">
           <Key>
@@ -279,18 +289,6 @@ warning 6002: The table/view 'Hrms.dbo.tblStructuredetail' does not have a prima
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_tblUsers_tblUsers">
-          <End Role="tblUsers" Type="Self.tblUser" Multiplicity="1" />
-          <End Role="tblUsers1" Type="Self.tblUser" Multiplicity="0..1" />
-          <ReferentialConstraint>
-            <Principal Role="tblUsers">
-              <PropertyRef Name="UserId" />
-            </Principal>
-            <Dependent Role="tblUsers1">
-              <PropertyRef Name="UserId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityContainer Name="SqlContext" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="tblAdminchecks" EntityType="Self.tblAdmincheck" />
           <EntitySet Name="tblDepartments" EntityType="Self.tblDepartment" />
@@ -308,12 +306,37 @@ warning 6002: The table/view 'Hrms.dbo.tblStructuredetail' does not have a prima
             <End Role="tblRoles" EntitySet="tblRoles" />
             <End Role="tblUsers" EntitySet="tblUsers" />
           </AssociationSet>
-          <AssociationSet Name="FK_tblUsers_tblUsers" Association="Self.FK_tblUsers_tblUsers">
-            <End Role="tblUsers" EntitySet="tblUsers" />
-            <End Role="tblUsers1" EntitySet="tblUsers" />
-          </AssociationSet>
           <FunctionImport Name="spGetAllUsers" />
+          <EntitySet Name="tblVacancydetails" EntityType="HrmsModel.tblVacancydetail" />
+          <AssociationSet Name="FK_tblVacancydetails_tblDepartment" Association="HrmsModel.FK_tblVacancydetails_tblDepartment">
+            <End Role="tblDepartment" EntitySet="tblDepartments" />
+            <End Role="tblVacancydetail" EntitySet="tblVacancydetails" />
+          </AssociationSet>
         </EntityContainer>
+        <EntityType Name="tblVacancydetail">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="CompanyCode" Type="Int32" />
+          <Property Name="CityCode" Type="Int32" />
+          <Property Name="DepartmentId" Type="Int32" />
+          <Property Name="Position" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Availableseats" Type="Int32" />
+          <NavigationProperty Name="tblDepartment" Relationship="HrmsModel.FK_tblVacancydetails_tblDepartment" FromRole="tblVacancydetail" ToRole="tblDepartment" />
+        </EntityType>
+        <Association Name="FK_tblVacancydetails_tblDepartment">
+          <End Type="HrmsModel.tblDepartment" Role="tblDepartment" Multiplicity="0..1" />
+          <End Type="HrmsModel.tblVacancydetail" Role="tblVacancydetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblDepartment">
+              <PropertyRef Name="DepartmentId" />
+            </Principal>
+            <Dependent Role="tblVacancydetail">
+              <PropertyRef Name="DepartmentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -410,6 +433,18 @@ warning 6002: The table/view 'Hrms.dbo.tblStructuredetail' does not have a prima
             </EntityTypeMapping>
           </EntitySetMapping>
           <FunctionImportMapping FunctionImportName="spGetAllUsers" FunctionName="HrmsModel.Store.spGetAllUsers" />
+          <EntitySetMapping Name="tblVacancydetails">
+            <EntityTypeMapping TypeName="HrmsModel.tblVacancydetail">
+              <MappingFragment StoreEntitySet="tblVacancydetails">
+                <ScalarProperty Name="Availableseats" ColumnName="Availableseats" />
+                <ScalarProperty Name="Position" ColumnName="Position" />
+                <ScalarProperty Name="DepartmentId" ColumnName="DepartmentId" />
+                <ScalarProperty Name="CityCode" ColumnName="CityCode" />
+                <ScalarProperty Name="CompanyCode" ColumnName="CompanyCode" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

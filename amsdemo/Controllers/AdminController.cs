@@ -185,7 +185,7 @@ namespace amsdemo.Controllers
             var Data = (from user in db.tblUsers
                         join emp in db.tblEmployees on user.EmployeeId equals emp.EmployeeId
                         join dep in db.tblDepartments on user.DepartmentId equals dep.DepartmentId
-                        where emp.UserId != null && user.IsActive == null
+                        where emp.UserId != null
                         select new
                         {
                             user.UserId,
@@ -312,6 +312,10 @@ namespace amsdemo.Controllers
             }
             else
             {
+                var rolelist = db.tblRoles.ToList();
+                SelectList list = new SelectList(rolelist, "Id", "RoleName");
+                ViewBag.getrolelist = list;
+
                 TempData["ErrorMessage1"] = "Select from User List";
 
             }

@@ -4,18 +4,19 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="0626180a211e4d87b08353a50d931006" Name="Diagram1">
-        <EntityTypeShape EntityType="HrmsModel.tblAdmincheck" Width="1.5" PointX="0.75" PointY="1.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="HrmsModel.tblDepartment" Width="1.5" PointX="5.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="HrmsModel.tblEmployee" Width="1.5" PointX="2.75" PointY="5.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="HrmsModel.tblEmployeeDetail" Width="1.5" PointX="5.75" PointY="3.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="HrmsModel.tblRole" Width="1.5" PointX="0.75" PointY="5.875" IsExpanded="true" />
+      <Diagram DiagramId="a6e511890b6c47b88888edc3b4aebefe" Name="Diagram1">
+        <EntityTypeShape EntityType="HrmsModel.tblAdmincheck" Width="1.5" PointX="0.75" PointY="1.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="HrmsModel.tblDepartment" Width="1.5" PointX="2.75" PointY="4.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="HrmsModel.tblEmployee" Width="1.5" PointX="4.75" PointY="4.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="HrmsModel.tblEmployeeDetail" Width="1.5" PointX="5.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="HrmsModel.tblRole" Width="1.5" PointX="0.75" PointY="5.625" IsExpanded="true" />
         <EntityTypeShape EntityType="HrmsModel.tblUser" Width="1.5" PointX="3" PointY="1" IsExpanded="true" />
-        <EntityTypeShape EntityType="HrmsModel.tblOrganizationStructure" Width="1.5" PointX="7.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="HrmsModel.tblStructuredetail" Width="1.5" PointX="7.75" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="HrmsModel.tblOrganizationStructure" Width="1.5" PointX="6.75" PointY="4.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="HrmsModel.tblStructuredetail" Width="1.5" PointX="7.75" PointY="0.75" IsExpanded="true" />
         <AssociationConnector Association="HrmsModel.FK_Users_tbladmincheck" ManuallyRouted="false" />
         <AssociationConnector Association="HrmsModel.FK_Users_Roles" ManuallyRouted="false" />
-        <AssociationConnector Association="HrmsModel.FK_tblUsers_tblUsers" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="HrmsModel.tblVacancydetail" Width="1.5" PointX="5" PointY="9.375" />
+        <AssociationConnector Association="HrmsModel.FK_tblVacancydetails_tblDepartment" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

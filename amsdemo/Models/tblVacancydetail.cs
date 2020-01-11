@@ -12,18 +12,15 @@ namespace amsdemo.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class tblUser
+    public partial class tblVacancydetail
     {
-        public int UserId { get; set; }
-        public string UserName { get; set; }
-        public string Password { get; set; }
-        public Nullable<int> RoleId { get; set; }
-        public Nullable<int> AdminId { get; set; }
+        public int Id { get; set; }
+        public Nullable<int> CompanyCode { get; set; }
+        public Nullable<int> CityCode { get; set; }
         public Nullable<int> DepartmentId { get; set; }
-        public Nullable<int> EmployeeId { get; set; }
-        public Nullable<int> IsActive { get; set; }
+        public string Position { get; set; }
+        public Nullable<int> Availableseats { get; set; }
     
-        public virtual tblAdmincheck tblAdmincheck { get; set; }
-        public virtual tblRole tblRole { get; set; }
+        public virtual tblDepartment tblDepartment { get; set; }
     }
 }

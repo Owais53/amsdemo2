@@ -20,78 +20,83 @@
                 {
                     @Html.AntiForgeryToken()
 
-                    <form class="form-horizontal" id="form-sample-1" novalidate="novalidate">
-                        <hr />
-                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <form class="form-horizontal" id="form-sample-1" novalidate="novalidate">
+                    <hr />
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
-                        <div class="form-group row">
-                            @Html.LabelFor(model => model.UserId, "User Id", htmlAttributes: new { @class = "col-sm-2 col-form-label" })
-                            <div class="col-md-10">
-                                @Html.EditorFor(model => model.UserId, new { htmlAttributes = new { @id = "getUserId", @class = "form-control", @name = "Id" } })
-                                @Html.ValidationMessageFor(model => model.UserId, "", new { @class = "text-danger" })
+                    <div class="form-group row">
+
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.UserId, new { htmlAttributes = new { @id = "getUserId", @class = "form-control", @name = "Id", @type = "hidden" } })
+
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-md-offset-2 col-md-10">
+                            <button type="button" class="btn btn-primary btn-bitbucket" data-toggle="modal" data-target="#myModaluser" data-backdrop="false">
+                                Select User to Assign Role
+                            </button>
+                        </div>
+                    </div>
+
+
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label">
+                            User Name
+                        </label>
+                        <div class="col-md-10">
+                            <input type="text" id="getUserName" class="form-control" name="Username" readonly />
+                        </div>
+                    </div>
+
+
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label">
+                            Position
+                        </label>
+                        <div class="col-md-10">
+                            <input type="text" id="getposition" class="form-control" name="Position" readonly />
+                        </div>
+                    </div>
+
+                   
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label">
+                            Department Name
+                        </label>
+                        <div class="col-md-10">
+                            <input type="text" id="getdepname" class="form-control" name="departname" readonly />
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label">
+                            Role Name
+                        </label>
+                        <div class="col-md-8">
+                            @Html.DropDownListFor(model => model.RoleId, (SelectList)ViewBag.getrolelist, "Select Role", new { @id = "getroleId", @class = "form-control select2_demo_2" })
+                        </div>
+                    </div>
+
+
+                    <div class="form-group">
+                        <div class="col-md-10">
+                            <div class="check-list">
+                                <label class="ui-checkbox">
+                                    <input type="checkbox" value="1" name="getadmin" id="getadmin">
+                                    <span class="input-span"></span>Is Admin
+                                </label>
                             </div>
                         </div>
-                        <div class="form-group row">
-                            <div class="col-md-offset-2 col-md-10">
-                                <button type="button" class="btn btn-primary btn-bitbucket" data-toggle="modal" data-target="#myModaluser" data-backdrop="false">
-                                    Select User to Assign Role
-                                </button>
-                            </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-md-offset-2 col-md-10">
+                            <input type="submit" value="Create" class="btn btn-primary" id="btnAdd" />
                         </div>
+                    </div>
 
-                        <div class="form-group row">
-                            @Html.LabelFor(model => model.UserName, "User Name", htmlAttributes: new { @class = "col-sm-2 col-form-label" })
-                            <div class="col-md-10">
-                                @Html.EditorFor(model => model.UserName, new { htmlAttributes = new { @id = "getUserName", @class = "form-control", @name = "name" } })
-                                @Html.ValidationMessageFor(model => model.UserName, "", new { @class = "text-danger" })
-                            </div>
-                        </div>
-
-
-
-                        <div class="form-group row">
-                            <label class="col-sm-2 col-form-label">
-                                Position
-                            </label>
-                            <div class="col-md-10">
-                               <input type="text" id="getposition" class="form-control" name="Position" readonly/>
-                            </div>
-                        </div>
-
-                        <div class="form-group row">
-                            @Html.LabelFor(model => model.DepartmentName, "Department Name", htmlAttributes: new { @class = "col-sm-2 col-form-label" })
-                            <div class="col-md-10">
-                                @Html.EditorFor(model => model.DepartmentName, new { htmlAttributes = new { @id = "getdepname", @class = "form-control", @name = "ConfirmPassword" } })
-                                @Html.ValidationMessageFor(model => model.DepartmentName, "", new { @class = "text-danger" })
-                            </div>
-                        </div>
-
-
-                        <div class="form-group row">
-                            <div class="col-md-8">
-                                @Html.DropDownListFor(model => model.RoleId, (SelectList)ViewBag.getrolelist, "Select Role", new { @id = "getroleId", @class = "form-control select2_demo_2" })
-                            </div>
-                        </div>
-
-
-                        <div class="form-group">
-                            <div class="col-md-10">
-                                <div class="check-list">
-                                    <label class="ui-checkbox">
-                                        <input type="checkbox" value="1" name="getadmin" id="getadmin">
-                                        <span class="input-span"></span>Is Admin
-                                    </label>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <div class="col-md-offset-2 col-md-10">
-                                <input type="submit" value="Create" class="btn btn-primary" id="btnAdd" />
-                            </div>
-                        </div>
-
-                    </form>
+                </form>
                 }
 
                 <div class="container">
