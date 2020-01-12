@@ -17,8 +17,8 @@ namespace amsdemo.ViewModel
         [Required]
         [DataType(DataType.MultilineText)]
         public string ReasonofRequests { get; set; }
-        [Required]
-        public DateTime LastWorkingDate { get; set; }
+        [Required]       
+        public Nullable<System.DateTime> LastWorkingDate { get; set; } 
         public string RequestType { get; set; }
         public string Status { get; set; }
 

@@ -50,7 +50,8 @@ namespace amsdemo.Controllers
                                     s.CityName,
                                     e.EmployeeName,
                                     e.Position,
-                                    d.DepartmentId
+                                    d.DepartmentId,
+                                    e.EmployeeId
 
                                 }).FirstOrDefault();
                                
@@ -66,10 +67,11 @@ namespace amsdemo.Controllers
                         Session["CompanyName"] = user.CompanyName;
                         Session["CityName"] = user.CityName;
                         Session["CompanyCode"] = user.CompanyCode;
-                        Session["CityCode"] = user.CityName;
+                        Session["CityCode"] = user.CityCode;
                         Session["Employeename"] = user.EmployeeName;
                         Session["Position"] = user.Position;
                         Session["DepartmentId"] = user.DepartmentId;
+                        Session["EmployeeId"] = user.EmployeeId;
 
                         TempData["SuccessMessage"] = "Login Successfull";
                         return RedirectToAction("Index", "Home");
@@ -103,7 +105,16 @@ namespace amsdemo.Controllers
             Session["DepartmentName"] = string.Empty;
             Session["RoleName"] = string.Empty;
             Session["isAdmin"] = string.Empty;
-            
+            Session["CompanyName"] = string.Empty;
+            Session["CityName"] = string.Empty;
+            Session["CompanyCode"] = string.Empty;
+            Session["CityCode"] = string.Empty;
+            Session["Employeename"] = string.Empty;
+            Session["Position"] = string.Empty;
+            Session["DepartmentId"] = string.Empty;
+            Session["EmployeeId"] = string.Empty;
+
+
             return RedirectToAction("Login", "Account");
         }
 
