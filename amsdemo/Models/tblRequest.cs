@@ -16,12 +16,12 @@ namespace amsdemo.Models
     {
         public int Id { get; set; }
         public int RequestId { get; set; }
+        public Nullable<int> EmployeeId { get; set; }
         public string RequestType { get; set; }
         public Nullable<System.DateTime> DateofRequest { get; set; }
         public string Status { get; set; }
         public string Respondedby { get; set; }
         public Nullable<System.DateTime> ResponseDate { get; set; }
-        public Nullable<int> EmployeeId { get; set; }
     
         public virtual tblRequestdetail tblRequestdetail { get; set; }
     }

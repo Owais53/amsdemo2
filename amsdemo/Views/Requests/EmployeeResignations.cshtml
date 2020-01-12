@@ -17,9 +17,9 @@
             <div class="tab-pane show active" id="pill-1-1">
                 @using (Html.BeginForm("EmployeeResignations", "Requests", FormMethod.Post))
                 {
-                    
+
                     <div class="col-sm-4 col-form-label" style="left:350px;">
-                          <h4>Job Information</h4>
+                        <h4 style="color:blue;">Job Information</h4>
                     </div>
                     <br />
                     <div class="form-group row" style="left:350px;">
@@ -27,50 +27,61 @@
                             Company:
                         </label>
                         <div class="col-md-10">
-                            <label class="col-sm-2 col-form-label" style="left:350px;">
-                                Company Code
+                            <label class="col-sm-2 col-form-label" style="left:350px; color:red">
+                                @Session["CompanyName"].ToString()
                             </label>
                         </div>
                     </div>
 
                     <div class="form-group row ">
-                        <label class="col-sm-2 col-form-label" style="left:320px;">
+                        <label class="col-sm-2 col-form-label" style="left:320px; ">
                             City:
                         </label>
                         <div class="col-md-10">
-                            <label class="col-sm-2 col-form-label" style="left:350px;">
-                                City
+                            <label class="col-sm-2 col-form-label" style="left:350px; color:red;">
+                                @Session["CityName"].ToString()
                             </label>
                         </div>
                     </div>
 
-                    <div class="form-group row" >
+                    <div class="form-group row">
                         <label class="col-sm-2 col-form-label" style="left:320px;">
                             Department:
                         </label>
                         <div class="col-md-10">
-                            <label class="col-sm-2 col-form-label" style="left:350px;">
-                                Department
+                            <label class="col-sm-2 col-form-label" style="left:350px; color:red;">
+                                @Session["DepartmentName"].ToString()
                             </label>
                         </div>
                     </div>
 
-                    <div class="form-group row" >
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label" style="left:320px;">
+                            Job Title:
+                        </label>
+                        <div class="col-md-10">
+                            <label class="col-sm-2 col-form-label" style="left:350px; color:red;">
+                                @Session["Position"].ToString()
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
                         <label class="col-sm-2 col-form-label" style="left:320px;">
                             Name:
                         </label>
                         <div class="col-md-10">
-                            <label class="col-sm-2 col-form-label" style="left:350px;">
-                                Name
+                            <label class="col-sm-2 col-form-label" style="left:350px; color:red;">
+                                @Session["Employeename"].ToString()
                             </label>
                         </div>
                     </div>
                     <br />
                     <div class="col-sm-4 col-form-label" style="left:350px;">
-                         <h4>Resignation Details</h4>
+                        <h4 style="color:blue;">Resignation Details</h4>
                     </div>
-                   <br />
-                   <br />
+                    <br />
+                    <br />
                     <div class="form-group row">
                         <label class="col-sm-2 col-form-label">
                             Reason of Resignation
@@ -88,13 +99,20 @@
                         <div class="col-md-10">
                             <div class="input-group date">
                                 <span class="input-group-addon bg-white"><i class="fa fa-calendar"></i></span>
-                                @Html.EditorFor(model => model.LastWorkingDate, new { @class = "date form-control",placeholder = "Select Relieving Date",@readonly = "true" })
+                                @Html.EditorFor(model => model.LastWorkingDate, new { @class = "date form-control", placeholder = "Select Relieving Date", @readonly = "true" })
                                 @Html.ValidationMessageFor(model => model.LastWorkingDate, "", new { @class = "text-danger" })
                             </div>
 
                         </div>
+
+                        <div class="form-group">
+                            <div class="col-md-offset-2 col-md-10">
+                                <input type="submit" value="Submit" class="btn btn-primary" />
+                            </div>
+                        </div>
                     </div>
-               
+
+
 
 
                 }

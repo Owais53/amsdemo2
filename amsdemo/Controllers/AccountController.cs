@@ -2,6 +2,7 @@
 using amsdemo.Models;
 using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -28,34 +29,47 @@ namespace amsdemo.Controllers
 
                 if (isActive != null)
                 {
-                    var user1 = context.tblUsers.SqlQuery("Select u.UserName,u.UserId,d.DepartmentName,a.desc,r.RoleName from tblUsers u join tblDepartments d on u.DepartmentId=d.DepartmentId join tblAdmincheck a on u.AdminId=a.AdminId join tblRoles r on u.RoleId=r.Id join tblEmployee e on u.EmployeeId=e.EmployeeId join tblStructuredetail s on e.CityCode=s.CityCode and e.CompanyCode=s.CompanyCode where u.UserName='"+model.UserName+" and u.Password='"+model.Password+"" ).FirstOrDefault();
+                   
                     var user = (from u in context.tblUsers
-                               join d in context.tblDepartments on u.DepartmentId equals d.DepartmentId
-                               join a in context.tblAdminchecks on u.AdminId equals a.AdminId
-                               join r in context.tblRoles on u.RoleId equals r.Id
-                               join e in context.tblEmployees on u.EmployeeId equals e.EmployeeId
-                                                         
-                               where u.UserName == model.UserName && u.Password == model.Password
-                               select new
-                               {
-                                   u.UserName,
-                                   u.UserId,
-                                   d.DepartmentName,
-                                   a.desc,
-                                   r.RoleName
-                               }).FirstOrDefault();
+                                join d in context.tblDepartments on u.DepartmentId equals d.DepartmentId
+                                join a in context.tblAdminchecks on u.AdminId equals a.AdminId
+                                join r in context.tblRoles on u.RoleId equals r.Id
+                                join e in context.tblEmployees on u.EmployeeId equals e.EmployeeId
+                                join s in context.tblStructuredetails on e.CompanyCode equals s.CompanyCode 
+                                where u.UserName == model.UserName && u.Password == model.Password
+                                select new
+                                {
+                                    u.UserName,
+                                    u.UserId,
+                                    d.DepartmentName,
+                                    a.desc,
+                                    r.RoleName,
+                                    s.CompanyCode,
+                                    s.CompanyName,
+                                    s.CityCode,
+                                    s.CityName,
+                                    e.EmployeeName,
+                                    e.Position,
+                                    d.DepartmentId
+
+                                }).FirstOrDefault();
+                               
 
                    
-                    if (user1 != null)
+                    if (user != null)
                     {
                         Session["UserName"] = user.UserName;
                         Session["UserId"] = user.UserId;
                         Session["DepartmentName"] = user.DepartmentName;
                         Session["RoleName"] = user.RoleName;
                         Session["isAdmin"] = user.desc;
-                        Session["DepartmentName"] = user.DepartmentName;
-                        Session["RoleName"] = user.RoleName;
-                        Session["isAdmin"] = user.desc;
+                        Session["CompanyName"] = user.CompanyName;
+                        Session["CityName"] = user.CityName;
+                        Session["CompanyCode"] = user.CompanyCode;
+                        Session["CityCode"] = user.CityName;
+                        Session["Employeename"] = user.EmployeeName;
+                        Session["Position"] = user.Position;
+                        Session["DepartmentId"] = user.DepartmentId;
 
                         TempData["SuccessMessage"] = "Login Successfull";
                         return RedirectToAction("Index", "Home");

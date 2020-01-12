@@ -30,8 +30,8 @@ namespace amsdemo.Models
         public string ReasonofRequest { get; set; }
         public Nullable<System.DateTime> LastWorkingDate { get; set; }
     
+        public virtual tblEmployee tblEmployee { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tblRequest> tblRequests { get; set; }
-        public virtual tblEmployee tblEmployee { get; set; }
     }
 }
