@@ -276,7 +276,9 @@
                         <ul class="nav-2-level collapse">
                             <li>@Html.ActionLink("Create Users", "CreateUser", "Admin")</li>
                             <li>@Html.ActionLink("Assign Role", "Assignroles", "Admin")</li>
-                            <li>@Html.ActionLink("Resign", "EmployeeResignations", "Requests")</li>
+                            <li>@Html.ActionLink("Resignation", "EmployeeResignations", "Requests")</li>
+                            <li>@Html.ActionLink("View Submitted Requests", "SubmittedRequests", "Requests")</li>
+                            <li>@Html.ActionLink("View Requests", "RequestList", "Requests")</li>
 
                             <li>
                                 <a href="charts_flot.html">Flot Charts</a>
@@ -566,15 +568,12 @@
     <!-- PAGE LEVEL SCRIPTS-->
     <script src="~/Scripts/dashboard_1_demo.js" type="text/javascript"></script>
     <script src="~/Scripts/datatables.min.js"></script>
-    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.validate.min.js"></script>  
     <script src="~/Scripts/sweetalert.min.js"></script>
-    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script> 
     <script src="~/Scripts/alertify.min.js"></script>
-    <script src="~/Scripts/notify.min.js"></script>
-    <script src="~/Scripts/bootstrap-datepicker.min.js"></script>
-    <script src="~/Scripts/bootstrap-timepicker.min.js"></script>
-    <script src="~/Scripts/jquery-ui-1.12.1.js"></script>
-    <script src="~/Scripts/datemethod.js"></script>
+    <script src="~/Scripts/notify.min.js"></script>  
+    <script src="~/Scripts/jquery-ui-1.12.1.js"></script> 
     @RenderSection("scripts", required: false)
 </body>
 </html>

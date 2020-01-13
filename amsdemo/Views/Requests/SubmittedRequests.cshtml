@@ -1,0 +1,78 @@
+﻿
+@{
+    ViewBag.Title = "Submitted Requests";
+}
+
+<div class="ibox">
+
+    <div class="ibox-body">
+        <ul class="nav nav-pills">
+            <li class="nav-item">
+                <a class="nav-link active" href="#pill-1-1" data-toggle="tab">View Requests</a>
+            </li>
+
+        </ul>
+        <div class="tab-content">
+            <div class="tab-pane show active" id="pill-1-1">
+
+                <table class="table-hover dataTable table-striped table-responsive" id="subReqlist">
+                    <thead>
+                        <tr style="background-color:#3d566e; color:#ecf0f1">
+                            <th>
+                                Request Type
+                            </th>
+                            <th>
+                                Date of Request
+                            </th>
+                          
+                            <th>
+                                Status
+                            </th>
+
+                        </tr>
+                    </thead>
+                </table>
+
+
+
+
+            </div>
+
+
+
+        </div>
+    </div>
+</div>
+
+@section scripts{
+    <script>
+       $(function () {
+            var successMessage = '@TempData["SuccessMessage"]'
+            if (successMessage != '')
+                alertify.success(successMessage);
+        });
+    </script>
+    <script type="text/javascript">
+        var Popup, dataTable;
+        $(function () {
+            $('#subReqlist').DataTable({
+                pageLength: 5,
+                "ajax": {
+                    "url": '/Requests/subRequestList',
+                    "type": "get",
+                    "datatype": "json"
+                },
+                "columns": [
+
+                    { "data": "RequestType", "authowidth": false },
+                    { "data": "DateofRequest", "authowidth": false },
+                    { "data": "Status", "authowidth": false }
+
+
+                ]
+            });
+
+        });
+    </script>
+
+}

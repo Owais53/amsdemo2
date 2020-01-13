@@ -77,7 +77,15 @@ namespace amsdemo.Controllers
         {
             using (SqlContext sqlContext = new SqlContext())
             {
-                var Data = sqlContext.tblDepartments.ToList();
+
+                var Data = (from user in context.tblDepartments
+                            select new
+                            {
+                                user.DepartmentId,
+                                user.DepartmentName
+
+                            }).ToList();
+
 
                 return Json(new { data = Data }, JsonRequestBehavior.AllowGet);
             }

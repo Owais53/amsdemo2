@@ -772,6 +772,8 @@
     <Content Include="Views\Admin\AssignrolesPartial.cshtml" />
     <Content Include="Views\Admin\Assignroles.cshtml" />
     <Content Include="Views\Requests\EmployeeResignations.cshtml" />
+    <Content Include="Views\Requests\SubmittedRequests.cshtml" />
+    <Content Include="Views\Requests\RequestList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

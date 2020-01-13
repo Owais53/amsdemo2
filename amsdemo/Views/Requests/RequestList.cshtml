@@ -1,0 +1,83 @@
+﻿
+@{
+    ViewBag.Title = "Request List";
+}
+
+<div class="ibox">
+
+    <div class="ibox-body">
+        <ul class="nav nav-pills">
+            <li class="nav-item">
+                <a class="nav-link active" href="#pill-1-1" data-toggle="tab">View Requests</a>
+            </li>
+
+        </ul>
+        <div class="tab-content">
+            <div class="tab-pane show active" id="pill-1-1">
+
+                <table class="table-hover dataTable table-striped table-responsive" id="Reqlist">
+                    <thead>
+                        <tr style="background-color:#3d566e; color:#ecf0f1">
+                            <th>
+                                Employee Name
+                            </th>
+                            <th>
+                                Department
+                            </th>
+
+                            <th>
+                                Request Type
+                            </th>
+                            <th>
+                                Action
+                            </th>
+
+                        </tr>
+                    </thead>
+                </table>
+
+
+
+
+            </div>
+
+
+
+        </div>
+    </div>
+</div>
+
+@section scripts{
+
+    <script type="text/javascript">
+        var Popup, dataTable;
+        $(function () {
+            $('#Reqlist').DataTable({
+                pageLength: 5,
+                "ajax": {
+                    "url": '/Requests/ReqList',
+                    "type": "get",
+                    "datatype": "json"
+                },
+                "columns": [
+
+                    { "data": "EmployeeName", "authowidth": false },
+                    { "data": "DepartmentName", "authowidth": false },
+                    { "data": "RequestType", "authowidth": false },
+                    {  "data": "RequestId", "render": function (data) {
+                          return "<a class='btn btn-primary'><i class='fa fa-pencil'></i>View Detail</a>"
+                      },
+
+                      "orderable": false,
+                        "width": "150px"
+                    }
+
+
+                ]
+            });
+
+        });
+    </script>
+
+
+}

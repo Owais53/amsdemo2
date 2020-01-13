@@ -193,21 +193,23 @@
         </div>
         </div>
     </div>
-                @section scripts{
-                    <script>
+@section scripts{
+      <script>
        $(function () {
             var successMessage = '@TempData["SuccessMessage1"]'
             if (successMessage != '')
                 alertify.success(successMessage);
         });
-                    </script>
-                    <script>
+
+      </script>
+        <script>
         $(function () {
             var errorMessage = '@TempData["ErrorMessage1"]'
             if (errorMessage != '')
                 alertify.error(errorMessage);
         });
-                    </script>
+
+        </script>
 
                     <script type="text/javascript">
                         var Popup, dataTable;
