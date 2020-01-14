@@ -8,5 +8,8 @@
     @if (Session["UserName"] != null)
     {
         <text> Welcome @Session["UserId"].ToString() </text>
+        <text> Welcome @Session["CompanyCode"].ToString() </text>
+        <text> Welcome @Session["CityCode"].ToString() </text>
+
     }
 </fieldset>

@@ -65,7 +65,7 @@
                     { "data": "DepartmentName", "authowidth": false },
                     { "data": "RequestType", "authowidth": false },
                     {  "data": "RequestId", "render": function (data) {
-                          return "<a class='btn btn-primary'><i class='fa fa-pencil'></i>View Detail</a>"
+                          return "<a class='btn btn-primary' href='@Url.Action("RequestDetail","Requests")/" + data +"' >View Detail</a>"
                       },
 
                       "orderable": false,
@@ -77,6 +77,9 @@
             });
 
         });
+
+
+
     </script>
 
 

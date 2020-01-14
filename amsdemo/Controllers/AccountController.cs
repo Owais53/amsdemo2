@@ -35,7 +35,7 @@ namespace amsdemo.Controllers
                                 join a in context.tblAdminchecks on u.AdminId equals a.AdminId
                                 join r in context.tblRoles on u.RoleId equals r.Id
                                 join e in context.tblEmployees on u.EmployeeId equals e.EmployeeId
-                                join s in context.tblStructuredetails on e.CompanyCode equals s.CompanyCode 
+                                join s in context.tblStructuredetails on e.Id equals s.Id
                                 where u.UserName == model.UserName && u.Password == model.Password
                                 select new
                                 {
@@ -44,9 +44,9 @@ namespace amsdemo.Controllers
                                     d.DepartmentName,
                                     a.desc,
                                     r.RoleName,
-                                    s.CompanyCode,
+                                    e.CompanyCode,
                                     s.CompanyName,
-                                    s.CityCode,
+                                    e.CityCode,
                                     s.CityName,
                                     e.EmployeeName,
                                     e.Position,

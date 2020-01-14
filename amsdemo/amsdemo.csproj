@@ -774,6 +774,7 @@
     <Content Include="Views\Requests\EmployeeResignations.cshtml" />
     <Content Include="Views\Requests\SubmittedRequests.cshtml" />
     <Content Include="Views\Requests\RequestList.cshtml" />
+    <Content Include="Views\Requests\RequestDetail.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

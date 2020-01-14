@@ -131,7 +131,44 @@ namespace amsdemo.Controllers
             return Json(new { data = Data }, JsonRequestBehavior.AllowGet);
         }
 
+        [HttpGet]
+        public ActionResult RequestDetail(int id = 0)
+        {
+            if (id == 0)
+                return View(new RequestVM());
+            else
+            {
 
+
+                RequestVM rd = (from d in db.tblRequestdetails
+                                join req in db.tblRequests on d.RequestId equals req.RequestId
+                                join emp in db.tblEmployees on d.EmployeeId equals emp.EmployeeId
+                                join sd in db.tblStructuredetails on emp.Id equals sd.Id
+                                join dep in db.tblDepartments on d.DepartmentId equals dep.DepartmentId
+                                where d.RequestId == id
+                                select new RequestVM
+                                {
+
+
+                                    CompanyCode = Convert.ToInt32(d.CompanyCode),
+                                    CityCode = Convert.ToInt32(d.CityCode),
+                                    CityName = sd.CityName,
+                                    CompanyName = sd.CompanyName,
+                                    DepartmentId = Convert.ToInt32(d.DepartmentId),
+                                    DepartmentName = dep.DepartmentName,
+                                    Position = d.Position,
+                                    ReasonofRequests = d.ReasonofRequest,
+                                    RequestType = req.RequestType,
+                                    DateofRequest = Convert.ToDateTime(req.DateofRequest),
+                                    LastWorkingDate = Convert.ToDateTime(d.LastWorkingDate)
+
+
+                                }).FirstOrDefault();
+
+                return View(rd);
+            }
+
+        }
 
     }
 }
