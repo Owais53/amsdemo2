@@ -148,9 +148,9 @@ namespace amsdemo.Controllers
                                 where d.RequestId == id
                                 select new RequestVM
                                 {
+                                    
 
-
-                                    CompanyCode = Convert.ToInt32(d.CompanyCode),
+                                   CompanyCode = Convert.ToInt32(d.CompanyCode),
                                     CityCode = Convert.ToInt32(d.CityCode),
                                     CityName = sd.CityName,
                                     CompanyName = sd.CompanyName,
