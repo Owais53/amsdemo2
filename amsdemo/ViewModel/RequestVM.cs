@@ -10,7 +10,7 @@ namespace amsdemo.ViewModel
     public class RequestVM
     {
 
-       
+        private readonly SqlContext db = new SqlContext();
 
         public int CompanyCode { get; set; }
         public int CityCode { get; set; }
@@ -32,5 +32,6 @@ namespace amsdemo.ViewModel
         public string RequestType { get; set; }
         public string Status { get; set; }
         public int RequestId { get; set; }
+        
     }
 }

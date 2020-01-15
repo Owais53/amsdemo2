@@ -23,6 +23,99 @@
 
                     @Html.HiddenFor(model => model.RequestId)
 
+
+                    <div class="col-sm-4 col-form-label" style="left:350px;">
+                        <h4 style="color:blue;">Resignation Details</h4>
+                    </div>
+                    <br />
+                    <div class="form-group row" style="left:350px;">
+                        <label class="col-sm-2 col-form-label" style="left:320px; color:red;">
+                            Company:
+                        </label>
+                        <div class="col-md-10">
+                            <label class="col-sm-2 col-form-label" style="left:350px; ">
+                                @Html.DisplayFor(model => model.CompanyName)
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="form-group row ">
+                        <label class="col-sm-2 col-form-label" style="left:320px; color:red;">
+                            City:
+                        </label>
+                        <div class="col-md-10">
+                            <label class="col-sm-2 col-form-label" style="left:350px;">
+                                @Html.DisplayFor(model => model.CityName)
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label" style="left:320px; color:red;">
+                            Department:
+                        </label>
+                        <div class="col-md-10">
+                            <label class="col-sm-2 col-form-label" style="left:350px; ">
+                                @Html.DisplayFor(model => model.DepartmentName)
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label" style="left:320px; color:red;">
+                            Job Title:
+                        </label>
+                        <div class="col-md-10">
+                            <label class="col-sm-2 col-form-label" style="left:350px; ">
+                                @Html.DisplayFor(model => model.Position)
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label" style="left:320px; color:red;">
+                            Name:
+                        </label>
+                        <div class="col-md-10">
+                            <label class="col-sm-2 col-form-label" style="left:350px; ">
+                                @Html.DisplayFor(model => model.EmployeeName)
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label" style="left:320px; color:red;">
+                            Reason of Resignation:
+                        </label>
+                        <div class="col-md-10">
+                            <label class="col-sm-2 col-form-label" style="left:350px; ">
+                                @Html.DisplayFor(model => model.ReasonofRequests)
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label" style="left:320px; color:red;">
+                            Request Date:
+                        </label>
+                        <div class="col-md-10">
+                            <label class="col-sm-2 col-form-label" style="left:350px; ">
+                                @Html.DisplayFor(model => model.DateofRequest)
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label" style="left:320px; color:red;">
+                            Last Working Date:
+                        </label>
+                        <div class="col-md-10">
+                            <label class="col-sm-2 col-form-label" style="left:350px; ">
+                                @Html.DisplayFor(model => model.LastWorkingDate)
+                            </label>
+                        </div>
+                    </div>
+
                     <div class="form-group">
 
                         @Html.LabelFor(model => model.CompanyCode, new { @class = "control-label" })
@@ -38,27 +131,13 @@
                         @Html.ValidationMessageFor(a => a.CityCode)
                     </div>
 
-                    <div class="form-group">
-
-                        @Html.LabelFor(model => model.CityName, new { @class = "control-label" })
-                        @Html.EditorFor(a => a.CityCode, new { htmlAttributes = new { @class = "form-control" } })
-                        @Html.ValidationMessageFor(a => a.CityCode)
-                    </div>
 
                     <div class="form-group">
 
-                        @Html.LabelFor(model => model.CompanyName, new { @class = "control-label" })
-                        @Html.EditorFor(a => a.CompanyName, new { htmlAttributes = new { @class = "form-control" } })
-                        @Html.ValidationMessageFor(a => a.CompanyName)
+                        @Html.LabelFor(model => model.DepartmentId, new { @class = "control-label" })
+                        @Html.EditorFor(a => a.DepartmentId, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(a => a.DepartmentId)
                     </div>
-
-                    <div class="form-group">
-
-                        @Html.LabelFor(model => model.DepartmentName, new { @class = "control-label" })
-                        @Html.EditorFor(a => a.DepartmentName, new { htmlAttributes = new { @class = "form-control" } })
-                        @Html.ValidationMessageFor(a => a.DepartmentName)
-                    </div>
-
 
                     <div class="form-group">
 
@@ -66,8 +145,6 @@
                         @Html.EditorFor(a => a.Position, new { htmlAttributes = new { @class = "form-control" } })
                         @Html.ValidationMessageFor(a => a.Position)
                     </div>
-
-
 
 
                     <div class="form-group">
