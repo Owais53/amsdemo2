@@ -148,13 +148,42 @@
 
 
                     <div class="form-group">
-                        <input class="btn btn-primary" type="submit" value="Save" />
+                        <input class="btn btn-primary" type="submit" value="Approve" />
                     </div>
 
 
+                }
+                @using (Html.BeginForm("Reject", "Requests", FormMethod.Post))
+                {
+                    @Html.EditorFor(model => model.RequestId, new { htmlAttributes = new { @id = "getReqId", @class = "form-control", @name = "Id", @type = "hidden" } })
+
+
+
+                    <div class="form-group">
+                        <input class="btn btn-danger" type="submit" value="Reject" />
+                    </div>
 
                 }
             </div>
+        </div>
+    </div>
 </div>
-</div>
-</div>
+@section scripts{
+
+    <script>
+       $(function () {
+            var successMessage = '@TempData["SuccessMessage1"]'
+            if (successMessage != '')
+                alertify.success(successMessage);
+        });
+
+    </script>
+    <script>
+        $(function () {
+            var errorMessage = '@TempData["ErrorMessage1"]'
+            if (errorMessage != '')
+                alertify.error(errorMessage);
+        });
+
+    </script>
+}

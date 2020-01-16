@@ -93,7 +93,7 @@ namespace amsdemo.Controllers
             var Data = (from req in db.tblRequestdetails
                         join detail in db.tblRequests on req.RequestId equals detail.RequestId
                         join dep in db.tblDepartments on req.DepartmentId equals dep.DepartmentId
-                        where req.CityCode == Cic && req.CompanyCode == Coc
+                        where req.CityCode == Cic && req.CompanyCode == Coc && detail.Status =="Pending"
                         select new
                         {
                             req.EmployeeName,
@@ -153,7 +153,7 @@ namespace amsdemo.Controllers
                                             select new
                                             {
 
-
+                                                d.RequestId,
                                                 d.CompanyCode,
                                                 d.CityCode,
                                                 sd.CityName,
@@ -169,6 +169,7 @@ namespace amsdemo.Controllers
 
 
                                             }).Select(c=>new RequestVM() {
+                                                RequestId = (int)(c.RequestId),
                                                 CompanyCode = (int)(c.CompanyCode),
                                                 CityCode = (int)(c.CityCode),
                                                 CityName = c.CityName,
@@ -192,6 +193,40 @@ namespace amsdemo.Controllers
             }
 
         }
+        [HttpPost]
+        public ActionResult RequestDetail(RequestVM vM)
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult Reject(RequestVM vM)
+        {
+            var ename = Session["EmployeeName"].ToString();
+            var reqid = db.tblRequests.Where(x => x.RequestId == vM.RequestId).FirstOrDefault();
+            if (reqid != null)
+            {
+                List<object> lst = new List<object>();
+                lst.Add(ename);
+                lst.Add(DateTime.Now);
+                lst.Add(vM.RequestId);
+                object[] item = lst.ToArray();
+                int output = db.Database.ExecuteSqlCommand("Update tblRequests set Status='Rejected',Respondedby=@p0,ResponseDate=@p1 where RequestId=@p2", item);
+                if (output > 0)
+                {
+                    TempData["SuccessMessage1"] = "Resignation Rejected";
+                    return RedirectToAction("RequestList");
+                }
+            }
+            else
+            {
+                TempData["ErrorMessage1"] = "Internal Error";
+            }
+
+            return View("RequestDetail");
+        }
+
+
 
     }
 }

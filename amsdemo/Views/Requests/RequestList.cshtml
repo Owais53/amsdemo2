@@ -48,7 +48,14 @@
 </div>
 
 @section scripts{
+    <script>
+       $(function () {
+            var successMessage = '@TempData["SuccessMessage1"]'
+            if (successMessage != '')
+                alertify.success(successMessage);
+        });
 
+    </script>
     <script type="text/javascript">
         var Popup, dataTable;
         $(function () {
