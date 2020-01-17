@@ -24,6 +24,7 @@ namespace amsdemo.Models
         public Nullable<int> CompanyCode { get; set; }
         public Nullable<int> CityCode { get; set; }
         public Nullable<int> DepartmentId { get; set; }
+        public Nullable<int> PositionId { get; set; }
         public string Position { get; set; }
         public Nullable<int> EmployeeId { get; set; }
         public string EmployeeName { get; set; }

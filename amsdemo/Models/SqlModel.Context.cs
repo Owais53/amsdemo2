@@ -31,6 +31,7 @@ namespace amsdemo.Models
         public virtual DbSet<tblDepartment> tblDepartments { get; set; }
         public virtual DbSet<tblEmployee> tblEmployees { get; set; }
         public virtual DbSet<tblEmployeeDetail> tblEmployeeDetails { get; set; }
+        public virtual DbSet<tblPosition> tblPositions { get; set; }
         public virtual DbSet<tblRequestdetail> tblRequestdetails { get; set; }
         public virtual DbSet<tblRequest> tblRequests { get; set; }
         public virtual DbSet<tblRole> tblRoles { get; set; }
@@ -38,6 +39,11 @@ namespace amsdemo.Models
         public virtual DbSet<tblUser> tblUsers { get; set; }
         public virtual DbSet<tblVacancydetail> tblVacancydetails { get; set; }
         public virtual DbSet<tblOrganizationStructure> tblOrganizationStructures { get; set; }
+    
+        public virtual int sp_BackEndAvailablity()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_BackEndAvailablity");
+        }
     
         public virtual int spGetAllUsers()
         {

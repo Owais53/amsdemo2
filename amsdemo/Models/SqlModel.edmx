@@ -60,6 +60,14 @@ warning 6002: The table/view 'Hrms.dbo.tblOrganizationStructure' does not have a
           <Property Name="StorageLocation" Type="nvarchar(max)" />
           <Property Name="PurchaseOrganization" Type="nvarchar(max)" />
         </EntityType>
+        <EntityType Name="tblPosition">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DepartmentId" Type="int" />
+          <Property Name="Position" Type="varchar(max)" />
+        </EntityType>
         <EntityType Name="tblRequestdetail">
           <Key>
             <PropertyRef Name="RequestId" />
@@ -68,6 +76,7 @@ warning 6002: The table/view 'Hrms.dbo.tblOrganizationStructure' does not have a
           <Property Name="CompanyCode" Type="int" />
           <Property Name="CityCode" Type="int" />
           <Property Name="DepartmentId" Type="int" />
+          <Property Name="PositionId" Type="int" />
           <Property Name="Position" Type="nvarchar(max)" />
           <Property Name="EmployeeId" Type="int" />
           <Property Name="EmployeeName" Type="nvarchar(max)" />
@@ -125,7 +134,7 @@ warning 6002: The table/view 'Hrms.dbo.tblOrganizationStructure' does not have a
           <Property Name="CompanyCode" Type="int" />
           <Property Name="CityCode" Type="int" />
           <Property Name="DepartmentId" Type="int" />
-          <Property Name="Position" Type="nvarchar(max)" />
+          <Property Name="PositionId" Type="int" />
           <Property Name="Availableseats" Type="int" />
         </EntityType>
         <Association Name="FK_tblEmployee_tblDepartments">
@@ -224,12 +233,14 @@ warning 6002: The table/view 'Hrms.dbo.tblOrganizationStructure' does not have a
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Function Name="sp_BackEndAvailablity" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="spGetAllUsers" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <EntityContainer Name="HrmsModelStoreContainer">
           <EntitySet Name="tblAdmincheck" EntityType="Self.tblAdmincheck" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblDepartments" EntityType="Self.tblDepartments" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblEmployee" EntityType="Self.tblEmployee" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblEmployeeDetail" EntityType="Self.tblEmployeeDetail" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblPosition" EntityType="Self.tblPosition" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblRequestdetail" EntityType="Self.tblRequestdetail" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblRequests" EntityType="Self.tblRequests" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblRoles" EntityType="Self.tblRoles" Schema="dbo" store:Type="Tables" />
@@ -334,6 +345,14 @@ warning 6002: The table/view 'Hrms.dbo.tblOrganizationStructure' does not have a
           <Property Name="LastLeaveDate" Type="DateTime" Precision="3" />
           <NavigationProperty Name="tblEmployee" Relationship="Self.FK_tblEmployeeDetail_tblEmployee" FromRole="tblEmployeeDetail" ToRole="tblEmployee" />
         </EntityType>
+        <EntityType Name="tblPosition">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DepartmentId" Type="Int32" />
+          <Property Name="Position" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+        </EntityType>
         <EntityType Name="tblRequestdetail">
           <Key>
             <PropertyRef Name="RequestId" />
@@ -342,6 +361,7 @@ warning 6002: The table/view 'Hrms.dbo.tblOrganizationStructure' does not have a
           <Property Name="CompanyCode" Type="Int32" />
           <Property Name="CityCode" Type="Int32" />
           <Property Name="DepartmentId" Type="Int32" />
+          <Property Name="PositionId" Type="Int32" />
           <Property Name="Position" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="EmployeeId" Type="Int32" />
           <Property Name="EmployeeName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
@@ -406,7 +426,7 @@ warning 6002: The table/view 'Hrms.dbo.tblOrganizationStructure' does not have a
           <Property Name="CompanyCode" Type="Int32" />
           <Property Name="CityCode" Type="Int32" />
           <Property Name="DepartmentId" Type="Int32" />
-          <Property Name="Position" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="PositionId" Type="Int32" />
           <Property Name="Availableseats" Type="Int32" />
           <NavigationProperty Name="tblDepartment" Relationship="Self.FK_tblVacancydetails_tblDepartment" FromRole="tblVacancydetails" ToRole="tblDepartments" />
         </EntityType>
@@ -520,6 +540,7 @@ warning 6002: The table/view 'Hrms.dbo.tblOrganizationStructure' does not have a
           <EntitySet Name="tblDepartments" EntityType="Self.tblDepartment" />
           <EntitySet Name="tblEmployees" EntityType="Self.tblEmployee" />
           <EntitySet Name="tblEmployeeDetails" EntityType="Self.tblEmployeeDetail" />
+          <EntitySet Name="tblPositions" EntityType="Self.tblPosition" />
           <EntitySet Name="tblRequestdetails" EntityType="Self.tblRequestdetail" />
           <EntitySet Name="tblRequests" EntityType="Self.tblRequest" />
           <EntitySet Name="tblRoles" EntityType="Self.tblRole" />
@@ -559,6 +580,7 @@ warning 6002: The table/view 'Hrms.dbo.tblOrganizationStructure' does not have a
             <End Role="tblRoles" EntitySet="tblRoles" />
             <End Role="tblUsers" EntitySet="tblUsers" />
           </AssociationSet>
+          <FunctionImport Name="sp_BackEndAvailablity" />
           <FunctionImport Name="spGetAllUsers" />
         </EntityContainer>
       </Schema>
@@ -615,6 +637,15 @@ warning 6002: The table/view 'Hrms.dbo.tblOrganizationStructure' does not have a
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="tblPositions">
+            <EntityTypeMapping TypeName="HrmsModel.tblPosition">
+              <MappingFragment StoreEntitySet="tblPosition">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="DepartmentId" ColumnName="DepartmentId" />
+                <ScalarProperty Name="Position" ColumnName="Position" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="tblRequestdetails">
             <EntityTypeMapping TypeName="HrmsModel.tblRequestdetail">
               <MappingFragment StoreEntitySet="tblRequestdetail">
@@ -622,6 +653,7 @@ warning 6002: The table/view 'Hrms.dbo.tblOrganizationStructure' does not have a
                 <ScalarProperty Name="CompanyCode" ColumnName="CompanyCode" />
                 <ScalarProperty Name="CityCode" ColumnName="CityCode" />
                 <ScalarProperty Name="DepartmentId" ColumnName="DepartmentId" />
+                <ScalarProperty Name="PositionId" ColumnName="PositionId" />
                 <ScalarProperty Name="Position" ColumnName="Position" />
                 <ScalarProperty Name="EmployeeId" ColumnName="EmployeeId" />
                 <ScalarProperty Name="EmployeeName" ColumnName="EmployeeName" />
@@ -684,7 +716,7 @@ warning 6002: The table/view 'Hrms.dbo.tblOrganizationStructure' does not have a
                 <ScalarProperty Name="CompanyCode" ColumnName="CompanyCode" />
                 <ScalarProperty Name="CityCode" ColumnName="CityCode" />
                 <ScalarProperty Name="DepartmentId" ColumnName="DepartmentId" />
-                <ScalarProperty Name="Position" ColumnName="Position" />
+                <ScalarProperty Name="PositionId" ColumnName="PositionId" />
                 <ScalarProperty Name="Availableseats" ColumnName="Availableseats" />
               </MappingFragment>
             </EntityTypeMapping>
@@ -699,6 +731,7 @@ warning 6002: The table/view 'Hrms.dbo.tblOrganizationStructure' does not have a
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="sp_BackEndAvailablity" FunctionName="HrmsModel.Store.sp_BackEndAvailablity" />
           <FunctionImportMapping FunctionImportName="spGetAllUsers" FunctionName="HrmsModel.Store.spGetAllUsers" />
         </EntityContainerMapping>
       </Mapping>
