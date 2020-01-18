@@ -131,6 +131,38 @@ namespace amsdemo.Controllers
             return Json(new { data = Data }, JsonRequestBehavior.AllowGet);
         }
 
+        public ActionResult VacancyAvailablity()
+        {
+
+
+            return View();
+        }
+        public ActionResult vacantAvailList()
+        {
+            var Coc = Convert.ToInt32(Session["CompanyCode"].ToString());
+            var Cic = Convert.ToInt32(Session["CityCode"].ToString());
+            var Data = (from req in db.tblRequestdetails
+                        join detail in db.tblRequests on req.RequestId equals detail.RequestId
+                        join dep in db.tblDepartments on req.DepartmentId equals dep.DepartmentId
+                        join emp in db.tblEmployees on req.EmployeeId equals emp.EmployeeId
+                        join s in db.tblStructuredetails on emp.Id equals s.Id
+                        join d in db.tblVacancydetails on dep.DepartmentId equals d.DepartmentId
+                        where req.CityCode == Cic && req.CompanyCode == Coc && detail.Status == "Approved"
+                        select new
+                        {
+                            d.Id,
+                            s.CompanyName,
+                            s.CityName,
+                            dep.DepartmentName,
+                            req.Position,
+                            d.SeatAvailablityDate
+
+                        }).ToList();
+
+            return Json(new { data = Data }, JsonRequestBehavior.AllowGet);
+
+        }
+
         [HttpGet]
         public ActionResult RequestDetail(int id = 0)
         {
@@ -161,6 +193,7 @@ namespace amsdemo.Controllers
                                                 d.EmployeeName,
                                                 d.DepartmentId,
                                                 dep.DepartmentName,
+                                                d.PositionId,
                                                 d.Position,
                                                 d.ReasonofRequest,
                                                 req.RequestType,
@@ -177,11 +210,13 @@ namespace amsdemo.Controllers
                                                 DepartmentId = (int)(c.DepartmentId),
                                                 DepartmentName = c.DepartmentName,
                                                 EmployeeName = c.EmployeeName,
+                                                PositionId = (int)c.PositionId,
                                                 Position = c.Position,
                                                 ReasonofRequests = c.ReasonofRequest,
                                                 RequestType = c.RequestType,
                                                 DateofRequest = (DateTime)(c.DateofRequest),
-                                                LastWorkingDate = (DateTime)(c.LastWorkingDate)
+                                                LastWorkingDate = (DateTime)(c.LastWorkingDate),
+                                                date = (DateTime)(c.LastWorkingDate)
 
 
                                             }).FirstOrDefault();
@@ -196,6 +231,35 @@ namespace amsdemo.Controllers
         [HttpPost]
         public ActionResult RequestDetail(RequestVM vM)
         {
+            var ename = Session["EmployeeName"].ToString();
+            var vacantdetail = new tblVacancydetail()
+            {
+                CompanyCode = vM.CompanyCode,
+                CityCode = vM.CityCode,
+                DepartmentId = vM.DepartmentId,
+                PositionId = vM.PositionId,
+                SeatAvailablityDate = vM.date,
+            };
+            db.tblVacancydetails.Add(vacantdetail);
+            db.SaveChanges();
+
+            if(vacantdetail!= null)
+            {
+                List<object> lst = new List<object>();
+                lst.Add(ename);
+                lst.Add(DateTime.Now);
+                lst.Add(vM.RequestId);
+                object[] item = lst.ToArray();
+                int output = db.Database.ExecuteSqlCommand("Update tblRequests set Status='Approved',Respondedby=@p0,ResponseDate=@p1 where RequestId=@p2", item);
+                if (output > 0)
+                {
+                    TempData["SuccessMessage1"] = "Resignation Approved";
+                    return RedirectToAction("RequestList");
+                }
+
+                
+            }
+
             return View();
         }
 
@@ -220,7 +284,7 @@ namespace amsdemo.Controllers
             }
             else
             {
-                TempData["ErrorMessage1"] = "Internal Error";
+                TempData["ErrorMessage1"] = "You have not selected any request from Request List";
             }
 
             return View("RequestDetail");

@@ -1,6 +1,6 @@
 ﻿
 @{
-    ViewBag.Title = "Submitted Requests";
+    ViewBag.Title = "VacancyAvailablity";
 }
 
 <div class="ibox">
@@ -8,26 +8,32 @@
     <div class="ibox-body">
         <ul class="nav nav-pills">
             <li class="nav-item">
-                <a class="nav-link active" href="#pill-1-1" data-toggle="tab">View Requests</a>
+                <a class="nav-link active" href="#pill-1-1" data-toggle="tab">View Vacancy Status</a>
             </li>
 
         </ul>
         <div class="tab-content">
             <div class="tab-pane show active" id="pill-1-1">
 
-                <table class="table-hover dataTable table-striped table-responsive" id="subReqlist">
+                <table class="table-hover dataTable table-striped table-responsive" id="vacAvaillist">
                     <thead>
-                        <tr style="background-color:#3d566e; color:#ecf0f1">
+                        <tr style="background-color:#3d566e; color:ThreeDFace">
                             <th>
-                                Request Type
+                                Company 
                             </th>
                             <th>
-                                Date of Request
+                                City
                             </th>
-                          
                             <th>
-                                Status
+                                Department 
                             </th>
+                            <th>
+                                Position
+                            </th>
+                            <th>
+                               Seat Availablity Date
+                            </th>
+
 
                         </tr>
                     </thead>
@@ -45,6 +51,7 @@
 </div>
 
 @section scripts{
+
     <script>
        $(function () {
             var successMessage = '@TempData["SuccessMessage"]'
@@ -55,45 +62,43 @@
     <script type="text/javascript">
         var Popup, dataTable;
         $(function () {
-            $('#subReqlist').DataTable({
+            $('#vacAvaillist').DataTable({
                 pageLength: 5,
                 "ajax": {
-                    "url": '/Requests/subRequestList',
+                    "url": '/Requests/vacantAvailList',
                     "type": "get",
                     "datatype": "json"
                 },
                 "columns": [
 
-                    { "data": "RequestType", "authowidth": false },
+                    { "data": "CompanyName", "authowidth": false },
+                    { "data": "CityName", "authowidth": false },
+                    { "data": "DepartmentName", "autowidth": false },
+                    { "data": "Position", "autowidth": false },
                     {
-                        "data": "DateofRequest", "render": function (mydata) {
+                        "data": "SeatAvailablityDate", "render": function (mydata) {
                             var date = new Date(parseInt(mydata.substr(6)));
                             var month = date.getMonth() + 1;
                             return date.getDate() + "/" + month + "/" + date.getFullYear();
                         },
                     },
                     {
-                        "data": "Status", "render": function (data) {
-                            if (data == "Pending") {
-                                return "<label class='badge-primary'>" + data + "</label>"
+                        "data": "Id", "render": function (data) {
 
-                            }
-                            else if (data == "Rejected") {
-                                return "<label class='badge-danger'>" + data + "</label>"
-
-                            }
-                            else {
-                                return "<label class='badge-success'>" + data + "</label>"
-
-                            }
+                            return "<a class='btn btn-primary' href='@Url.Action("CreateVacancy","Requests")/" + data +"' >View Detail</a>"
                         },
                     }
+
 
 
                 ]
             });
 
         });
+
+       
     </script>
+
+
 
 }

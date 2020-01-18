@@ -19,6 +19,7 @@ namespace amsdemo.ViewModel
         public DateTime DateofRequest { get; set; }
         public int DepartmentId { get; set; }
         public string DepartmentName { get; set; }
+        public int PositionId { get; set; }
         public string Position { get; set; }
         public int EmployeeId { get; set; }
         public string EmployeeName { get; set; }
@@ -28,10 +29,13 @@ namespace amsdemo.ViewModel
         [Required]
         [Display(Name = "Last Working Date")]
         [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
-        public DateTime LastWorkingDate { get; set; } 
+        public DateTime LastWorkingDate { get; set; }     
         public string RequestType { get; set; }
         public string Status { get; set; }
         public int RequestId { get; set; }
-        
+        [Display(Name = "Date")]
+        [DisplayFormat(DataFormatString = "{0:MM/dd/yyyy}", ApplyFormatInEditMode = true)]
+        public DateTime date { get; set; }
+
     }
 }

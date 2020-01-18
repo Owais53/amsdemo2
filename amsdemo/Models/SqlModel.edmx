@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="HrmsModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="HrmsModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="tblAdmincheck">
           <Key>
             <PropertyRef Name="AdminId" />
@@ -136,6 +136,7 @@ warning 6002: The table/view 'Hrms.dbo.tblOrganizationStructure' does not have a
           <Property Name="DepartmentId" Type="int" />
           <Property Name="PositionId" Type="int" />
           <Property Name="Availableseats" Type="int" />
+          <Property Name="SeatAvailablityDate" Type="date" />
         </EntityType>
         <Association Name="FK_tblEmployee_tblDepartments">
           <End Role="tblDepartments" Type="Self.tblDepartments" Multiplicity="0..1" />
@@ -288,8 +289,7 @@ warning 6002: The table/view 'Hrms.dbo.tblOrganizationStructure' does not have a
             <End Role="tblUsers" EntitySet="tblUsers" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="HrmsModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -429,6 +429,7 @@ warning 6002: The table/view 'Hrms.dbo.tblOrganizationStructure' does not have a
           <Property Name="PositionId" Type="Int32" />
           <Property Name="Availableseats" Type="Int32" />
           <NavigationProperty Name="tblDepartment" Relationship="Self.FK_tblVacancydetails_tblDepartment" FromRole="tblVacancydetails" ToRole="tblDepartments" />
+          <Property Name="SeatAvailablityDate" Type="DateTime" Precision="0" />
         </EntityType>
         <EntityType Name="tblOrganizationStructure">
           <Key>
@@ -712,6 +713,7 @@ warning 6002: The table/view 'Hrms.dbo.tblOrganizationStructure' does not have a
           <EntitySetMapping Name="tblVacancydetails">
             <EntityTypeMapping TypeName="HrmsModel.tblVacancydetail">
               <MappingFragment StoreEntitySet="tblVacancydetails">
+                <ScalarProperty Name="SeatAvailablityDate" ColumnName="SeatAvailablityDate" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="CompanyCode" ColumnName="CompanyCode" />
                 <ScalarProperty Name="CityCode" ColumnName="CityCode" />

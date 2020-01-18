@@ -177,20 +177,11 @@ namespace amsdemo.Controllers
                     int output = context.Database.ExecuteSqlCommand("insert into tblStructuredetail(CompanyCode,CompanyName,CityCode,CityName) values(@p0,@p1,@p2,@p3)", item);
                     if (output > 0)
                     {
-                        var vacantdetail = new tblVacancydetail()
-                        {
-                            CompanyCode = viewModel.CompanyCode,
-                            CityCode = viewModel.CityCode,                 
-                        };
-                        context.tblVacancydetails.Add(vacantdetail);
-                        context.SaveChanges();
-
-                       if(vacantdetail != null)
-                        {
+                       
 
                             RedirectToAction("StructureList", "Home");
                             TempData["SuccessMessage"] = "Structure Created";
-                        }
+                        
                     }
                 }
                 else

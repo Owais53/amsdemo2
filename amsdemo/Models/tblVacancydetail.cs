@@ -20,6 +20,7 @@ namespace amsdemo.Models
         public Nullable<int> DepartmentId { get; set; }
         public Nullable<int> PositionId { get; set; }
         public Nullable<int> Availableseats { get; set; }
+        public Nullable<System.DateTime> SeatAvailablityDate { get; set; }
     
         public virtual tblDepartment tblDepartment { get; set; }
     }
