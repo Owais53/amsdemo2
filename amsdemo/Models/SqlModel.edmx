@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="HrmsModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="HrmsModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="tblAdmincheck">
           <Key>
             <PropertyRef Name="AdminId" />
@@ -13,12 +13,57 @@
           <Property Name="IsAdmin" Type="nvarchar(max)" />
           <Property Name="desc" Type="nvarchar(max)" />
         </EntityType>
+        <EntityType Name="tblApplicant">
+          <Key>
+            <PropertyRef Name="ApplicationId" />
+          </Key>
+          <Property Name="ApplicationId" Type="int" Nullable="false" />
+          <Property Name="VacancyId" Type="int" />
+          <Property Name="ApplicantName" Type="nvarchar(max)" />
+          <Property Name="Phone" Type="varchar" MaxLength="15" />
+          <Property Name="Email" Type="varchar" MaxLength="50" />
+          <Property Name="Dob" Type="date" />
+          <Property Name="Gender" Type="varchar" MaxLength="50" />
+          <Property Name="Appliedfor" Type="varchar" MaxLength="50" />
+          <Property Name="Status" Type="varchar" MaxLength="50" />
+          <Property Name="Address" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="tblCandidates">
+          <Key>
+            <PropertyRef Name="CandidateId" />
+          </Key>
+          <Property Name="CandidateId" Type="int" Nullable="false" />
+          <Property Name="ApplicationId" Type="int" />
+          <Property Name="Cname" Type="nvarchar(max)" />
+          <Property Name="Status" Type="varchar" MaxLength="50" />
+        </EntityType>
         <EntityType Name="tblDepartments">
           <Key>
             <PropertyRef Name="DepartmentId" />
           </Key>
           <Property Name="DepartmentId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="DepartmentName" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="tblDoctype">
+          <Key>
+            <PropertyRef Name="TypeId" />
+          </Key>
+          <Property Name="TypeId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DocumentType" Type="varchar" MaxLength="50" />
+          <Property Name="DocumentName" Type="varchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="tblDocument">
+          <Key>
+            <PropertyRef Name="DocumentNo" />
+          </Key>
+          <Property Name="DocumentNo" Type="int" Nullable="false" />
+          <Property Name="DTypeId" Type="int" />
+          <Property Name="CreationDate" Type="date" />
+          <Property Name="CreatedBy" Type="varchar" MaxLength="50" />
+          <Property Name="VendorId" Type="int" />
+          <Property Name="ItemId" Type="int" />
+          <Property Name="Quantity" Type="int" />
+          <Property Name="TotalPrice" Type="money" />
         </EntityType>
         <EntityType Name="tblEmployee">
           <Key>
@@ -34,7 +79,7 @@
           <Property Name="Contact" Type="nvarchar(max)" />
           <Property Name="Email" Type="nvarchar(max)" />
           <Property Name="Address" Type="nvarchar(max)" />
-          <Property Name="Position" Type="nvarchar(max)" />
+          <Property Name="PositionId" Type="int" />
           <Property Name="UserId" Type="int" />
         </EntityType>
         <EntityType Name="tblEmployeeDetail">
@@ -49,6 +94,31 @@
           <Property Name="DateofPromotion" Type="datetime" />
           <Property Name="LastLeaveDate" Type="datetime" />
         </EntityType>
+        <EntityType Name="tblExpenses">
+          <Key>
+            <PropertyRef Name="ExpenseId" />
+          </Key>
+          <Property Name="ExpenseId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Year" Type="int" />
+          <Property Name="Month" Type="int" />
+          <Property Name="CompanyCode" Type="varchar" MaxLength="50" />
+          <Property Name="CityCode" Type="varchar" MaxLength="50" />
+          <Property Name="ExpenseType" Type="varchar" MaxLength="50" />
+          <Property Name="PurchaseId" Type="int" />
+          <Property Name="PayrollId" Type="int" />
+          <Property Name="Amount" Type="money" />
+        </EntityType>
+        <EntityType Name="tblItem">
+          <Key>
+            <PropertyRef Name="ItemId" />
+          </Key>
+          <Property Name="ItemId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ItemName" Type="nvarchar(max)" />
+          <Property Name="ItemType" Type="varchar" MaxLength="50" />
+          <Property Name="StorageLocation" Type="varchar" MaxLength="50" />
+          <Property Name="ReorderPoint" Type="int" />
+          <Property Name="ItemPrice" Type="money" />
+        </EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view 'Hrms.dbo.tblOrganizationStructure' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="tblOrganizationStructure">
@@ -60,6 +130,24 @@ warning 6002: The table/view 'Hrms.dbo.tblOrganizationStructure' does not have a
           <Property Name="StorageLocation" Type="nvarchar(max)" />
           <Property Name="PurchaseOrganization" Type="nvarchar(max)" />
         </EntityType>
+        <EntityType Name="tblPayroll">
+          <Key>
+            <PropertyRef Name="PayrollId" />
+          </Key>
+          <Property Name="PayrollId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FortheMonth" Type="varchar" MaxLength="50" />
+          <Property Name="Year" Type="int" />
+          <Property Name="CompanyCode" Type="int" />
+          <Property Name="CityCode" Type="int" />
+          <Property Name="EmployeeId" Type="int" />
+          <Property Name="BasicSalary" Type="money" />
+          <Property Name="GrossSalary" Type="money" />
+          <Property Name="Bonuses" Type="money" />
+          <Property Name="IncomeTax" Type="money" />
+          <Property Name="MedicalAllowance" Type="money" />
+          <Property Name="TotalDeduction" Type="money" />
+          <Property Name="NetSalary" Type="nchar" MaxLength="10" />
+        </EntityType>
         <EntityType Name="tblPosition">
           <Key>
             <PropertyRef Name="Id" />
@@ -67,6 +155,42 @@ warning 6002: The table/view 'Hrms.dbo.tblOrganizationStructure' does not have a
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="DepartmentId" Type="int" />
           <Property Name="Position" Type="varchar(max)" />
+          <Property Name="BasicPay" Type="money" />
+          <Property Name="IncomeTax" Type="money" />
+        </EntityType>
+        <EntityType Name="tblPurchase">
+          <Key>
+            <PropertyRef Name="PurchaseId" />
+          </Key>
+          <Property Name="PurchaseId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DocumentNo" Type="int" />
+          <Property Name="PurchaseOrg" Type="varchar" MaxLength="50" />
+          <Property Name="DeliveryDate" Type="date" />
+          <Property Name="ReturnDate" Type="date" />
+          <Property Name="OrderedDate" Type="date" />
+        </EntityType>
+        <EntityType Name="tblPurchaseitem">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PurchaseId" Type="int" />
+          <Property Name="ItemId" Type="int" />
+          <Property Name="NoofMissingStock" Type="int" />
+          <Property Name="NoofDamagedStock" Type="int" />
+        </EntityType>
+        <EntityType Name="tblQuestions">
+          <Key>
+            <PropertyRef Name="QuestionId" />
+          </Key>
+          <Property Name="QuestionId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DepartmentId" Type="int" />
+          <Property Name="Option1" Type="nvarchar(max)" />
+          <Property Name="Option2" Type="nvarchar(max)" />
+          <Property Name="Option3" Type="nvarchar(max)" />
+          <Property Name="Option4" Type="nvarchar(max)" />
+          <Property Name="CorrectAnswer" Type="int" />
+          <Property Name="LastUpdatedDate" Type="date" />
         </EntityType>
         <EntityType Name="tblRequestdetail">
           <Key>
@@ -96,12 +220,32 @@ warning 6002: The table/view 'Hrms.dbo.tblOrganizationStructure' does not have a
           <Property Name="Respondedby" Type="nvarchar(max)" />
           <Property Name="ResponseDate" Type="datetime" />
         </EntityType>
+        <EntityType Name="tblResults">
+          <Key>
+            <PropertyRef Name="ResultId" />
+          </Key>
+          <Property Name="ResultId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TestId" Type="int" />
+          <Property Name="CandidateId" Type="int" />
+          <Property Name="TotalMarks" Type="int" />
+          <Property Name="MarksObtained" Type="int" />
+          <Property Name="Status" Type="varchar" MaxLength="50" />
+        </EntityType>
         <EntityType Name="tblRoles">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="RoleName" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="tblStock">
+          <Key>
+            <PropertyRef Name="StockId" />
+          </Key>
+          <Property Name="StockId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ItemId" Type="int" />
+          <Property Name="TotalStockCapacity" Type="int" />
+          <Property Name="AvailableStock" Type="int" />
         </EntityType>
         <EntityType Name="tblStructuredetail">
           <Key>
@@ -113,6 +257,23 @@ warning 6002: The table/view 'Hrms.dbo.tblOrganizationStructure' does not have a
           <Property Name="CityCode" Type="int" />
           <Property Name="CityName" Type="nvarchar(max)" />
         </EntityType>
+        <EntityType Name="tblTest">
+          <Key>
+            <PropertyRef Name="TestId" />
+          </Key>
+          <Property Name="TestId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TestDate" Type="datetime" />
+          <Property Name="DepartmentId" Type="int" />
+          <Property Name="CandidateId" Type="int" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6013: The table/view 'Hrms.dbo.tblTestCriteria' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
+        <EntityType Name="tblTestCriteria">
+          <Property Name="DepartmentId" Type="int" />
+          <Property Name="PassingPercent" Type="nvarchar(max)" />
+          <Property Name="Marks" Type="int" />
+          <Property Name="Grade" Type="varchar" MaxLength="50" />
+        </EntityType>-->
         <EntityType Name="tblUsers">
           <Key>
             <PropertyRef Name="UserId" />
@@ -126,6 +287,21 @@ warning 6002: The table/view 'Hrms.dbo.tblOrganizationStructure' does not have a
           <Property Name="EmployeeId" Type="int" />
           <Property Name="IsActive" Type="int" />
         </EntityType>
+        <EntityType Name="tblVacancies">
+          <Key>
+            <PropertyRef Name="VacancyId" />
+          </Key>
+          <Property Name="VacancyId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CompanyCode" Type="int" />
+          <Property Name="CityCode" Type="int" />
+          <Property Name="PositionId" Type="int" />
+          <Property Name="DepartmentId" Type="int" />
+          <Property Name="NoofVacany" Type="int" />
+          <Property Name="RequiredQualification" Type="nvarchar(max)" />
+          <Property Name="Experience" Type="nvarchar(max)" />
+          <Property Name="CreationDate" Type="date" />
+          <Property Name="LastDatetoApply" Type="date" />
+        </EntityType>
         <EntityType Name="tblVacancydetails">
           <Key>
             <PropertyRef Name="Id" />
@@ -138,6 +314,76 @@ warning 6002: The table/view 'Hrms.dbo.tblOrganizationStructure' does not have a
           <Property Name="Availableseats" Type="int" />
           <Property Name="SeatAvailablityDate" Type="date" />
         </EntityType>
+        <EntityType Name="tblVendors">
+          <Key>
+            <PropertyRef Name="VendorId" />
+          </Key>
+          <Property Name="VendorId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="VendorName" Type="varchar" MaxLength="50" />
+          <Property Name="Contact" Type="varchar" MaxLength="50" />
+          <Property Name="ItemType" Type="varchar" MaxLength="50" />
+          <Property Name="Address" Type="varchar" MaxLength="100" />
+        </EntityType>
+        <Association Name="FK_tblApplicant_tblVacancies">
+          <End Role="tblVacancies" Type="Self.tblVacancies" Multiplicity="0..1" />
+          <End Role="tblApplicant" Type="Self.tblApplicant" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblVacancies">
+              <PropertyRef Name="VacancyId" />
+            </Principal>
+            <Dependent Role="tblApplicant">
+              <PropertyRef Name="VacancyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tblCandidates_tblApplicant">
+          <End Role="tblApplicant" Type="Self.tblApplicant" Multiplicity="0..1" />
+          <End Role="tblCandidates" Type="Self.tblCandidates" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblApplicant">
+              <PropertyRef Name="ApplicationId" />
+            </Principal>
+            <Dependent Role="tblCandidates">
+              <PropertyRef Name="ApplicationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tblDocument_tblDoctype">
+          <End Role="tblDoctype" Type="Self.tblDoctype" Multiplicity="0..1" />
+          <End Role="tblDocument" Type="Self.tblDocument" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblDoctype">
+              <PropertyRef Name="TypeId" />
+            </Principal>
+            <Dependent Role="tblDocument">
+              <PropertyRef Name="DTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tblDocument_tblItem">
+          <End Role="tblItem" Type="Self.tblItem" Multiplicity="0..1" />
+          <End Role="tblDocument" Type="Self.tblDocument" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblItem">
+              <PropertyRef Name="ItemId" />
+            </Principal>
+            <Dependent Role="tblDocument">
+              <PropertyRef Name="ItemId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tblDocument_tblVendors">
+          <End Role="tblVendors" Type="Self.tblVendors" Multiplicity="0..1" />
+          <End Role="tblDocument" Type="Self.tblDocument" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblVendors">
+              <PropertyRef Name="VendorId" />
+            </Principal>
+            <Dependent Role="tblDocument">
+              <PropertyRef Name="VendorId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_tblEmployee_tblDepartments">
           <End Role="tblDepartments" Type="Self.tblDepartments" Multiplicity="0..1" />
           <End Role="tblEmployee" Type="Self.tblEmployee" Multiplicity="*" />
@@ -147,6 +393,18 @@ warning 6002: The table/view 'Hrms.dbo.tblOrganizationStructure' does not have a
             </Principal>
             <Dependent Role="tblEmployee">
               <PropertyRef Name="DepartmentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tblEmployee_tblPosition">
+          <End Role="tblPosition" Type="Self.tblPosition" Multiplicity="0..1" />
+          <End Role="tblEmployee" Type="Self.tblEmployee" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblPosition">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="tblEmployee">
+              <PropertyRef Name="PositionId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -162,6 +420,18 @@ warning 6002: The table/view 'Hrms.dbo.tblOrganizationStructure' does not have a
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_tblEmployee_tblUser">
+          <End Role="tblUsers" Type="Self.tblUsers" Multiplicity="0..1" />
+          <End Role="tblEmployee" Type="Self.tblEmployee" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblUsers">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="tblEmployee">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_tblEmployeeDetail_tblEmployee">
           <End Role="tblEmployee" Type="Self.tblEmployee" Multiplicity="1" />
           <End Role="tblEmployeeDetail" Type="Self.tblEmployeeDetail" Multiplicity="0..1" />
@@ -171,6 +441,90 @@ warning 6002: The table/view 'Hrms.dbo.tblOrganizationStructure' does not have a
             </Principal>
             <Dependent Role="tblEmployeeDetail">
               <PropertyRef Name="EmployeeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tblExpenses_tblPayroll">
+          <End Role="tblPayroll" Type="Self.tblPayroll" Multiplicity="0..1" />
+          <End Role="tblExpenses" Type="Self.tblExpenses" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblPayroll">
+              <PropertyRef Name="PayrollId" />
+            </Principal>
+            <Dependent Role="tblExpenses">
+              <PropertyRef Name="PayrollId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tblExpenses_tblPurchase">
+          <End Role="tblPurchase" Type="Self.tblPurchase" Multiplicity="0..1" />
+          <End Role="tblExpenses" Type="Self.tblExpenses" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblPurchase">
+              <PropertyRef Name="PurchaseId" />
+            </Principal>
+            <Dependent Role="tblExpenses">
+              <PropertyRef Name="PurchaseId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tblPayroll_tblEmployee">
+          <End Role="tblEmployee" Type="Self.tblEmployee" Multiplicity="0..1" />
+          <End Role="tblPayroll" Type="Self.tblPayroll" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblEmployee">
+              <PropertyRef Name="EmployeeId" />
+            </Principal>
+            <Dependent Role="tblPayroll">
+              <PropertyRef Name="EmployeeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tblPosition_tblDepartment">
+          <End Role="tblDepartments" Type="Self.tblDepartments" Multiplicity="0..1" />
+          <End Role="tblPosition" Type="Self.tblPosition" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblDepartments">
+              <PropertyRef Name="DepartmentId" />
+            </Principal>
+            <Dependent Role="tblPosition">
+              <PropertyRef Name="DepartmentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tblPurchase_tblDocument">
+          <End Role="tblDocument" Type="Self.tblDocument" Multiplicity="0..1" />
+          <End Role="tblPurchase" Type="Self.tblPurchase" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblDocument">
+              <PropertyRef Name="DocumentNo" />
+            </Principal>
+            <Dependent Role="tblPurchase">
+              <PropertyRef Name="DocumentNo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tblPurchaseitem_tblItem">
+          <End Role="tblItem" Type="Self.tblItem" Multiplicity="0..1" />
+          <End Role="tblPurchaseitem" Type="Self.tblPurchaseitem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblItem">
+              <PropertyRef Name="ItemId" />
+            </Principal>
+            <Dependent Role="tblPurchaseitem">
+              <PropertyRef Name="ItemId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tblPurchaseitem_tblPurchase">
+          <End Role="tblPurchase" Type="Self.tblPurchase" Multiplicity="0..1" />
+          <End Role="tblPurchaseitem" Type="Self.tblPurchaseitem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblPurchase">
+              <PropertyRef Name="PurchaseId" />
+            </Principal>
+            <Dependent Role="tblPurchaseitem">
+              <PropertyRef Name="PurchaseId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -195,6 +549,54 @@ warning 6002: The table/view 'Hrms.dbo.tblOrganizationStructure' does not have a
             </Principal>
             <Dependent Role="tblRequests">
               <PropertyRef Name="RequestId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tblResults_tblTest">
+          <End Role="tblTest" Type="Self.tblTest" Multiplicity="0..1" />
+          <End Role="tblResults" Type="Self.tblResults" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblTest">
+              <PropertyRef Name="TestId" />
+            </Principal>
+            <Dependent Role="tblResults">
+              <PropertyRef Name="TestId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tblStock_tblItem">
+          <End Role="tblItem" Type="Self.tblItem" Multiplicity="0..1" />
+          <End Role="tblStock" Type="Self.tblStock" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblItem">
+              <PropertyRef Name="ItemId" />
+            </Principal>
+            <Dependent Role="tblStock">
+              <PropertyRef Name="ItemId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tblTest_tblCandidate">
+          <End Role="tblCandidates" Type="Self.tblCandidates" Multiplicity="0..1" />
+          <End Role="tblTest" Type="Self.tblTest" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblCandidates">
+              <PropertyRef Name="CandidateId" />
+            </Principal>
+            <Dependent Role="tblTest">
+              <PropertyRef Name="CandidateId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tblVacancies_tblDepartment">
+          <End Role="tblDepartments" Type="Self.tblDepartments" Multiplicity="0..1" />
+          <End Role="tblVacancies" Type="Self.tblVacancies" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblDepartments">
+              <PropertyRef Name="DepartmentId" />
+            </Principal>
+            <Dependent Role="tblVacancies">
+              <PropertyRef Name="DepartmentId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -234,20 +636,34 @@ warning 6002: The table/view 'Hrms.dbo.tblOrganizationStructure' does not have a
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Function Name="sp_BackEndAvailablity" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="spGetAllUsers" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <EntityContainer Name="HrmsModelStoreContainer">
           <EntitySet Name="tblAdmincheck" EntityType="Self.tblAdmincheck" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblApplicant" EntityType="Self.tblApplicant" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblCandidates" EntityType="Self.tblCandidates" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblDepartments" EntityType="Self.tblDepartments" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblDoctype" EntityType="Self.tblDoctype" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblDocument" EntityType="Self.tblDocument" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblEmployee" EntityType="Self.tblEmployee" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblEmployeeDetail" EntityType="Self.tblEmployeeDetail" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblExpenses" EntityType="Self.tblExpenses" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblItem" EntityType="Self.tblItem" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblPayroll" EntityType="Self.tblPayroll" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblPosition" EntityType="Self.tblPosition" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblPurchase" EntityType="Self.tblPurchase" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblPurchaseitem" EntityType="Self.tblPurchaseitem" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblQuestions" EntityType="Self.tblQuestions" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblRequestdetail" EntityType="Self.tblRequestdetail" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblRequests" EntityType="Self.tblRequests" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblResults" EntityType="Self.tblResults" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblRoles" EntityType="Self.tblRoles" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblStock" EntityType="Self.tblStock" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblStructuredetail" EntityType="Self.tblStructuredetail" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblTest" EntityType="Self.tblTest" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblUsers" EntityType="Self.tblUsers" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblVacancies" EntityType="Self.tblVacancies" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblVacancydetails" EntityType="Self.tblVacancydetails" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblVendors" EntityType="Self.tblVendors" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblOrganizationStructure" EntityType="Self.tblOrganizationStructure" store:Type="Tables" store:Schema="dbo">
             <DefiningQuery>SELECT 
     [tblOrganizationStructure].[CompanyCode] AS [CompanyCode], 
@@ -256,17 +672,73 @@ warning 6002: The table/view 'Hrms.dbo.tblOrganizationStructure' does not have a
     [tblOrganizationStructure].[PurchaseOrganization] AS [PurchaseOrganization]
     FROM [dbo].[tblOrganizationStructure] AS [tblOrganizationStructure]</DefiningQuery>
           </EntitySet>
+          <AssociationSet Name="FK_tblApplicant_tblVacancies" Association="Self.FK_tblApplicant_tblVacancies">
+            <End Role="tblVacancies" EntitySet="tblVacancies" />
+            <End Role="tblApplicant" EntitySet="tblApplicant" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblCandidates_tblApplicant" Association="Self.FK_tblCandidates_tblApplicant">
+            <End Role="tblApplicant" EntitySet="tblApplicant" />
+            <End Role="tblCandidates" EntitySet="tblCandidates" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblDocument_tblDoctype" Association="Self.FK_tblDocument_tblDoctype">
+            <End Role="tblDoctype" EntitySet="tblDoctype" />
+            <End Role="tblDocument" EntitySet="tblDocument" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblDocument_tblItem" Association="Self.FK_tblDocument_tblItem">
+            <End Role="tblItem" EntitySet="tblItem" />
+            <End Role="tblDocument" EntitySet="tblDocument" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblDocument_tblVendors" Association="Self.FK_tblDocument_tblVendors">
+            <End Role="tblVendors" EntitySet="tblVendors" />
+            <End Role="tblDocument" EntitySet="tblDocument" />
+          </AssociationSet>
           <AssociationSet Name="FK_tblEmployee_tblDepartments" Association="Self.FK_tblEmployee_tblDepartments">
             <End Role="tblDepartments" EntitySet="tblDepartments" />
+            <End Role="tblEmployee" EntitySet="tblEmployee" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblEmployee_tblPosition" Association="Self.FK_tblEmployee_tblPosition">
+            <End Role="tblPosition" EntitySet="tblPosition" />
             <End Role="tblEmployee" EntitySet="tblEmployee" />
           </AssociationSet>
           <AssociationSet Name="FK_tblEmployee_tblStructuredetails" Association="Self.FK_tblEmployee_tblStructuredetails">
             <End Role="tblStructuredetail" EntitySet="tblStructuredetail" />
             <End Role="tblEmployee" EntitySet="tblEmployee" />
           </AssociationSet>
+          <AssociationSet Name="FK_tblEmployee_tblUser" Association="Self.FK_tblEmployee_tblUser">
+            <End Role="tblUsers" EntitySet="tblUsers" />
+            <End Role="tblEmployee" EntitySet="tblEmployee" />
+          </AssociationSet>
           <AssociationSet Name="FK_tblEmployeeDetail_tblEmployee" Association="Self.FK_tblEmployeeDetail_tblEmployee">
             <End Role="tblEmployee" EntitySet="tblEmployee" />
             <End Role="tblEmployeeDetail" EntitySet="tblEmployeeDetail" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblExpenses_tblPayroll" Association="Self.FK_tblExpenses_tblPayroll">
+            <End Role="tblPayroll" EntitySet="tblPayroll" />
+            <End Role="tblExpenses" EntitySet="tblExpenses" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblExpenses_tblPurchase" Association="Self.FK_tblExpenses_tblPurchase">
+            <End Role="tblPurchase" EntitySet="tblPurchase" />
+            <End Role="tblExpenses" EntitySet="tblExpenses" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblPayroll_tblEmployee" Association="Self.FK_tblPayroll_tblEmployee">
+            <End Role="tblEmployee" EntitySet="tblEmployee" />
+            <End Role="tblPayroll" EntitySet="tblPayroll" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblPosition_tblDepartment" Association="Self.FK_tblPosition_tblDepartment">
+            <End Role="tblDepartments" EntitySet="tblDepartments" />
+            <End Role="tblPosition" EntitySet="tblPosition" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblPurchase_tblDocument" Association="Self.FK_tblPurchase_tblDocument">
+            <End Role="tblDocument" EntitySet="tblDocument" />
+            <End Role="tblPurchase" EntitySet="tblPurchase" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblPurchaseitem_tblItem" Association="Self.FK_tblPurchaseitem_tblItem">
+            <End Role="tblItem" EntitySet="tblItem" />
+            <End Role="tblPurchaseitem" EntitySet="tblPurchaseitem" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblPurchaseitem_tblPurchase" Association="Self.FK_tblPurchaseitem_tblPurchase">
+            <End Role="tblPurchase" EntitySet="tblPurchase" />
+            <End Role="tblPurchaseitem" EntitySet="tblPurchaseitem" />
           </AssociationSet>
           <AssociationSet Name="FK_tblRequestdetail_tblEmployee" Association="Self.FK_tblRequestdetail_tblEmployee">
             <End Role="tblEmployee" EntitySet="tblEmployee" />
@@ -275,6 +747,22 @@ warning 6002: The table/view 'Hrms.dbo.tblOrganizationStructure' does not have a
           <AssociationSet Name="FK_tblRequests_tblRequestdetail" Association="Self.FK_tblRequests_tblRequestdetail">
             <End Role="tblRequestdetail" EntitySet="tblRequestdetail" />
             <End Role="tblRequests" EntitySet="tblRequests" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblResults_tblTest" Association="Self.FK_tblResults_tblTest">
+            <End Role="tblTest" EntitySet="tblTest" />
+            <End Role="tblResults" EntitySet="tblResults" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblStock_tblItem" Association="Self.FK_tblStock_tblItem">
+            <End Role="tblItem" EntitySet="tblItem" />
+            <End Role="tblStock" EntitySet="tblStock" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblTest_tblCandidate" Association="Self.FK_tblTest_tblCandidate">
+            <End Role="tblCandidates" EntitySet="tblCandidates" />
+            <End Role="tblTest" EntitySet="tblTest" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblVacancies_tblDepartment" Association="Self.FK_tblVacancies_tblDepartment">
+            <End Role="tblDepartments" EntitySet="tblDepartments" />
+            <End Role="tblVacancies" EntitySet="tblVacancies" />
           </AssociationSet>
           <AssociationSet Name="FK_tblVacancydetails_tblDepartment" Association="Self.FK_tblVacancydetails_tblDepartment">
             <End Role="tblDepartments" EntitySet="tblDepartments" />
@@ -289,7 +777,8 @@ warning 6002: The table/view 'Hrms.dbo.tblOrganizationStructure' does not have a
             <End Role="tblUsers" EntitySet="tblUsers" />
           </AssociationSet>
         </EntityContainer>
-      </Schema></edmx:StorageModels>
+      </Schema>
+    </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="HrmsModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -302,6 +791,34 @@ warning 6002: The table/view 'Hrms.dbo.tblOrganizationStructure' does not have a
           <Property Name="desc" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="tblUsers" Relationship="Self.FK_Users_tbladmincheck" FromRole="tblAdmincheck" ToRole="tblUsers" />
         </EntityType>
+        <EntityType Name="tblApplicant">
+          <Key>
+            <PropertyRef Name="ApplicationId" />
+          </Key>
+          <Property Name="ApplicationId" Type="Int32" Nullable="false" />
+          <Property Name="VacancyId" Type="Int32" />
+          <Property Name="ApplicantName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Phone" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Dob" Type="DateTime" Precision="0" />
+          <Property Name="Gender" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Appliedfor" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Status" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Address" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="tblVacancy" Relationship="Self.FK_tblApplicant_tblVacancies" FromRole="tblApplicant" ToRole="tblVacancies" />
+          <NavigationProperty Name="tblCandidates" Relationship="Self.FK_tblCandidates_tblApplicant" FromRole="tblApplicant" ToRole="tblCandidates" />
+        </EntityType>
+        <EntityType Name="tblCandidate">
+          <Key>
+            <PropertyRef Name="CandidateId" />
+          </Key>
+          <Property Name="CandidateId" Type="Int32" Nullable="false" />
+          <Property Name="ApplicationId" Type="Int32" />
+          <Property Name="Cname" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Status" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="tblApplicant" Relationship="Self.FK_tblCandidates_tblApplicant" FromRole="tblCandidates" ToRole="tblApplicant" />
+          <NavigationProperty Name="tblTests" Relationship="Self.FK_tblTest_tblCandidate" FromRole="tblCandidates" ToRole="tblTest" />
+        </EntityType>
         <EntityType Name="tblDepartment">
           <Key>
             <PropertyRef Name="DepartmentId" />
@@ -309,7 +826,35 @@ warning 6002: The table/view 'Hrms.dbo.tblOrganizationStructure' does not have a
           <Property Name="DepartmentId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="DepartmentName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="tblEmployees" Relationship="Self.FK_tblEmployee_tblDepartments" FromRole="tblDepartments" ToRole="tblEmployee" />
+          <NavigationProperty Name="tblPositions" Relationship="Self.FK_tblPosition_tblDepartment" FromRole="tblDepartments" ToRole="tblPosition" />
+          <NavigationProperty Name="tblVacancies" Relationship="Self.FK_tblVacancies_tblDepartment" FromRole="tblDepartments" ToRole="tblVacancies" />
           <NavigationProperty Name="tblVacancydetails" Relationship="Self.FK_tblVacancydetails_tblDepartment" FromRole="tblDepartments" ToRole="tblVacancydetails" />
+        </EntityType>
+        <EntityType Name="tblDoctype">
+          <Key>
+            <PropertyRef Name="TypeId" />
+          </Key>
+          <Property Name="TypeId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DocumentType" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="DocumentName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="tblDocuments" Relationship="Self.FK_tblDocument_tblDoctype" FromRole="tblDoctype" ToRole="tblDocument" />
+        </EntityType>
+        <EntityType Name="tblDocument">
+          <Key>
+            <PropertyRef Name="DocumentNo" />
+          </Key>
+          <Property Name="DocumentNo" Type="Int32" Nullable="false" />
+          <Property Name="DTypeId" Type="Int32" />
+          <Property Name="CreationDate" Type="DateTime" Precision="0" />
+          <Property Name="CreatedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="VendorId" Type="Int32" />
+          <Property Name="ItemId" Type="Int32" />
+          <Property Name="Quantity" Type="Int32" />
+          <Property Name="TotalPrice" Type="Decimal" Precision="19" Scale="4" />
+          <NavigationProperty Name="tblDoctype" Relationship="Self.FK_tblDocument_tblDoctype" FromRole="tblDocument" ToRole="tblDoctype" />
+          <NavigationProperty Name="tblItem" Relationship="Self.FK_tblDocument_tblItem" FromRole="tblDocument" ToRole="tblItem" />
+          <NavigationProperty Name="tblVendor" Relationship="Self.FK_tblDocument_tblVendors" FromRole="tblDocument" ToRole="tblVendors" />
+          <NavigationProperty Name="tblPurchases" Relationship="Self.FK_tblPurchase_tblDocument" FromRole="tblDocument" ToRole="tblPurchase" />
         </EntityType>
         <EntityType Name="tblEmployee">
           <Key>
@@ -325,11 +870,14 @@ warning 6002: The table/view 'Hrms.dbo.tblOrganizationStructure' does not have a
           <Property Name="Contact" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="Email" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="Address" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="Position" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="PositionId" Type="Int32" />
           <Property Name="UserId" Type="Int32" />
           <NavigationProperty Name="tblDepartment" Relationship="Self.FK_tblEmployee_tblDepartments" FromRole="tblEmployee" ToRole="tblDepartments" />
+          <NavigationProperty Name="tblPosition" Relationship="Self.FK_tblEmployee_tblPosition" FromRole="tblEmployee" ToRole="tblPosition" />
           <NavigationProperty Name="tblStructuredetail" Relationship="Self.FK_tblEmployee_tblStructuredetails" FromRole="tblEmployee" ToRole="tblStructuredetail" />
+          <NavigationProperty Name="tblUser" Relationship="Self.FK_tblEmployee_tblUser" FromRole="tblEmployee" ToRole="tblUsers" />
           <NavigationProperty Name="tblEmployeeDetail" Relationship="Self.FK_tblEmployeeDetail_tblEmployee" FromRole="tblEmployee" ToRole="tblEmployeeDetail" />
+          <NavigationProperty Name="tblPayrolls" Relationship="Self.FK_tblPayroll_tblEmployee" FromRole="tblEmployee" ToRole="tblPayroll" />
           <NavigationProperty Name="tblRequestdetails" Relationship="Self.FK_tblRequestdetail_tblEmployee" FromRole="tblEmployee" ToRole="tblRequestdetail" />
         </EntityType>
         <EntityType Name="tblEmployeeDetail">
@@ -345,6 +893,56 @@ warning 6002: The table/view 'Hrms.dbo.tblOrganizationStructure' does not have a
           <Property Name="LastLeaveDate" Type="DateTime" Precision="3" />
           <NavigationProperty Name="tblEmployee" Relationship="Self.FK_tblEmployeeDetail_tblEmployee" FromRole="tblEmployeeDetail" ToRole="tblEmployee" />
         </EntityType>
+        <EntityType Name="tblExpens">
+          <Key>
+            <PropertyRef Name="ExpenseId" />
+          </Key>
+          <Property Name="ExpenseId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Year" Type="Int32" />
+          <Property Name="Month" Type="Int32" />
+          <Property Name="CompanyCode" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CityCode" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ExpenseType" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="PurchaseId" Type="Int32" />
+          <Property Name="PayrollId" Type="Int32" />
+          <Property Name="Amount" Type="Decimal" Precision="19" Scale="4" />
+          <NavigationProperty Name="tblPayroll" Relationship="Self.FK_tblExpenses_tblPayroll" FromRole="tblExpenses" ToRole="tblPayroll" />
+          <NavigationProperty Name="tblPurchase" Relationship="Self.FK_tblExpenses_tblPurchase" FromRole="tblExpenses" ToRole="tblPurchase" />
+        </EntityType>
+        <EntityType Name="tblItem">
+          <Key>
+            <PropertyRef Name="ItemId" />
+          </Key>
+          <Property Name="ItemId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ItemName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ItemType" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="StorageLocation" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ReorderPoint" Type="Int32" />
+          <Property Name="ItemPrice" Type="Decimal" Precision="19" Scale="4" />
+          <NavigationProperty Name="tblDocuments" Relationship="Self.FK_tblDocument_tblItem" FromRole="tblItem" ToRole="tblDocument" />
+          <NavigationProperty Name="tblPurchaseitems" Relationship="Self.FK_tblPurchaseitem_tblItem" FromRole="tblItem" ToRole="tblPurchaseitem" />
+          <NavigationProperty Name="tblStocks" Relationship="Self.FK_tblStock_tblItem" FromRole="tblItem" ToRole="tblStock" />
+        </EntityType>
+        <EntityType Name="tblPayroll">
+          <Key>
+            <PropertyRef Name="PayrollId" />
+          </Key>
+          <Property Name="PayrollId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FortheMonth" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Year" Type="Int32" />
+          <Property Name="CompanyCode" Type="Int32" />
+          <Property Name="CityCode" Type="Int32" />
+          <Property Name="EmployeeId" Type="Int32" />
+          <Property Name="BasicSalary" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="GrossSalary" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="Bonuses" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="IncomeTax" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="MedicalAllowance" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="TotalDeduction" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="NetSalary" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <NavigationProperty Name="tblEmployee" Relationship="Self.FK_tblPayroll_tblEmployee" FromRole="tblPayroll" ToRole="tblEmployee" />
+          <NavigationProperty Name="tblExpenses" Relationship="Self.FK_tblExpenses_tblPayroll" FromRole="tblPayroll" ToRole="tblExpenses" />
+        </EntityType>
         <EntityType Name="tblPosition">
           <Key>
             <PropertyRef Name="Id" />
@@ -352,6 +950,49 @@ warning 6002: The table/view 'Hrms.dbo.tblOrganizationStructure' does not have a
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="DepartmentId" Type="Int32" />
           <Property Name="Position" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="BasicPay" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="IncomeTax" Type="Decimal" Precision="19" Scale="4" />
+          <NavigationProperty Name="tblDepartment" Relationship="Self.FK_tblPosition_tblDepartment" FromRole="tblPosition" ToRole="tblDepartments" />
+          <NavigationProperty Name="tblEmployees" Relationship="Self.FK_tblEmployee_tblPosition" FromRole="tblPosition" ToRole="tblEmployee" />
+        </EntityType>
+        <EntityType Name="tblPurchase">
+          <Key>
+            <PropertyRef Name="PurchaseId" />
+          </Key>
+          <Property Name="PurchaseId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DocumentNo" Type="Int32" />
+          <Property Name="PurchaseOrg" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="DeliveryDate" Type="DateTime" Precision="0" />
+          <Property Name="ReturnDate" Type="DateTime" Precision="0" />
+          <Property Name="OrderedDate" Type="DateTime" Precision="0" />
+          <NavigationProperty Name="tblDocument" Relationship="Self.FK_tblPurchase_tblDocument" FromRole="tblPurchase" ToRole="tblDocument" />
+          <NavigationProperty Name="tblExpenses" Relationship="Self.FK_tblExpenses_tblPurchase" FromRole="tblPurchase" ToRole="tblExpenses" />
+          <NavigationProperty Name="tblPurchaseitems" Relationship="Self.FK_tblPurchaseitem_tblPurchase" FromRole="tblPurchase" ToRole="tblPurchaseitem" />
+        </EntityType>
+        <EntityType Name="tblPurchaseitem">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PurchaseId" Type="Int32" />
+          <Property Name="ItemId" Type="Int32" />
+          <Property Name="NoofMissingStock" Type="Int32" />
+          <Property Name="NoofDamagedStock" Type="Int32" />
+          <NavigationProperty Name="tblItem" Relationship="Self.FK_tblPurchaseitem_tblItem" FromRole="tblPurchaseitem" ToRole="tblItem" />
+          <NavigationProperty Name="tblPurchase" Relationship="Self.FK_tblPurchaseitem_tblPurchase" FromRole="tblPurchaseitem" ToRole="tblPurchase" />
+        </EntityType>
+        <EntityType Name="tblQuestion">
+          <Key>
+            <PropertyRef Name="QuestionId" />
+          </Key>
+          <Property Name="QuestionId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DepartmentId" Type="Int32" />
+          <Property Name="Option1" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Option2" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Option3" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Option4" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CorrectAnswer" Type="Int32" />
+          <Property Name="LastUpdatedDate" Type="DateTime" Precision="0" />
         </EntityType>
         <EntityType Name="tblRequestdetail">
           <Key>
@@ -384,6 +1025,18 @@ warning 6002: The table/view 'Hrms.dbo.tblOrganizationStructure' does not have a
           <Property Name="ResponseDate" Type="DateTime" Precision="3" />
           <NavigationProperty Name="tblRequestdetail" Relationship="Self.FK_tblRequests_tblRequestdetail" FromRole="tblRequests" ToRole="tblRequestdetail" />
         </EntityType>
+        <EntityType Name="tblResult">
+          <Key>
+            <PropertyRef Name="ResultId" />
+          </Key>
+          <Property Name="ResultId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TestId" Type="Int32" />
+          <Property Name="CandidateId" Type="Int32" />
+          <Property Name="TotalMarks" Type="Int32" />
+          <Property Name="MarksObtained" Type="Int32" />
+          <Property Name="Status" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="tblTest" Relationship="Self.FK_tblResults_tblTest" FromRole="tblResults" ToRole="tblTest" />
+        </EntityType>
         <EntityType Name="tblRole">
           <Key>
             <PropertyRef Name="Id" />
@@ -391,6 +1044,16 @@ warning 6002: The table/view 'Hrms.dbo.tblOrganizationStructure' does not have a
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="RoleName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="tblUsers" Relationship="Self.FK_Users_Roles" FromRole="tblRoles" ToRole="tblUsers" />
+        </EntityType>
+        <EntityType Name="tblStock">
+          <Key>
+            <PropertyRef Name="StockId" />
+          </Key>
+          <Property Name="StockId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ItemId" Type="Int32" />
+          <Property Name="TotalStockCapacity" Type="Int32" />
+          <Property Name="AvailableStock" Type="Int32" />
+          <NavigationProperty Name="tblItem" Relationship="Self.FK_tblStock_tblItem" FromRole="tblStock" ToRole="tblItem" />
         </EntityType>
         <EntityType Name="tblStructuredetail">
           <Key>
@@ -402,6 +1065,17 @@ warning 6002: The table/view 'Hrms.dbo.tblOrganizationStructure' does not have a
           <Property Name="CityCode" Type="Int32" />
           <Property Name="CityName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="tblEmployees" Relationship="Self.FK_tblEmployee_tblStructuredetails" FromRole="tblStructuredetail" ToRole="tblEmployee" />
+        </EntityType>
+        <EntityType Name="tblTest">
+          <Key>
+            <PropertyRef Name="TestId" />
+          </Key>
+          <Property Name="TestId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TestDate" Type="DateTime" Precision="3" />
+          <Property Name="DepartmentId" Type="Int32" />
+          <Property Name="CandidateId" Type="Int32" />
+          <NavigationProperty Name="tblCandidate" Relationship="Self.FK_tblTest_tblCandidate" FromRole="tblTest" ToRole="tblCandidates" />
+          <NavigationProperty Name="tblResults" Relationship="Self.FK_tblResults_tblTest" FromRole="tblTest" ToRole="tblResults" />
         </EntityType>
         <EntityType Name="tblUser">
           <Key>
@@ -416,7 +1090,25 @@ warning 6002: The table/view 'Hrms.dbo.tblOrganizationStructure' does not have a
           <Property Name="EmployeeId" Type="Int32" />
           <Property Name="IsActive" Type="Int32" />
           <NavigationProperty Name="tblAdmincheck" Relationship="Self.FK_Users_tbladmincheck" FromRole="tblUsers" ToRole="tblAdmincheck" />
+          <NavigationProperty Name="tblEmployees" Relationship="Self.FK_tblEmployee_tblUser" FromRole="tblUsers" ToRole="tblEmployee" />
           <NavigationProperty Name="tblRole" Relationship="Self.FK_Users_Roles" FromRole="tblUsers" ToRole="tblRoles" />
+        </EntityType>
+        <EntityType Name="tblVacancy">
+          <Key>
+            <PropertyRef Name="VacancyId" />
+          </Key>
+          <Property Name="VacancyId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CompanyCode" Type="Int32" />
+          <Property Name="CityCode" Type="Int32" />
+          <Property Name="PositionId" Type="Int32" />
+          <Property Name="DepartmentId" Type="Int32" />
+          <Property Name="NoofVacany" Type="Int32" />
+          <Property Name="RequiredQualification" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Experience" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CreationDate" Type="DateTime" Precision="0" />
+          <Property Name="LastDatetoApply" Type="DateTime" Precision="0" />
+          <NavigationProperty Name="tblApplicants" Relationship="Self.FK_tblApplicant_tblVacancies" FromRole="tblVacancies" ToRole="tblApplicant" />
+          <NavigationProperty Name="tblDepartment" Relationship="Self.FK_tblVacancies_tblDepartment" FromRole="tblVacancies" ToRole="tblDepartments" />
         </EntityType>
         <EntityType Name="tblVacancydetail">
           <Key>
@@ -428,8 +1120,19 @@ warning 6002: The table/view 'Hrms.dbo.tblOrganizationStructure' does not have a
           <Property Name="DepartmentId" Type="Int32" />
           <Property Name="PositionId" Type="Int32" />
           <Property Name="Availableseats" Type="Int32" />
-          <NavigationProperty Name="tblDepartment" Relationship="Self.FK_tblVacancydetails_tblDepartment" FromRole="tblVacancydetails" ToRole="tblDepartments" />
           <Property Name="SeatAvailablityDate" Type="DateTime" Precision="0" />
+          <NavigationProperty Name="tblDepartment" Relationship="Self.FK_tblVacancydetails_tblDepartment" FromRole="tblVacancydetails" ToRole="tblDepartments" />
+        </EntityType>
+        <EntityType Name="tblVendor">
+          <Key>
+            <PropertyRef Name="VendorId" />
+          </Key>
+          <Property Name="VendorId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="VendorName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Contact" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ItemType" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Address" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="tblDocuments" Relationship="Self.FK_tblDocument_tblVendors" FromRole="tblVendors" ToRole="tblDocument" />
         </EntityType>
         <EntityType Name="tblOrganizationStructure">
           <Key>
@@ -452,6 +1155,42 @@ warning 6002: The table/view 'Hrms.dbo.tblOrganizationStructure' does not have a
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_tblApplicant_tblVacancies">
+          <End Role="tblVacancies" Type="Self.tblVacancy" Multiplicity="0..1" />
+          <End Role="tblApplicant" Type="Self.tblApplicant" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblVacancies">
+              <PropertyRef Name="VacancyId" />
+            </Principal>
+            <Dependent Role="tblApplicant">
+              <PropertyRef Name="VacancyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tblCandidates_tblApplicant">
+          <End Role="tblApplicant" Type="Self.tblApplicant" Multiplicity="0..1" />
+          <End Role="tblCandidates" Type="Self.tblCandidate" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblApplicant">
+              <PropertyRef Name="ApplicationId" />
+            </Principal>
+            <Dependent Role="tblCandidates">
+              <PropertyRef Name="ApplicationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tblTest_tblCandidate">
+          <End Role="tblCandidates" Type="Self.tblCandidate" Multiplicity="0..1" />
+          <End Role="tblTest" Type="Self.tblTest" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblCandidates">
+              <PropertyRef Name="CandidateId" />
+            </Principal>
+            <Dependent Role="tblTest">
+              <PropertyRef Name="CandidateId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_tblEmployee_tblDepartments">
           <End Role="tblDepartments" Type="Self.tblDepartment" Multiplicity="0..1" />
           <End Role="tblEmployee" Type="Self.tblEmployee" Multiplicity="*" />
@@ -460,6 +1199,30 @@ warning 6002: The table/view 'Hrms.dbo.tblOrganizationStructure' does not have a
               <PropertyRef Name="DepartmentId" />
             </Principal>
             <Dependent Role="tblEmployee">
+              <PropertyRef Name="DepartmentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tblPosition_tblDepartment">
+          <End Role="tblDepartments" Type="Self.tblDepartment" Multiplicity="0..1" />
+          <End Role="tblPosition" Type="Self.tblPosition" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblDepartments">
+              <PropertyRef Name="DepartmentId" />
+            </Principal>
+            <Dependent Role="tblPosition">
+              <PropertyRef Name="DepartmentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tblVacancies_tblDepartment">
+          <End Role="tblDepartments" Type="Self.tblDepartment" Multiplicity="0..1" />
+          <End Role="tblVacancies" Type="Self.tblVacancy" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblDepartments">
+              <PropertyRef Name="DepartmentId" />
+            </Principal>
+            <Dependent Role="tblVacancies">
               <PropertyRef Name="DepartmentId" />
             </Dependent>
           </ReferentialConstraint>
@@ -476,6 +1239,66 @@ warning 6002: The table/view 'Hrms.dbo.tblOrganizationStructure' does not have a
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_tblDocument_tblDoctype">
+          <End Role="tblDoctype" Type="Self.tblDoctype" Multiplicity="0..1" />
+          <End Role="tblDocument" Type="Self.tblDocument" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblDoctype">
+              <PropertyRef Name="TypeId" />
+            </Principal>
+            <Dependent Role="tblDocument">
+              <PropertyRef Name="DTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tblDocument_tblItem">
+          <End Role="tblItem" Type="Self.tblItem" Multiplicity="0..1" />
+          <End Role="tblDocument" Type="Self.tblDocument" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblItem">
+              <PropertyRef Name="ItemId" />
+            </Principal>
+            <Dependent Role="tblDocument">
+              <PropertyRef Name="ItemId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tblDocument_tblVendors">
+          <End Role="tblVendors" Type="Self.tblVendor" Multiplicity="0..1" />
+          <End Role="tblDocument" Type="Self.tblDocument" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblVendors">
+              <PropertyRef Name="VendorId" />
+            </Principal>
+            <Dependent Role="tblDocument">
+              <PropertyRef Name="VendorId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tblPurchase_tblDocument">
+          <End Role="tblDocument" Type="Self.tblDocument" Multiplicity="0..1" />
+          <End Role="tblPurchase" Type="Self.tblPurchase" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblDocument">
+              <PropertyRef Name="DocumentNo" />
+            </Principal>
+            <Dependent Role="tblPurchase">
+              <PropertyRef Name="DocumentNo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tblEmployee_tblPosition">
+          <End Role="tblPosition" Type="Self.tblPosition" Multiplicity="0..1" />
+          <End Role="tblEmployee" Type="Self.tblEmployee" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblPosition">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="tblEmployee">
+              <PropertyRef Name="PositionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_tblEmployee_tblStructuredetails">
           <End Role="tblStructuredetail" Type="Self.tblStructuredetail" Multiplicity="0..1" />
           <End Role="tblEmployee" Type="Self.tblEmployee" Multiplicity="*" />
@@ -488,6 +1311,18 @@ warning 6002: The table/view 'Hrms.dbo.tblOrganizationStructure' does not have a
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_tblEmployee_tblUser">
+          <End Role="tblUsers" Type="Self.tblUser" Multiplicity="0..1" />
+          <End Role="tblEmployee" Type="Self.tblEmployee" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblUsers">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="tblEmployee">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_tblEmployeeDetail_tblEmployee">
           <End Role="tblEmployee" Type="Self.tblEmployee" Multiplicity="1" />
           <End Role="tblEmployeeDetail" Type="Self.tblEmployeeDetail" Multiplicity="0..1" />
@@ -496,6 +1331,18 @@ warning 6002: The table/view 'Hrms.dbo.tblOrganizationStructure' does not have a
               <PropertyRef Name="EmployeeId" />
             </Principal>
             <Dependent Role="tblEmployeeDetail">
+              <PropertyRef Name="EmployeeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tblPayroll_tblEmployee">
+          <End Role="tblEmployee" Type="Self.tblEmployee" Multiplicity="0..1" />
+          <End Role="tblPayroll" Type="Self.tblPayroll" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblEmployee">
+              <PropertyRef Name="EmployeeId" />
+            </Principal>
+            <Dependent Role="tblPayroll">
               <PropertyRef Name="EmployeeId" />
             </Dependent>
           </ReferentialConstraint>
@@ -512,6 +1359,66 @@ warning 6002: The table/view 'Hrms.dbo.tblOrganizationStructure' does not have a
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_tblExpenses_tblPayroll">
+          <End Role="tblPayroll" Type="Self.tblPayroll" Multiplicity="0..1" />
+          <End Role="tblExpenses" Type="Self.tblExpens" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblPayroll">
+              <PropertyRef Name="PayrollId" />
+            </Principal>
+            <Dependent Role="tblExpenses">
+              <PropertyRef Name="PayrollId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tblExpenses_tblPurchase">
+          <End Role="tblPurchase" Type="Self.tblPurchase" Multiplicity="0..1" />
+          <End Role="tblExpenses" Type="Self.tblExpens" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblPurchase">
+              <PropertyRef Name="PurchaseId" />
+            </Principal>
+            <Dependent Role="tblExpenses">
+              <PropertyRef Name="PurchaseId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tblPurchaseitem_tblItem">
+          <End Role="tblItem" Type="Self.tblItem" Multiplicity="0..1" />
+          <End Role="tblPurchaseitem" Type="Self.tblPurchaseitem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblItem">
+              <PropertyRef Name="ItemId" />
+            </Principal>
+            <Dependent Role="tblPurchaseitem">
+              <PropertyRef Name="ItemId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tblStock_tblItem">
+          <End Role="tblItem" Type="Self.tblItem" Multiplicity="0..1" />
+          <End Role="tblStock" Type="Self.tblStock" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblItem">
+              <PropertyRef Name="ItemId" />
+            </Principal>
+            <Dependent Role="tblStock">
+              <PropertyRef Name="ItemId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tblPurchaseitem_tblPurchase">
+          <End Role="tblPurchase" Type="Self.tblPurchase" Multiplicity="0..1" />
+          <End Role="tblPurchaseitem" Type="Self.tblPurchaseitem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblPurchase">
+              <PropertyRef Name="PurchaseId" />
+            </Principal>
+            <Dependent Role="tblPurchaseitem">
+              <PropertyRef Name="PurchaseId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_tblRequests_tblRequestdetail">
           <End Role="tblRequestdetail" Type="Self.tblRequestdetail" Multiplicity="1" />
           <End Role="tblRequests" Type="Self.tblRequest" Multiplicity="*" />
@@ -521,6 +1428,18 @@ warning 6002: The table/view 'Hrms.dbo.tblOrganizationStructure' does not have a
             </Principal>
             <Dependent Role="tblRequests">
               <PropertyRef Name="RequestId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tblResults_tblTest">
+          <End Role="tblTest" Type="Self.tblTest" Multiplicity="0..1" />
+          <End Role="tblResults" Type="Self.tblResult" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblTest">
+              <PropertyRef Name="TestId" />
+            </Principal>
+            <Dependent Role="tblResults">
+              <PropertyRef Name="TestId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -538,50 +1457,136 @@ warning 6002: The table/view 'Hrms.dbo.tblOrganizationStructure' does not have a
         </Association>
         <EntityContainer Name="SqlContext" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="tblAdminchecks" EntityType="Self.tblAdmincheck" />
+          <EntitySet Name="tblApplicants" EntityType="Self.tblApplicant" />
+          <EntitySet Name="tblCandidates" EntityType="Self.tblCandidate" />
           <EntitySet Name="tblDepartments" EntityType="Self.tblDepartment" />
+          <EntitySet Name="tblDoctypes" EntityType="Self.tblDoctype" />
+          <EntitySet Name="tblDocuments" EntityType="Self.tblDocument" />
           <EntitySet Name="tblEmployees" EntityType="Self.tblEmployee" />
           <EntitySet Name="tblEmployeeDetails" EntityType="Self.tblEmployeeDetail" />
+          <EntitySet Name="tblExpenses" EntityType="Self.tblExpens" />
+          <EntitySet Name="tblItems" EntityType="Self.tblItem" />
+          <EntitySet Name="tblPayrolls" EntityType="Self.tblPayroll" />
           <EntitySet Name="tblPositions" EntityType="Self.tblPosition" />
+          <EntitySet Name="tblPurchases" EntityType="Self.tblPurchase" />
+          <EntitySet Name="tblPurchaseitems" EntityType="Self.tblPurchaseitem" />
+          <EntitySet Name="tblQuestions" EntityType="Self.tblQuestion" />
           <EntitySet Name="tblRequestdetails" EntityType="Self.tblRequestdetail" />
           <EntitySet Name="tblRequests" EntityType="Self.tblRequest" />
+          <EntitySet Name="tblResults" EntityType="Self.tblResult" />
           <EntitySet Name="tblRoles" EntityType="Self.tblRole" />
+          <EntitySet Name="tblStocks" EntityType="Self.tblStock" />
           <EntitySet Name="tblStructuredetails" EntityType="Self.tblStructuredetail" />
+          <EntitySet Name="tblTests" EntityType="Self.tblTest" />
           <EntitySet Name="tblUsers" EntityType="Self.tblUser" />
+          <EntitySet Name="tblVacancies" EntityType="Self.tblVacancy" />
           <EntitySet Name="tblVacancydetails" EntityType="Self.tblVacancydetail" />
+          <EntitySet Name="tblVendors" EntityType="Self.tblVendor" />
           <EntitySet Name="tblOrganizationStructures" EntityType="Self.tblOrganizationStructure" />
           <AssociationSet Name="FK_Users_tbladmincheck" Association="Self.FK_Users_tbladmincheck">
             <End Role="tblAdmincheck" EntitySet="tblAdminchecks" />
             <End Role="tblUsers" EntitySet="tblUsers" />
           </AssociationSet>
+          <AssociationSet Name="FK_tblApplicant_tblVacancies" Association="Self.FK_tblApplicant_tblVacancies">
+            <End Role="tblVacancies" EntitySet="tblVacancies" />
+            <End Role="tblApplicant" EntitySet="tblApplicants" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblCandidates_tblApplicant" Association="Self.FK_tblCandidates_tblApplicant">
+            <End Role="tblApplicant" EntitySet="tblApplicants" />
+            <End Role="tblCandidates" EntitySet="tblCandidates" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblTest_tblCandidate" Association="Self.FK_tblTest_tblCandidate">
+            <End Role="tblCandidates" EntitySet="tblCandidates" />
+            <End Role="tblTest" EntitySet="tblTests" />
+          </AssociationSet>
           <AssociationSet Name="FK_tblEmployee_tblDepartments" Association="Self.FK_tblEmployee_tblDepartments">
             <End Role="tblDepartments" EntitySet="tblDepartments" />
             <End Role="tblEmployee" EntitySet="tblEmployees" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblPosition_tblDepartment" Association="Self.FK_tblPosition_tblDepartment">
+            <End Role="tblDepartments" EntitySet="tblDepartments" />
+            <End Role="tblPosition" EntitySet="tblPositions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblVacancies_tblDepartment" Association="Self.FK_tblVacancies_tblDepartment">
+            <End Role="tblDepartments" EntitySet="tblDepartments" />
+            <End Role="tblVacancies" EntitySet="tblVacancies" />
           </AssociationSet>
           <AssociationSet Name="FK_tblVacancydetails_tblDepartment" Association="Self.FK_tblVacancydetails_tblDepartment">
             <End Role="tblDepartments" EntitySet="tblDepartments" />
             <End Role="tblVacancydetails" EntitySet="tblVacancydetails" />
           </AssociationSet>
+          <AssociationSet Name="FK_tblDocument_tblDoctype" Association="Self.FK_tblDocument_tblDoctype">
+            <End Role="tblDoctype" EntitySet="tblDoctypes" />
+            <End Role="tblDocument" EntitySet="tblDocuments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblDocument_tblItem" Association="Self.FK_tblDocument_tblItem">
+            <End Role="tblItem" EntitySet="tblItems" />
+            <End Role="tblDocument" EntitySet="tblDocuments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblDocument_tblVendors" Association="Self.FK_tblDocument_tblVendors">
+            <End Role="tblVendors" EntitySet="tblVendors" />
+            <End Role="tblDocument" EntitySet="tblDocuments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblPurchase_tblDocument" Association="Self.FK_tblPurchase_tblDocument">
+            <End Role="tblDocument" EntitySet="tblDocuments" />
+            <End Role="tblPurchase" EntitySet="tblPurchases" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblEmployee_tblPosition" Association="Self.FK_tblEmployee_tblPosition">
+            <End Role="tblPosition" EntitySet="tblPositions" />
+            <End Role="tblEmployee" EntitySet="tblEmployees" />
+          </AssociationSet>
           <AssociationSet Name="FK_tblEmployee_tblStructuredetails" Association="Self.FK_tblEmployee_tblStructuredetails">
             <End Role="tblStructuredetail" EntitySet="tblStructuredetails" />
+            <End Role="tblEmployee" EntitySet="tblEmployees" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblEmployee_tblUser" Association="Self.FK_tblEmployee_tblUser">
+            <End Role="tblUsers" EntitySet="tblUsers" />
             <End Role="tblEmployee" EntitySet="tblEmployees" />
           </AssociationSet>
           <AssociationSet Name="FK_tblEmployeeDetail_tblEmployee" Association="Self.FK_tblEmployeeDetail_tblEmployee">
             <End Role="tblEmployee" EntitySet="tblEmployees" />
             <End Role="tblEmployeeDetail" EntitySet="tblEmployeeDetails" />
           </AssociationSet>
+          <AssociationSet Name="FK_tblPayroll_tblEmployee" Association="Self.FK_tblPayroll_tblEmployee">
+            <End Role="tblEmployee" EntitySet="tblEmployees" />
+            <End Role="tblPayroll" EntitySet="tblPayrolls" />
+          </AssociationSet>
           <AssociationSet Name="FK_tblRequestdetail_tblEmployee" Association="Self.FK_tblRequestdetail_tblEmployee">
             <End Role="tblEmployee" EntitySet="tblEmployees" />
             <End Role="tblRequestdetail" EntitySet="tblRequestdetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblExpenses_tblPayroll" Association="Self.FK_tblExpenses_tblPayroll">
+            <End Role="tblPayroll" EntitySet="tblPayrolls" />
+            <End Role="tblExpenses" EntitySet="tblExpenses" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblExpenses_tblPurchase" Association="Self.FK_tblExpenses_tblPurchase">
+            <End Role="tblPurchase" EntitySet="tblPurchases" />
+            <End Role="tblExpenses" EntitySet="tblExpenses" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblPurchaseitem_tblItem" Association="Self.FK_tblPurchaseitem_tblItem">
+            <End Role="tblItem" EntitySet="tblItems" />
+            <End Role="tblPurchaseitem" EntitySet="tblPurchaseitems" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblStock_tblItem" Association="Self.FK_tblStock_tblItem">
+            <End Role="tblItem" EntitySet="tblItems" />
+            <End Role="tblStock" EntitySet="tblStocks" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblPurchaseitem_tblPurchase" Association="Self.FK_tblPurchaseitem_tblPurchase">
+            <End Role="tblPurchase" EntitySet="tblPurchases" />
+            <End Role="tblPurchaseitem" EntitySet="tblPurchaseitems" />
           </AssociationSet>
           <AssociationSet Name="FK_tblRequests_tblRequestdetail" Association="Self.FK_tblRequests_tblRequestdetail">
             <End Role="tblRequestdetail" EntitySet="tblRequestdetails" />
             <End Role="tblRequests" EntitySet="tblRequests" />
           </AssociationSet>
+          <AssociationSet Name="FK_tblResults_tblTest" Association="Self.FK_tblResults_tblTest">
+            <End Role="tblTest" EntitySet="tblTests" />
+            <End Role="tblResults" EntitySet="tblResults" />
+          </AssociationSet>
           <AssociationSet Name="FK_Users_Roles" Association="Self.FK_Users_Roles">
             <End Role="tblRoles" EntitySet="tblRoles" />
             <End Role="tblUsers" EntitySet="tblUsers" />
           </AssociationSet>
-          <FunctionImport Name="sp_BackEndAvailablity" />
           <FunctionImport Name="spGetAllUsers" />
         </EntityContainer>
       </Schema>
@@ -599,11 +1604,60 @@ warning 6002: The table/view 'Hrms.dbo.tblOrganizationStructure' does not have a
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="tblApplicants">
+            <EntityTypeMapping TypeName="HrmsModel.tblApplicant">
+              <MappingFragment StoreEntitySet="tblApplicant">
+                <ScalarProperty Name="ApplicationId" ColumnName="ApplicationId" />
+                <ScalarProperty Name="VacancyId" ColumnName="VacancyId" />
+                <ScalarProperty Name="ApplicantName" ColumnName="ApplicantName" />
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Dob" ColumnName="Dob" />
+                <ScalarProperty Name="Gender" ColumnName="Gender" />
+                <ScalarProperty Name="Appliedfor" ColumnName="Appliedfor" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblCandidates">
+            <EntityTypeMapping TypeName="HrmsModel.tblCandidate">
+              <MappingFragment StoreEntitySet="tblCandidates">
+                <ScalarProperty Name="CandidateId" ColumnName="CandidateId" />
+                <ScalarProperty Name="ApplicationId" ColumnName="ApplicationId" />
+                <ScalarProperty Name="Cname" ColumnName="Cname" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="tblDepartments">
             <EntityTypeMapping TypeName="HrmsModel.tblDepartment">
               <MappingFragment StoreEntitySet="tblDepartments">
                 <ScalarProperty Name="DepartmentId" ColumnName="DepartmentId" />
                 <ScalarProperty Name="DepartmentName" ColumnName="DepartmentName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblDoctypes">
+            <EntityTypeMapping TypeName="HrmsModel.tblDoctype">
+              <MappingFragment StoreEntitySet="tblDoctype">
+                <ScalarProperty Name="TypeId" ColumnName="TypeId" />
+                <ScalarProperty Name="DocumentType" ColumnName="DocumentType" />
+                <ScalarProperty Name="DocumentName" ColumnName="DocumentName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblDocuments">
+            <EntityTypeMapping TypeName="HrmsModel.tblDocument">
+              <MappingFragment StoreEntitySet="tblDocument">
+                <ScalarProperty Name="DocumentNo" ColumnName="DocumentNo" />
+                <ScalarProperty Name="DTypeId" ColumnName="DTypeId" />
+                <ScalarProperty Name="CreationDate" ColumnName="CreationDate" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="VendorId" ColumnName="VendorId" />
+                <ScalarProperty Name="ItemId" ColumnName="ItemId" />
+                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+                <ScalarProperty Name="TotalPrice" ColumnName="TotalPrice" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -620,7 +1674,7 @@ warning 6002: The table/view 'Hrms.dbo.tblOrganizationStructure' does not have a
                 <ScalarProperty Name="Contact" ColumnName="Contact" />
                 <ScalarProperty Name="Email" ColumnName="Email" />
                 <ScalarProperty Name="Address" ColumnName="Address" />
-                <ScalarProperty Name="Position" ColumnName="Position" />
+                <ScalarProperty Name="PositionId" ColumnName="PositionId" />
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
               </MappingFragment>
             </EntityTypeMapping>
@@ -638,12 +1692,97 @@ warning 6002: The table/view 'Hrms.dbo.tblOrganizationStructure' does not have a
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="tblExpenses">
+            <EntityTypeMapping TypeName="HrmsModel.tblExpens">
+              <MappingFragment StoreEntitySet="tblExpenses">
+                <ScalarProperty Name="ExpenseId" ColumnName="ExpenseId" />
+                <ScalarProperty Name="Year" ColumnName="Year" />
+                <ScalarProperty Name="Month" ColumnName="Month" />
+                <ScalarProperty Name="CompanyCode" ColumnName="CompanyCode" />
+                <ScalarProperty Name="CityCode" ColumnName="CityCode" />
+                <ScalarProperty Name="ExpenseType" ColumnName="ExpenseType" />
+                <ScalarProperty Name="PurchaseId" ColumnName="PurchaseId" />
+                <ScalarProperty Name="PayrollId" ColumnName="PayrollId" />
+                <ScalarProperty Name="Amount" ColumnName="Amount" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblItems">
+            <EntityTypeMapping TypeName="HrmsModel.tblItem">
+              <MappingFragment StoreEntitySet="tblItem">
+                <ScalarProperty Name="ItemId" ColumnName="ItemId" />
+                <ScalarProperty Name="ItemName" ColumnName="ItemName" />
+                <ScalarProperty Name="ItemType" ColumnName="ItemType" />
+                <ScalarProperty Name="StorageLocation" ColumnName="StorageLocation" />
+                <ScalarProperty Name="ReorderPoint" ColumnName="ReorderPoint" />
+                <ScalarProperty Name="ItemPrice" ColumnName="ItemPrice" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblPayrolls">
+            <EntityTypeMapping TypeName="HrmsModel.tblPayroll">
+              <MappingFragment StoreEntitySet="tblPayroll">
+                <ScalarProperty Name="PayrollId" ColumnName="PayrollId" />
+                <ScalarProperty Name="FortheMonth" ColumnName="FortheMonth" />
+                <ScalarProperty Name="Year" ColumnName="Year" />
+                <ScalarProperty Name="CompanyCode" ColumnName="CompanyCode" />
+                <ScalarProperty Name="CityCode" ColumnName="CityCode" />
+                <ScalarProperty Name="EmployeeId" ColumnName="EmployeeId" />
+                <ScalarProperty Name="BasicSalary" ColumnName="BasicSalary" />
+                <ScalarProperty Name="GrossSalary" ColumnName="GrossSalary" />
+                <ScalarProperty Name="Bonuses" ColumnName="Bonuses" />
+                <ScalarProperty Name="IncomeTax" ColumnName="IncomeTax" />
+                <ScalarProperty Name="MedicalAllowance" ColumnName="MedicalAllowance" />
+                <ScalarProperty Name="TotalDeduction" ColumnName="TotalDeduction" />
+                <ScalarProperty Name="NetSalary" ColumnName="NetSalary" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="tblPositions">
             <EntityTypeMapping TypeName="HrmsModel.tblPosition">
               <MappingFragment StoreEntitySet="tblPosition">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="DepartmentId" ColumnName="DepartmentId" />
                 <ScalarProperty Name="Position" ColumnName="Position" />
+                <ScalarProperty Name="BasicPay" ColumnName="BasicPay" />
+                <ScalarProperty Name="IncomeTax" ColumnName="IncomeTax" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblPurchases">
+            <EntityTypeMapping TypeName="HrmsModel.tblPurchase">
+              <MappingFragment StoreEntitySet="tblPurchase">
+                <ScalarProperty Name="PurchaseId" ColumnName="PurchaseId" />
+                <ScalarProperty Name="DocumentNo" ColumnName="DocumentNo" />
+                <ScalarProperty Name="PurchaseOrg" ColumnName="PurchaseOrg" />
+                <ScalarProperty Name="DeliveryDate" ColumnName="DeliveryDate" />
+                <ScalarProperty Name="ReturnDate" ColumnName="ReturnDate" />
+                <ScalarProperty Name="OrderedDate" ColumnName="OrderedDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblPurchaseitems">
+            <EntityTypeMapping TypeName="HrmsModel.tblPurchaseitem">
+              <MappingFragment StoreEntitySet="tblPurchaseitem">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="PurchaseId" ColumnName="PurchaseId" />
+                <ScalarProperty Name="ItemId" ColumnName="ItemId" />
+                <ScalarProperty Name="NoofMissingStock" ColumnName="NoofMissingStock" />
+                <ScalarProperty Name="NoofDamagedStock" ColumnName="NoofDamagedStock" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblQuestions">
+            <EntityTypeMapping TypeName="HrmsModel.tblQuestion">
+              <MappingFragment StoreEntitySet="tblQuestions">
+                <ScalarProperty Name="QuestionId" ColumnName="QuestionId" />
+                <ScalarProperty Name="DepartmentId" ColumnName="DepartmentId" />
+                <ScalarProperty Name="Option1" ColumnName="Option1" />
+                <ScalarProperty Name="Option2" ColumnName="Option2" />
+                <ScalarProperty Name="Option3" ColumnName="Option3" />
+                <ScalarProperty Name="Option4" ColumnName="Option4" />
+                <ScalarProperty Name="CorrectAnswer" ColumnName="CorrectAnswer" />
+                <ScalarProperty Name="LastUpdatedDate" ColumnName="LastUpdatedDate" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -677,11 +1816,33 @@ warning 6002: The table/view 'Hrms.dbo.tblOrganizationStructure' does not have a
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="tblResults">
+            <EntityTypeMapping TypeName="HrmsModel.tblResult">
+              <MappingFragment StoreEntitySet="tblResults">
+                <ScalarProperty Name="ResultId" ColumnName="ResultId" />
+                <ScalarProperty Name="TestId" ColumnName="TestId" />
+                <ScalarProperty Name="CandidateId" ColumnName="CandidateId" />
+                <ScalarProperty Name="TotalMarks" ColumnName="TotalMarks" />
+                <ScalarProperty Name="MarksObtained" ColumnName="MarksObtained" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="tblRoles">
             <EntityTypeMapping TypeName="HrmsModel.tblRole">
               <MappingFragment StoreEntitySet="tblRoles">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="RoleName" ColumnName="RoleName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblStocks">
+            <EntityTypeMapping TypeName="HrmsModel.tblStock">
+              <MappingFragment StoreEntitySet="tblStock">
+                <ScalarProperty Name="StockId" ColumnName="StockId" />
+                <ScalarProperty Name="ItemId" ColumnName="ItemId" />
+                <ScalarProperty Name="TotalStockCapacity" ColumnName="TotalStockCapacity" />
+                <ScalarProperty Name="AvailableStock" ColumnName="AvailableStock" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -693,6 +1854,16 @@ warning 6002: The table/view 'Hrms.dbo.tblOrganizationStructure' does not have a
                 <ScalarProperty Name="CompanyName" ColumnName="CompanyName" />
                 <ScalarProperty Name="CityCode" ColumnName="CityCode" />
                 <ScalarProperty Name="CityName" ColumnName="CityName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblTests">
+            <EntityTypeMapping TypeName="HrmsModel.tblTest">
+              <MappingFragment StoreEntitySet="tblTest">
+                <ScalarProperty Name="TestId" ColumnName="TestId" />
+                <ScalarProperty Name="TestDate" ColumnName="TestDate" />
+                <ScalarProperty Name="DepartmentId" ColumnName="DepartmentId" />
+                <ScalarProperty Name="CandidateId" ColumnName="CandidateId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -710,16 +1881,43 @@ warning 6002: The table/view 'Hrms.dbo.tblOrganizationStructure' does not have a
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="tblVacancies">
+            <EntityTypeMapping TypeName="HrmsModel.tblVacancy">
+              <MappingFragment StoreEntitySet="tblVacancies">
+                <ScalarProperty Name="VacancyId" ColumnName="VacancyId" />
+                <ScalarProperty Name="CompanyCode" ColumnName="CompanyCode" />
+                <ScalarProperty Name="CityCode" ColumnName="CityCode" />
+                <ScalarProperty Name="PositionId" ColumnName="PositionId" />
+                <ScalarProperty Name="DepartmentId" ColumnName="DepartmentId" />
+                <ScalarProperty Name="NoofVacany" ColumnName="NoofVacany" />
+                <ScalarProperty Name="RequiredQualification" ColumnName="RequiredQualification" />
+                <ScalarProperty Name="Experience" ColumnName="Experience" />
+                <ScalarProperty Name="CreationDate" ColumnName="CreationDate" />
+                <ScalarProperty Name="LastDatetoApply" ColumnName="LastDatetoApply" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="tblVacancydetails">
             <EntityTypeMapping TypeName="HrmsModel.tblVacancydetail">
               <MappingFragment StoreEntitySet="tblVacancydetails">
-                <ScalarProperty Name="SeatAvailablityDate" ColumnName="SeatAvailablityDate" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="CompanyCode" ColumnName="CompanyCode" />
                 <ScalarProperty Name="CityCode" ColumnName="CityCode" />
                 <ScalarProperty Name="DepartmentId" ColumnName="DepartmentId" />
                 <ScalarProperty Name="PositionId" ColumnName="PositionId" />
                 <ScalarProperty Name="Availableseats" ColumnName="Availableseats" />
+                <ScalarProperty Name="SeatAvailablityDate" ColumnName="SeatAvailablityDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblVendors">
+            <EntityTypeMapping TypeName="HrmsModel.tblVendor">
+              <MappingFragment StoreEntitySet="tblVendors">
+                <ScalarProperty Name="VendorId" ColumnName="VendorId" />
+                <ScalarProperty Name="VendorName" ColumnName="VendorName" />
+                <ScalarProperty Name="Contact" ColumnName="Contact" />
+                <ScalarProperty Name="ItemType" ColumnName="ItemType" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -733,7 +1931,6 @@ warning 6002: The table/view 'Hrms.dbo.tblOrganizationStructure' does not have a
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <FunctionImportMapping FunctionImportName="sp_BackEndAvailablity" FunctionName="HrmsModel.Store.sp_BackEndAvailablity" />
           <FunctionImportMapping FunctionImportName="spGetAllUsers" FunctionName="HrmsModel.Store.spGetAllUsers" />
         </EntityContainerMapping>
       </Mapping>

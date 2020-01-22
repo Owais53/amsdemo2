@@ -14,8 +14,7 @@ namespace amsdemo
         public Task Execute(IJobExecutionContext context)
         {
 
-            var execute = db.sp_BackEndAvailablity();
-
+           
 
 
             return Task.CompletedTask;

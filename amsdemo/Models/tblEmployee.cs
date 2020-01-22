@@ -17,6 +17,7 @@ namespace amsdemo.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public tblEmployee()
         {
+            this.tblPayrolls = new HashSet<tblPayroll>();
             this.tblRequestdetails = new HashSet<tblRequestdetail>();
         }
     
@@ -30,12 +31,16 @@ namespace amsdemo.Models
         public string Contact { get; set; }
         public string Email { get; set; }
         public string Address { get; set; }
-        public string Position { get; set; }
+        public Nullable<int> PositionId { get; set; }
         public Nullable<int> UserId { get; set; }
     
         public virtual tblDepartment tblDepartment { get; set; }
+        public virtual tblPosition tblPosition { get; set; }
         public virtual tblStructuredetail tblStructuredetail { get; set; }
+        public virtual tblUser tblUser { get; set; }
         public virtual tblEmployeeDetail tblEmployeeDetail { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<tblPayroll> tblPayrolls { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tblRequestdetail> tblRequestdetails { get; set; }
     }

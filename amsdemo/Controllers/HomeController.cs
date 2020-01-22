@@ -1,4 +1,6 @@
-﻿using amsdemo.Infrastructure;
+﻿using amsdemo.DAL.Interface;
+using amsdemo.DAL.Repository;
+using amsdemo.Infrastructure;
 using amsdemo.Models;
 using System;
 using System.Collections.Generic;
@@ -47,14 +49,17 @@ namespace amsdemo.Controllers
         [HttpPost]
         public ActionResult CreateDepartments(tblDepartment dep)
         {
-            tblDepartment check = context.tblDepartments.Where(a => a.DepartmentName == dep.DepartmentName).FirstOrDefault<tblDepartment>();
+            IDepartmentRepository objdep = new DepartmentRepository();
+            
+
+            var check = objdep.GetAll().Where(a => a.DepartmentName == dep.DepartmentName).FirstOrDefault();
 
             if (check == null)
             {
                 if (ModelState.IsValid)
                 {
-                    context.tblDepartments.Add(dep);
-                    context.SaveChanges();
+                    objdep.Add(dep);
+                    objdep.Save();
                     TempData["SuccessMessage"] = "Department Created";
                     return RedirectToAction("DepartmentList");
                 }
@@ -75,10 +80,9 @@ namespace amsdemo.Controllers
 
         public ActionResult GetDepartment()
         {
-            using (SqlContext sqlContext = new SqlContext())
-            {
+            IDepartmentRepository objdep = new DepartmentRepository();
 
-                var Data = (from user in context.tblDepartments
+                var Data = (from user in objdep.GetAll()
                             select new
                             {
                                 user.DepartmentId,
@@ -88,18 +92,20 @@ namespace amsdemo.Controllers
 
 
                 return Json(new { data = Data }, JsonRequestBehavior.AllowGet);
-            }
+            
 
         }
 
         [HttpGet]
         public ActionResult Save(int id = 0)
         {
+            IDepartmentRepository objdep = new DepartmentRepository();
+
             if (id == 0)
                 return View(new tblDepartment());
             else
             {
-                return View((context.tblDepartments.Where(x => x.DepartmentId == id)).FirstOrDefault<tblDepartment>());
+                return View((objdep.GetAll().Where(x => x.DepartmentId == id)).FirstOrDefault<tblDepartment>());
             }
 
         }
@@ -107,17 +113,19 @@ namespace amsdemo.Controllers
         [HttpPost]
         public ActionResult Save(tblDepartment dep)
         {
+            IDepartmentRepository objdep = new DepartmentRepository();
+
             if (dep.DepartmentId == 0)
             {
-                context.tblDepartments.Add(dep);
-                context.SaveChanges();
+                objdep.Add(dep);
+                objdep.Save();
                 return Json(new { success = true }, JsonRequestBehavior.AllowGet);
 
             }
             else
             {
-                context.Entry(dep).State = EntityState.Modified;
-                context.SaveChanges();
+                objdep.Update(dep);
+                objdep.Save();
                 TempData["UpdateMessage"] = "Updated Successfully";
                 return Json(new { success = true, message = "Updated Successfully" }, JsonRequestBehavior.AllowGet);
             }
@@ -128,13 +136,12 @@ namespace amsdemo.Controllers
         [ActionName("Delete")]
         public ActionResult DeleteDepartment(int id)
         {
-            using (SqlContext sqlContext = new SqlContext())
-            {
-                tblDepartment entity = sqlContext.tblDepartments.Where(x => x.DepartmentId == id).FirstOrDefault<tblDepartment>();
-                sqlContext.tblDepartments.Remove(entity);
-                sqlContext.SaveChanges();
+                IDepartmentRepository objdep = new DepartmentRepository();
+                objdep.Delete(id);
+
+                objdep.Save();
                 return Json(new { success = true, message = "Deleted Succesfully" }, JsonRequestBehavior.AllowGet);
-            }
+            
         }
 
         [HttpGet]

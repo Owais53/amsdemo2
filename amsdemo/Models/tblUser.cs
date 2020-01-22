@@ -14,6 +14,12 @@ namespace amsdemo.Models
     
     public partial class tblUser
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public tblUser()
+        {
+            this.tblEmployees = new HashSet<tblEmployee>();
+        }
+    
         public int UserId { get; set; }
         public string UserName { get; set; }
         public string Password { get; set; }
@@ -24,6 +30,8 @@ namespace amsdemo.Models
         public Nullable<int> IsActive { get; set; }
     
         public virtual tblAdmincheck tblAdmincheck { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<tblEmployee> tblEmployees { get; set; }
         public virtual tblRole tblRole { get; set; }
     }
 }

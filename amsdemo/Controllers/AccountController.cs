@@ -1,4 +1,6 @@
-﻿using amsdemo.Infrastructure;
+﻿using amsdemo.DAL.Interface;
+using amsdemo.DAL.Repository;
+using amsdemo.Infrastructure;
 using amsdemo.Models;
 using System;
 using System.Collections.Generic;
@@ -24,18 +26,23 @@ namespace amsdemo.Controllers
             
                 using (var context = new SqlContext())
                 {
-                var isActive = context.tblUsers.Where(x => x.IsActive == 1)
+                   IUserRepository objrepo = new UserRepository();
+                   IDepartmentRepository objdep = new DepartmentRepository();
+                   IStructuredetailRepository objstruct = new StructuredetailRepository();
+                   IEmployeeRepository objemp = new EmployeeRepository();
+
+                var isActive = objrepo.GetAll().Where(x => x.IsActive == 1)
                     .Where(a=>a.UserName==model.UserName && a.Password == model.Password).FirstOrDefault();
 
                 if (isActive != null)
                 {
                    
-                    var user = (from u in context.tblUsers
-                                join d in context.tblDepartments on u.DepartmentId equals d.DepartmentId
-                                join a in context.tblAdminchecks on u.AdminId equals a.AdminId
-                                join r in context.tblRoles on u.RoleId equals r.Id
-                                join e in context.tblEmployees on u.EmployeeId equals e.EmployeeId
-                                join s in context.tblStructuredetails on e.Id equals s.Id
+                    var user = (from u in objrepo.GetAll()
+                                join d in objdep.GetAll() on u.DepartmentId equals d.DepartmentId
+                                join a in objrepo.GetAdmin() on u.AdminId equals a.AdminId
+                                join r in objstruct.Getroles() on u.RoleId equals r.Id
+                                join e in objemp.GetAll() on u.EmployeeId equals e.EmployeeId
+                                join s in objstruct.GetAll() on e.Id equals s.Id
                                 where u.UserName == model.UserName && u.Password == model.Password
                                 select new
                                 {
@@ -49,7 +56,7 @@ namespace amsdemo.Controllers
                                     e.CityCode,
                                     s.CityName,
                                     e.EmployeeName,
-                                    e.Position,
+                                    e.PositionId,
                                     d.DepartmentId,
                                     e.EmployeeId
 
@@ -69,7 +76,7 @@ namespace amsdemo.Controllers
                         Session["CompanyCode"] = user.CompanyCode;
                         Session["CityCode"] = user.CityCode;
                         Session["Employeename"] = user.EmployeeName;
-                        Session["Position"] = user.Position;
+                        Session["PositionId"] = user.PositionId;
                         Session["DepartmentId"] = user.DepartmentId;
                         Session["EmployeeId"] = user.EmployeeId;
 

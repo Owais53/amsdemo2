@@ -150,7 +150,7 @@ namespace amsdemo.Controllers
                         where req.CityCode == Cic && req.CompanyCode == Coc && detail.Status == "Approved"
                         select new
                         {
-                            d.Id,
+                            
                             s.CompanyName,
                             s.CityName,
                             dep.DepartmentName,

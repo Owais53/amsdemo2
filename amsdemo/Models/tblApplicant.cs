@@ -12,22 +12,27 @@ namespace amsdemo.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class tblPosition
+    public partial class tblApplicant
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public tblPosition()
+        public tblApplicant()
         {
-            this.tblEmployees = new HashSet<tblEmployee>();
+            this.tblCandidates = new HashSet<tblCandidate>();
         }
     
-        public int Id { get; set; }
-        public Nullable<int> DepartmentId { get; set; }
-        public string Position { get; set; }
-        public Nullable<decimal> BasicPay { get; set; }
-        public Nullable<decimal> IncomeTax { get; set; }
+        public int ApplicationId { get; set; }
+        public Nullable<int> VacancyId { get; set; }
+        public string ApplicantName { get; set; }
+        public string Phone { get; set; }
+        public string Email { get; set; }
+        public Nullable<System.DateTime> Dob { get; set; }
+        public string Gender { get; set; }
+        public string Appliedfor { get; set; }
+        public string Status { get; set; }
+        public string Address { get; set; }
     
-        public virtual tblDepartment tblDepartment { get; set; }
+        public virtual tblVacancy tblVacancy { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<tblEmployee> tblEmployees { get; set; }
+        public virtual ICollection<tblCandidate> tblCandidates { get; set; }
     }
 }

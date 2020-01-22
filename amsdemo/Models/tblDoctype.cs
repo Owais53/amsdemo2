@@ -12,22 +12,19 @@ namespace amsdemo.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class tblPosition
+    public partial class tblDoctype
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public tblPosition()
+        public tblDoctype()
         {
-            this.tblEmployees = new HashSet<tblEmployee>();
+            this.tblDocuments = new HashSet<tblDocument>();
         }
     
-        public int Id { get; set; }
-        public Nullable<int> DepartmentId { get; set; }
-        public string Position { get; set; }
-        public Nullable<decimal> BasicPay { get; set; }
-        public Nullable<decimal> IncomeTax { get; set; }
+        public int TypeId { get; set; }
+        public string DocumentType { get; set; }
+        public string DocumentName { get; set; }
     
-        public virtual tblDepartment tblDepartment { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<tblEmployee> tblEmployees { get; set; }
+        public virtual ICollection<tblDocument> tblDocuments { get; set; }
     }
 }

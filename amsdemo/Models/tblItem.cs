@@ -12,27 +12,28 @@ namespace amsdemo.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class tblDepartment
+    public partial class tblItem
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public tblDepartment()
+        public tblItem()
         {
-            this.tblEmployees = new HashSet<tblEmployee>();
-            this.tblPositions = new HashSet<tblPosition>();
-            this.tblVacancies = new HashSet<tblVacancy>();
-            this.tblVacancydetails = new HashSet<tblVacancydetail>();
+            this.tblDocuments = new HashSet<tblDocument>();
+            this.tblPurchaseitems = new HashSet<tblPurchaseitem>();
+            this.tblStocks = new HashSet<tblStock>();
         }
     
-        public int DepartmentId { get; set; }
-        public string DepartmentName { get; set; }
+        public int ItemId { get; set; }
+        public string ItemName { get; set; }
+        public string ItemType { get; set; }
+        public string StorageLocation { get; set; }
+        public Nullable<int> ReorderPoint { get; set; }
+        public Nullable<decimal> ItemPrice { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<tblEmployee> tblEmployees { get; set; }
+        public virtual ICollection<tblDocument> tblDocuments { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<tblPosition> tblPositions { get; set; }
+        public virtual ICollection<tblPurchaseitem> tblPurchaseitems { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<tblVacancy> tblVacancies { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<tblVacancydetail> tblVacancydetails { get; set; }
+        public virtual ICollection<tblStock> tblStocks { get; set; }
     }
 }

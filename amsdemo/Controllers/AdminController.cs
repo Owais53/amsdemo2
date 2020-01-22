@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using amsdemo.DAL.Interface;
+using amsdemo.DAL.Repository;
 using amsdemo.Infrastructure;
 using amsdemo.Models;
 using amsdemo.ViewModel;
@@ -22,54 +24,61 @@ namespace amsdemo.Controllers
         }
 
         [HttpPost]
-        public ActionResult EmployeetoUser(EmployeeUserVM viewModel)
+        public ActionResult EmployeetoUser(EmployeeUserVM viewmodel)
         {
-            tblUser check = db.tblUsers.Where(a => a.UserName == viewModel.UserName).FirstOrDefault<tblUser>();
+            IUserRepository objuserRepository = new UserRepository();
+            IEmployeeRepository objemployeeRepository = new EmployeeRepository();
 
-            if(check == null)
+
+            var empid = objuserRepository.GetAll().Where(x => x.EmployeeId == viewmodel.EmployeeId).FirstOrDefault();
+            var check = objuserRepository.GetAll().Where(a => a.UserName == viewmodel.UserName).FirstOrDefault();
+
+
+
+            if (empid == null)
             {
-                if (ModelState.IsValid)
-                {
-                    var users = new tblUser()
-                    {
-                        UserName = viewModel.UserName,
-                        Password = viewModel.Password,
-                        EmployeeId = viewModel.EmployeeId,
-                        DepartmentId = viewModel.DepartmentId,
 
-                    };
-                    db.tblUsers.Add(users);
-                    db.SaveChanges();
+
+                if (check == null && empid == null)
+                {
+
+                    var users = objuserRepository.AddUser(viewmodel.UserName, viewmodel.Password, viewmodel.EmployeeId, viewmodel.DepartmentId);
+                    objuserRepository.Add(users);
+                    objuserRepository.Save();
 
                     if (users != null)
-                    {                        
-                        List<object> lst = new List<object>();
-                        lst.Add(users.UserId);
-                        lst.Add(viewModel.EmployeeId);                       
-                        object[] item = lst.ToArray();
-                        int output = db.Database.ExecuteSqlCommand("Update tblEmployee set UserId=@p0 where EmployeeId=@p1", item);
-                        if (output > 0)                         
-                        {
-                            TempData["SuccessMessage"] = "User Created";
-                        }
+                    {
+                        objemployeeRepository.Update(viewmodel.EmployeeId, users.UserId);
+                        objemployeeRepository.Save();
+                        TempData["SuccessMessage1"] = "User Created";
                     }
+
                 }
-
-
+                else
+                {
+                    TempData["ErrorMessage1"] = "User with Name " + viewmodel.UserName + " already Exists";
+                }
             }
-            else
+            else if (empid != null)
             {
-                TempData["ErrorMessage"] = "User with Name " + viewModel.UserName + " already Exists";
+                TempData["ErrorMessage1"] = "User Already Exists with Name " + viewmodel.UserName + " or You have not selected from Employee List to Create Users";
+            }
+            else if (check != null && empid == null)
+            {
+                TempData["ErrorMessage1"] = "User with Name " + viewmodel.UserName + " already Exists";
             }
             return View();
 
         }
         public ActionResult GetcreatedUserList()
         {
+            IUserRepository objuserrepository = new UserRepository();
+            IDepartmentRepository objdepart = new DepartmentRepository();
+            IEmployeeRepository objemp = new EmployeeRepository();
 
-            var Data = (from users in db.tblUsers
-                        join dep in db.tblDepartments on users.DepartmentId equals dep.DepartmentId
-                        join emp in db.tblEmployees on users.EmployeeId equals emp.EmployeeId
+            var Data = (from users in objuserrepository.GetAll()
+                        join dep in objdepart.GetAll() on users.DepartmentId equals dep.DepartmentId
+                        join emp in objemp.GetAll() on users.EmployeeId equals emp.EmployeeId
                         where emp.UserId != null
                         select new
                         {
@@ -87,12 +96,16 @@ namespace amsdemo.Controllers
             return View();
         }
 
-        [CustomAuthorize("Hr Manager")]
+       
         public ActionResult GetEmployeeList()
         {
 
-            var Data = (from emp in db.tblEmployees
-                        join dep in db.tblDepartments on emp.DepartmentId equals dep.DepartmentId
+            IEmployeeRepository objemployeeRepository = new EmployeeRepository();
+            IDepartmentRepository objdepartmentRepository = new DepartmentRepository();
+
+
+            var Data = (from emp in objemployeeRepository.GetAll()
+                        join dep in objdepartmentRepository.GetAll() on emp.DepartmentId equals dep.DepartmentId
                         where emp.UserId == null
                         select new
                         {
@@ -102,12 +115,12 @@ namespace amsdemo.Controllers
                             dep.DepartmentName
                         }).ToList();
 
+
             return Json(new { data = Data }, JsonRequestBehavior.AllowGet);
         }
 
         
         [HttpGet]
-        [CustomAuthorize("Admin","Hr Manager")]
         public ActionResult CreateUser()
         {
             
@@ -115,10 +128,15 @@ namespace amsdemo.Controllers
         }
        
         [HttpPost]
-        public ActionResult CreateUser(tblUser viewmodel)
+        public ActionResult CreateUser(EmployeeUserVM viewmodel)
         {
-            var empid = db.tblUsers.Where(x => x.EmployeeId == viewmodel.EmployeeId).FirstOrDefault();
-            var check = db.tblUsers.Where(a => a.UserName == viewmodel.UserName).FirstOrDefault();
+            IUserRepository objuserRepository = new UserRepository();
+            IEmployeeRepository objemployeeRepository = new EmployeeRepository();
+
+
+            var empid = objuserRepository.GetAll().Where(x => x.EmployeeId == viewmodel.EmployeeId).FirstOrDefault();
+            var check = objuserRepository.GetAll().Where(a => a.UserName == viewmodel.UserName).FirstOrDefault();
+
             if (empid == null)
             {
 
@@ -132,31 +150,18 @@ namespace amsdemo.Controllers
 
                     if (ModelState.IsValid)
                     {
-                        
-                            var users = new tblUser()
-                            {
-                                UserName = viewmodel.UserName,
-                                Password = viewmodel.Password,
-                                EmployeeId = viewmodel.EmployeeId,
-                                DepartmentId = viewmodel.DepartmentId,
 
-                            };
-                            db.tblUsers.Add(users);
-                            db.SaveChanges();
+                        var users = objuserRepository.AddUser(viewmodel.UserName, viewmodel.Password, viewmodel.EmployeeId, viewmodel.DepartmentId);
+                        objuserRepository.Add(users);
+                        objuserRepository.Save();
 
-                            if (users != null)
-                            {
-                                List<object> lst = new List<object>();
-                                lst.Add(users.UserId);
-                                lst.Add(viewmodel.EmployeeId);
-                                object[] item = lst.ToArray();
-                                int output = db.Database.ExecuteSqlCommand("Update tblEmployee set UserId=@p0 where EmployeeId=@p1", item);
-                                if (output > 0)
-                                {
-                                    TempData["SuccessMessage1"] = "User Created";
-                                }
-                            }
+                        if (users != null)
+                        {
+                            objemployeeRepository.Update(viewmodel.EmployeeId, users.UserId);
+                            objemployeeRepository.Save();
+                            TempData["SuccessMessage1"] = "User Created";
                         }
+                    }
                     
 
 
@@ -182,18 +187,24 @@ namespace amsdemo.Controllers
 
         public ActionResult UserforroleList()
         {
-            var Data = (from user in db.tblUsers
-                        join emp in db.tblEmployees on user.EmployeeId equals emp.EmployeeId
-                        join dep in db.tblDepartments on user.DepartmentId equals dep.DepartmentId
+            IUserRepository objuserRepository = new UserRepository();
+            IEmployeeRepository objemployeeRepository = new EmployeeRepository();
+            IDepartmentRepository objdepartmentRepository = new DepartmentRepository();
+
+            var Data = (from user in objuserRepository.GetAll()
+                        join emp in objemployeeRepository.GetAll() on user.EmployeeId equals emp.EmployeeId
+                        join pos in objemployeeRepository.Getpos() on emp.PositionId equals pos.Id
+                        join dep in objdepartmentRepository.GetAll() on user.DepartmentId equals dep.DepartmentId
                         where emp.UserId != null
                         select new
                         {
                             user.UserId,
                             user.UserName,
-                            emp.Position,
+                            pos.Position,
                             dep.DepartmentName
 
                         }).ToList();
+
 
             return Json(new { data = Data }, JsonRequestBehavior.AllowGet);
         }
@@ -269,7 +280,10 @@ namespace amsdemo.Controllers
         [HttpGet]
         public ActionResult Assignroles()
         {
-            var rolelist = db.tblRoles.ToList();
+            IStructuredetailRepository objstructureRepository = new StructuredetailRepository();
+
+            var rolelist = objstructureRepository.Getroles().ToList();
+
             SelectList list = new SelectList(rolelist, "Id", "RoleName");
             ViewBag.getrolelist = list;
 
@@ -279,46 +293,39 @@ namespace amsdemo.Controllers
         [HttpPost]
         public ActionResult Assignroles(EmployeeUserVM user,FormCollection form)
         {
-            var usercheck = db.tblUsers.Where(a => a.UserId == user.UserId).FirstOrDefault();
+            IStructuredetailRepository objstructureRepository = new StructuredetailRepository();
+            IUserRepository objuserRepository = new UserRepository();
+
+
+            var usercheck = objuserRepository.GetAll().Where(a => a.UserId == user.UserId).FirstOrDefault();
             if (usercheck != null)
             {
-                  var chkadmin = form["getadmin"];
-                 
+                var chkadmin = form["getadmin"];
+                var adminId = Convert.ToInt32(chkadmin);
 
-                    List<object> lst = new List<object>();
-                    lst.Add(user.RoleId);
-                    lst.Add(Convert.ToInt32(chkadmin));
-                    lst.Add(user.UserId);
-                    object[] item = lst.ToArray();
-                    int output = db.Database.ExecuteSqlCommand("Update tblUsers set RoleId=@p0,AdminId=@p1,IsActive=1 where UserId=@p2", item);
-                    if (output > 0)
-                    {
-                      if (chkadmin == null)
-                      {
-                        chkadmin = "0";
-                      }
-                     TempData["SuccessMessage1"] = "Role Assigned";
-                        
-                    }
-                    else
-                    {
-                        TempData["ErrorMessage1"] = "Not able to Assig";
+                objuserRepository.Update(user.RoleId, adminId, user.UserId);
+                objuserRepository.Save();
 
-                    }
-               
-                var rolelist = db.tblRoles.ToList();
+                if (chkadmin == null)
+                {
+                    chkadmin = "0";
+                }
+                TempData["SuccessMessage1"] = "Role Assigned";
+
+                var rolelist = objstructureRepository.Getroles().ToList();
                 SelectList list = new SelectList(rolelist, "Id", "RoleName");
                 ViewBag.getrolelist = list;
             }
             else
             {
-                var rolelist = db.tblRoles.ToList();
+                var rolelist = objstructureRepository.Getroles().ToList();
                 SelectList list = new SelectList(rolelist, "Id", "RoleName");
                 ViewBag.getrolelist = list;
 
                 TempData["ErrorMessage1"] = "Select from User List";
 
             }
+
 
             return View();
         }

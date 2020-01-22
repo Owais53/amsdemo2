@@ -140,6 +140,15 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MailController.cs" />
     <Compile Include="Controllers\RequestsController.cs" />
+    <Compile Include="DAL\Interface\IDepartmentRepository.cs" />
+    <Compile Include="DAL\Interface\IEmployeeRepository.cs" />
+    <Compile Include="DAL\Interface\ILogin.cs" />
+    <Compile Include="DAL\Interface\IStructuredetailRepository.cs" />
+    <Compile Include="DAL\Interface\IUserRepository.cs" />
+    <Compile Include="DAL\Repository\DepartmentRepository.cs" />
+    <Compile Include="DAL\Repository\EmployeeRepository.cs" />
+    <Compile Include="DAL\Repository\StructuredetailRepository.cs" />
+    <Compile Include="DAL\Repository\UserRepository.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -172,7 +181,19 @@
     <Compile Include="Models\tblAdmincheck.cs">
       <DependentUpon>SqlModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\tblApplicant.cs">
+      <DependentUpon>SqlModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\tblCandidate.cs">
+      <DependentUpon>SqlModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\tblDepartment.cs">
+      <DependentUpon>SqlModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\tblDoctype.cs">
+      <DependentUpon>SqlModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\tblDocument.cs">
       <DependentUpon>SqlModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\tblEmployee.cs">
@@ -181,10 +202,28 @@
     <Compile Include="Models\tblEmployeeDetail.cs">
       <DependentUpon>SqlModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\tblExpens.cs">
+      <DependentUpon>SqlModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\tblItem.cs">
+      <DependentUpon>SqlModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\tblOrganizationStructure.cs">
       <DependentUpon>SqlModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\tblPayroll.cs">
+      <DependentUpon>SqlModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\tblPosition.cs">
+      <DependentUpon>SqlModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\tblPurchase.cs">
+      <DependentUpon>SqlModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\tblPurchaseitem.cs">
+      <DependentUpon>SqlModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\tblQuestion.cs">
       <DependentUpon>SqlModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\tblRequest.cs">
@@ -193,16 +232,31 @@
     <Compile Include="Models\tblRequestdetail.cs">
       <DependentUpon>SqlModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\tblResult.cs">
+      <DependentUpon>SqlModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\tblRole.cs">
+      <DependentUpon>SqlModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\tblStock.cs">
       <DependentUpon>SqlModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\tblStructuredetail.cs">
       <DependentUpon>SqlModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\tblTest.cs">
+      <DependentUpon>SqlModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\tblUser.cs">
       <DependentUpon>SqlModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\tblVacancy.cs">
+      <DependentUpon>SqlModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\tblVacancydetail.cs">
+      <DependentUpon>SqlModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\tblVendor.cs">
       <DependentUpon>SqlModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -768,7 +822,6 @@
     <Content Include="Views\Home\UnAuthorized.cshtml" />
     <Content Include="Views\Home\DepartmentList.cshtml" />
     <Content Include="Views\Admin\UserRolesList.cshtml" />
-    <Content Include="Views\Admin\CreateUsers.cshtml" />
     <Content Include="Views\Home\DefineStructure.cshtml" />
     <Content Include="Views\Home\DefineSlPurchOrg.cshtml" />
     <Content Include="Views\Home\StructureList.cshtml" />

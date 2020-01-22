@@ -12,22 +12,27 @@ namespace amsdemo.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class tblPosition
+    public partial class tblDocument
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public tblPosition()
+        public tblDocument()
         {
-            this.tblEmployees = new HashSet<tblEmployee>();
+            this.tblPurchases = new HashSet<tblPurchase>();
         }
     
-        public int Id { get; set; }
-        public Nullable<int> DepartmentId { get; set; }
-        public string Position { get; set; }
-        public Nullable<decimal> BasicPay { get; set; }
-        public Nullable<decimal> IncomeTax { get; set; }
+        public int DocumentNo { get; set; }
+        public Nullable<int> DTypeId { get; set; }
+        public Nullable<System.DateTime> CreationDate { get; set; }
+        public string CreatedBy { get; set; }
+        public Nullable<int> VendorId { get; set; }
+        public Nullable<int> ItemId { get; set; }
+        public Nullable<int> Quantity { get; set; }
+        public Nullable<decimal> TotalPrice { get; set; }
     
-        public virtual tblDepartment tblDepartment { get; set; }
+        public virtual tblDoctype tblDoctype { get; set; }
+        public virtual tblItem tblItem { get; set; }
+        public virtual tblVendor tblVendor { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<tblEmployee> tblEmployees { get; set; }
+        public virtual ICollection<tblPurchase> tblPurchases { get; set; }
     }
 }
