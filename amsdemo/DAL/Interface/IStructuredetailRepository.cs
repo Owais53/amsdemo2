@@ -12,9 +12,28 @@ namespace amsdemo.DAL.Interface
     {
         IEnumerable<tblStructuredetail> GetAll();
 
-         tblStructuredetail GetById(int Id);
+        IEnumerable<tblStructuredetail> Getcondition(int companycode,int citycode,string cname);
 
-        void Add(tblStructuredetail obj);
+        IEnumerable<tblStructuredetail> Getcondition1(int companycode, int citycode);
+
+        IEnumerable<tblStructuredetail> Getcondition2(int citycode,string cname);
+
+        IEnumerable<tblStructuredetail> Getcondition3(int citycode);
+
+        IEnumerable<tblStructuredetail> Getcondition4(string cname);
+
+        IEnumerable<tblStructuredetail> Getcondition5(int companycode);
+
+        IEnumerable<tblOrganizationStructure> Getvalidation(int companycode, int citycode, string sl,string po);
+
+        IEnumerable<tblOrganizationStructure> Getvalidation1(int companycode, int citycode);
+
+        IEnumerable<tblOrganizationStructure> Getvalidation2(string sl, string po);
+
+
+        tblStructuredetail GetById(int Id);
+
+        void Add(int companycode, int citycode, string companyname, string cityname);
 
         void Update(tblStructuredetail obj);
 

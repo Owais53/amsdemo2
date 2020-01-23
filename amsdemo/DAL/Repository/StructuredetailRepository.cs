@@ -21,9 +21,16 @@ namespace amsdemo.DAL.Repository
             context = this.context;
         }
 
-        public void Add(tblStructuredetail obj)
+        public void Add(int companycode,int citycode,string companyname,string cityname)
         {
-            context.tblStructuredetails.Add(obj);
+           
+            var structure = new tblStructuredetail()
+            {
+                CompanyCode = companycode,
+                CityCode = citycode,
+                CompanyName = companyname,
+                CityName = cityname,
+            };
         }
 
         public void Delete(int Id)
@@ -35,6 +42,58 @@ namespace amsdemo.DAL.Repository
         {
             return context.tblStructuredetails;
         }
+
+        public IEnumerable<tblStructuredetail> Getcondition(int companycode,int citycode,string cname)
+        {
+            return context.tblStructuredetails
+                 .Where(a => a.CompanyCode == companycode)
+                 .Where(b => b.CityCode == citycode)
+                 .Where(c => c.CityName == cname);
+            
+        }
+
+        public IEnumerable<tblStructuredetail> Getcondition1(int companycode, int citycode)
+        {
+            return context.tblStructuredetails
+                 .Where(a => a.CompanyCode == companycode)
+                 .Where(b => b.CityCode == citycode);
+
+        }
+
+        public IEnumerable<tblStructuredetail> Getcondition2(int citycode,string cname)
+        {
+            return context.tblStructuredetails
+                 .Where(a => a.CityCode == citycode)
+                 .Where(b => b.CityName == cname);
+
+        }
+
+        public IEnumerable<tblStructuredetail> Getcondition3(int citycode)
+        {
+            return context.tblStructuredetails
+                 .Where(a => a.CityCode == citycode);
+
+        }
+
+        public IEnumerable<tblStructuredetail> Getcondition4(string cname)
+        {
+            return context.tblStructuredetails
+                 .Where(a => a.CityName == cname);
+
+        }
+
+        public IEnumerable<tblStructuredetail> Getcondition5(int companycode)
+        {
+            return context.tblStructuredetails
+                 .Where(a => a.CompanyCode == companycode);
+
+        }
+
+        public IEnumerable<tblOrganizationStructure> Getvalidation(int companycode, int citycode, string sl, string po)
+        {
+            return 
+        }
+
 
         public tblStructuredetail GetById(int Id)
         {

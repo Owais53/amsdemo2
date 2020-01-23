@@ -153,43 +153,33 @@ namespace amsdemo.Controllers
         [HttpPost]
         public ActionResult DefineStructure(StructureDetails viewModel)
         {
-            var validate = context.tblStructuredetails
-                 .Where(a => a.CompanyCode == viewModel.CompanyCode)
-                 .Where(b => b.CityCode == viewModel.CityCode)
-                 .Where(c => c.CityName == viewModel.CityName).FirstOrDefault();
+            IStructuredetailRepository objstruct = new StructuredetailRepository();
 
-            var validate1 = context.tblStructuredetails
-                .Where(a => a.CompanyCode == viewModel.CompanyCode)
-                .Where(b => b.CityCode == viewModel.CityCode).FirstOrDefault();
 
-            var validate3 = context.tblStructuredetails
-                .Where(a => a.CityCode == viewModel.CityCode)
-                .Where(b => b.CityName == viewModel.CityName).FirstOrDefault();
+            var validate = objstruct.Getcondition(viewModel.CompanyCode,viewModel.CityCode,viewModel.CityName).FirstOrDefault();
 
-            var check = context.tblStructuredetails.Where(x => x.CityCode == viewModel.CityCode).FirstOrDefault();
-            var check1 = context.tblStructuredetails.Where(x => x.CityName == viewModel.CityName).FirstOrDefault();
-            var check2 = context.tblStructuredetails.Where(x => x.CompanyCode == viewModel.CompanyCode).FirstOrDefault();
+            var validate1 = objstruct.Getcondition1(viewModel.CompanyCode,viewModel.CityCode).FirstOrDefault();
 
-            if (validate == null && validate3 != null || validate1 == null && check1 == null || !context.tblStructuredetails.Any())
+            var validate3 = objstruct.Getcondition2(viewModel.CityCode,viewModel.CityName).FirstOrDefault();
+
+            var check = objstruct.Getcondition3(viewModel.CityCode).FirstOrDefault();
+
+            var check1 = objstruct.Getcondition4(viewModel.CityName).FirstOrDefault();
+
+            var check2 = objstruct.Getcondition5(viewModel.CompanyCode).FirstOrDefault();
+                
+
+            if (validate == null && validate3 != null || validate1 == null && check1 == null || !objstruct.GetAll().Any())
             {
                 if (ModelState.IsValid)
                 {
 
-                    List<object> lst = new List<object>();
-                    lst.Add(viewModel.CompanyCode);
-                    lst.Add(viewModel.CompanyName);
-                    lst.Add(viewModel.CityCode);
-                    lst.Add(viewModel.CityName);
-                    object[] item = lst.ToArray();
-                    int output = context.Database.ExecuteSqlCommand("insert into tblStructuredetail(CompanyCode,CompanyName,CityCode,CityName) values(@p0,@p1,@p2,@p3)", item);
-                    if (output > 0)
-                    {
-                       
+                    objstruct.Add(viewModel.CompanyCode,viewModel.CityCode,viewModel.CompanyName,viewModel.CityName);
+                    objstruct.Save();
+                    RedirectToAction("StructureList", "Home");
+                    TempData["SuccessMessage"] = "Structure Created";
 
-                            RedirectToAction("StructureList", "Home");
-                            TempData["SuccessMessage"] = "Structure Created";
-                        
-                    }
+
                 }
                 else
                 {
@@ -225,12 +215,12 @@ namespace amsdemo.Controllers
         [CustomAuthorize("Admin")]
         public ActionResult DefineSlPurchOrg(tblOrganizationStructure obj)
         {
-            var validate = context.tblStructuredetails
-                       .Where(a => a.CompanyCode == obj.CompanyCode)
-                       .Where(b => b.CityCode == obj.CityCode).FirstOrDefault();
-            var validate1 = context.tblOrganizationStructures.Where(a => a.CompanyCode == obj.CompanyCode).Where(b => b.CityCode == obj.CityCode)
-                      .Where(c => c.StorageLocation == obj.StorageLocation)
-                      .Where(d => d.PurchaseOrganization == obj.PurchaseOrganization).FirstOrDefault();
+            IStructuredetailRepository objstruct = new StructuredetailRepository();
+
+            var validate = objstruct.Getcondition1(obj.CompanyCode,Convert.ToInt32(obj.CityCode)).FirstOrDefault();
+
+            var validate1 = objstruct.Getvalidation(obj.CompanyCode, Convert.ToInt32(obj.CityCode), obj.StorageLocation,obj.PurchaseOrganization).FirstOrDefault();
+               
             var validate2 = context.tblOrganizationStructures
                       .Where(a => a.CompanyCode == obj.CompanyCode)
                       .Where(b => b.CityCode == obj.CityCode).FirstOrDefault();
